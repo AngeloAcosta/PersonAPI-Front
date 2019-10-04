@@ -7,6 +7,4 @@ export class Person {
   gender: string;
   nationality: string;
   contact?: string;
-
-
 }
