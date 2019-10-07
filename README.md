@@ -11,3 +11,5 @@ Install dependencies
 ```
 npm install
 ```
+npm install --save @ng-bootstrap/ng-bootstrap
+```
