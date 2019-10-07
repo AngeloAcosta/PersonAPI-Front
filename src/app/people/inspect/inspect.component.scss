@@ -1,0 +1,200 @@
+.mediaViewInfo {
+  --web-view-name: Modal 1 - Details;
+  --web-view-id: Modal_1___Details;
+  --web-enable-deep-linking: true;
+}
+:root {
+  --web-view-ids: Modal_1___Details;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+#Modal_1___Details {
+  position: absolute;
+  box-sizing: border-box;
+  background: #E5E5E5;
+  width: 582px;
+  height: 514px;
+  background-color: rgba(255,255,255,1);
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  --web-view-name: Modal 1 - Details;
+  --web-view-id: Modal_1___Details;
+  --web-enable-deep-linking: true;
+}
+#Grupo_14 {
+  position: absolute;
+  width: 583px;
+  height: 468px;
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+.Rect_ngulo_37 {
+  position: absolute;
+  overflow: visible;
+  width: 583px;
+  height: 116px;
+  left: 0px;
+  top: 0px;
+}
+#Person_Details {
+  position: absolute;
+  left: 33px;
+  top: 38px;
+  overflow: visible;
+  width: 268px;
+  white-space: nowrap;
+  text-align: left;
+  font-family: Comfortaa;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  color: rgba(255,255,255,1);
+}
+#Icon_material_close {
+  opacity: 0.65;
+}
+.Icon_material_close {
+  overflow: visible;
+  position: absolute;
+  top: 24.137px;
+  left: 535.723px;
+  width: 27.722px;
+  height: 28.587px;
+  transform: matrix(1,0,0,1,0,0);
+}
+#Grupo_11 {
+  position: absolute;
+  width: 128px;
+  height: 40px;
+  left: 228px;
+  top: 428px;
+  overflow: visible;
+}
+.Rect_ngulo_35 {
+  position: absolute;
+  overflow: visible;
+  width: 128px;
+  height: 40px;
+  left: 0px;
+  top: 0px;
+}
+#Edit {
+  position: absolute;
+  left: 39.5px;
+  top: 7.5px;
+  overflow: visible;
+  width: 49px;
+  white-space: nowrap;
+  text-align: center;
+  font-family: Comfortaa;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 23px;
+  color: rgba(255,255,255,1);
+}
+#Grupo_12 {
+  position: absolute;
+  width: 128px;
+  height: 40px;
+  left: 407px;
+  top: 428px;
+  overflow: visible;
+}
+.Rect_ngulo_35_A4_Rectangle_3 {
+  position: absolute;
+  overflow: visible;
+  width: 128px;
+  height: 40px;
+  left: 0px;
+  top: 0px;
+}
+#Delete {
+  position: absolute;
+  left: 31px;
+  top: 9px;
+  overflow: visible;
+  width: 67px;
+  white-space: nowrap;
+  text-align: center;
+  font-family: Comfortaa;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  color: rgba(255,255,255,1);
+}
+#Grupo_13 {
+  position: absolute;
+  width: 129px;
+  height: 40px;
+  left: 48px;
+  top: 428px;
+  overflow: visible;
+}
+.Rect_ngulo_35_A4_Rectangle_4 {
+  position: absolute;
+  overflow: visible;
+  width: 129px;
+  height: 40px;
+  left: 0px;
+  top: 0px;
+}
+#List_Kinships {
+  position: absolute;
+  left: 19px;
+  top: 13px;
+  overflow: visible;
+  width: 93px;
+  white-space: nowrap;
+  text-align: center;
+  font-family: Comfortaa;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: rgba(255,255,255,1);
+}
+#Name__Lorem_ipsum___Last_Name_ {
+  position: absolute;
+  left: 48px;
+  top: 134px;
+  overflow: visible;
+  width: 272px;
+  white-space: nowrap;
+  text-align: left;
+  font-family: Comfortaa;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 19px;
+  color: rgba(88,87,87,1);
+}
+#DNI {
+  position: absolute;
+  left: 391px;
+  top: 254px;
+  overflow: hidden;
+  width: 57px;
+  height: 19px;
+  text-align: left;
+  font-family: Comfortaa;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 19px;
+  color: rgba(88,87,87,1);
+}
+#Type_ {
+  position: absolute;
+  left: 325px;
+  top: 254px;
+  overflow: hidden;
+  width: 74px;
+  height: 37px;
+  text-align: left;
+  font-family: Comfortaa;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 19px;
+  color: rgba(88,87,87,1);
+}
