@@ -1,34 +1,29 @@
-<nav id="navbar" class="navbar navbar-expand-sm navbar-dark p-0">
-  <div class="container">
-    <a id="brand" [routerLink]="['/']" class="navbar-brand pull-left">Welcome</a>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown mr-3">
-          <a id="brand" [routerLink]="['/list']" class="nav-link">
-            <i class="fas fa-user"></i> Manage
-          </a>
-        </li>
-        <li class="nav-item">
-          <a id="brand" href="#" class="nav-link">
-            <i class="fas fa-user-times"></i> Logout
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-<header id="animate-area" class="py-2 text-white p-0 mb-3">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6">
+<div style="height: 80vh;">
+    <mat-toolbar id="animate-area">
+      <mat-toolbar-row  class="container p-4">
+        <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
+          <mat-icon class="menu">menu</mat-icon>
+        </button>
+        <a class="nav-link" [routerLink]="['/']" mat-button>Welcome</a>
+        <span class="menu-spacer"></span>
+        <div fxShow="true" fxHide.lt-md>
+          <a class="nav-link" [routerLink]="['/list']" mat-button>Manage</a>
+          <a class="nav-link" href="#" mat-button>Logout</a>
         </div>
-      </div>
-    </div>
-  </header>
-<div class="row mx-md-n5">
-  <div class="container">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+      </mat-toolbar-row>
+    </mat-toolbar>
 
-<div class=""></div>
+
+    <mat-sidenav-container fxFlexFill>
+      <mat-sidenav #sidenav>
+        <mat-nav-list>
+          <a class="side-menu-link" [routerLink]="['/list']" mat-list-item>Manage</a>
+          <a class="side-menu-link" href="#"mat-list-item>Logout</a>
+        </mat-nav-list>
+      </mat-sidenav>
+      <mat-sidenav-content fxFlexFill>
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+

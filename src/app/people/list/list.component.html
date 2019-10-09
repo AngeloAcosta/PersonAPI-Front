@@ -1,7 +1,7 @@
 <section id="post" >
 <mat-form-field>
     <input class="search" matInput (keyup)="onChange($event.target.value)" placeholder="Search">
-  </mat-form-field>  
+  </mat-form-field>
   <div class="options">
   <button class="buttons" style="align-content: flex-end"(click)=add()>create new</button>
 </div>
@@ -9,7 +9,7 @@
   <mat-paginator [pageSizeOptions]="[10, 15, 20, 25]" showFirstLastButtons></mat-paginator>
 
   <mat-table  [dataSource]="tableData" matSort  matSortDisableClear class="mat-elevation-z8">
-    
+
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef (click)="orderTable()" mat-sort-header >Name</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.name}} {{element.lastName}} </mat-cell>
