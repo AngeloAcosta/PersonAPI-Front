@@ -17,7 +17,7 @@ export class ListComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   tableData: MatTableDataSource<Person>;
-  people: Person[]; 
+  people: Person[];
   temporalData:Person[];
   displayedColumns: string[] = ['name', 'docID', 'docType','country', 'buttons'];
   field:string = 'name'
@@ -31,7 +31,7 @@ export class ListComponent implements OnInit {
     docType:'DNI',
     gender:'male',
     country:'Spain'
-  }; 
+  };
 
   constructor(private peopleService: PeopleService,
               public dialog: MatDialog,
@@ -40,7 +40,7 @@ export class ListComponent implements OnInit {
               }
 
   ngOnInit() {
-     
+
     this.peopleService.getPeople(this.field, this.order).subscribe(people => {
       this.people = people;
       this.temporalData = people;
@@ -57,7 +57,7 @@ export class ListComponent implements OnInit {
             this.sort.active, this.sort.direction);
         })).subscribe(data => this.loadTable(data))
   }
-  
+
   onChange(value: string) {
     if (value !== '') {
       this.people = this.people.filter(
@@ -73,11 +73,12 @@ export class ListComponent implements OnInit {
   }
 
   delete(person: Person): void {
-    if(confirm(`Are you sure to delete ${person.name} ?`))
+    if(confirm(`Are you sure to delete ${person.name} ?`)){
      this.peopleService.deletePerson(person).subscribe(resp =>{
       this.people = this.people.filter(t => t.id !==person.id);
       this.loadTable(this.people)
     });
+    }
   }
   openEdit(person: Person): void {
     const dialogRef = this.dialog.open(EditComponent, {
