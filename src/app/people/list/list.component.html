@@ -1,40 +1,44 @@
-<section id="post">
-  <mat-form-field style="display: inline-flex">
-    <input
-      matInput
-      (keyup)="applyFilter($event.target.value)"
-      placeholder="Search"
-    />
-  </mat-form-field>
-  <button style="float:inline-end">Create new</button>
-  <br />
+<section id="post" >
+<mat-form-field>
+    <input class="search" matInput (keyup)="onChange($event.target.value)" placeholder="Search">
+  </mat-form-field>  
+  <div class="options">
+  <button class="buttons" style="align-content: flex-end"(click)=add()>create new</button>
+</div>
 
-  <mat-paginator
-    [pageSizeOptions]="[5, 10, 20]"
-    showFirstLastButtons
-  ></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[10, 15, 20, 25]" showFirstLastButtons></mat-paginator>
 
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-    <ng-container matColumnDef="Nombre">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
-      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+  <mat-table  [dataSource]="tableData" matSort  matSortDisableClear class="mat-elevation-z8">
+    
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef (click)="orderTable()" mat-sort-header >Name</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}} {{element.lastName}} </mat-cell>
     </ng-container>
-    <ng-container matColumnDef="Documento">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Documento</th>
-      <td mat-cell *matCellDef="let element">{{ element.userId }}</td>
+
+    <ng-container matColumnDef="docID">
+      <mat-header-cell *matHeaderCellDef mat-sort-header (click)="orderTable()" disableClear> Document </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.docID}} </mat-cell>
     </ng-container>
-    <ng-container matColumnDef="Tipo Documento">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Documento</th>
-      <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+
+    <ng-container matColumnDef="docType">
+      <mat-header-cell *matHeaderCellDef (click)="orderTable()" mat-sort-header> Document Type </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.docType}} </mat-cell>
     </ng-container>
-    <ng-container matColumnDef="Buttons">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
-      <td mat-cell *matCellDef="let element">
-        <button (click)="openInfo(element)">Editar</button>
-        <button (click)="delete(element)">Eliminar</button>
-      </td>
+
+    <ng-container matColumnDef="country">
+      <mat-header-cell *matHeaderCellDef (click)="orderTable()" mat-sort-header> Country </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.country}} </mat-cell>
     </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+
+    <ng-container matColumnDef="buttons">
+        <mat-header-cell *matHeaderCellDef > Action </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+         <mat-icon  matTooltip="Info about the Person" class="icon" (click)="openInfo(element)">info</mat-icon>
+          <mat-icon matTooltip="Edit Person" class="icon" (click)="openEdit(element)">edit</mat-icon>
+          <mat-icon matTooltip="Delete Person" class="icon delete" (click)="delete(element)">delete_forever</mat-icon>
+        </mat-cell>
+     </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
 </section>

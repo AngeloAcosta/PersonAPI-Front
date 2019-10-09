@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpParams , HttpHeaders} from '@angular/common/http';
 import {Person} from '../components/person/person';
-import { Observable } from 'rxjs';
+import { Observable, pipe, BehaviorSubject } from 'rxjs';
+import { environment } from './../../../../environments/environment';
+
 
 const httpOptions = {
   headers : new HttpHeaders({
@@ -12,29 +14,35 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class PeopleService {
-
 constructor(private http: HttpClient) { }
-url: string = 'https://jsonplaceholder.typicode.com/todos';
-getPeople(): Observable<Person[]>{
-  return this.http.get<Person[]>(this.url);
+
+baseUrl: string = environment.baseUrl;
+
+getPeople(sort, order): Observable<Person[]> {
+  let params = new HttpParams();
+  params = params.append('_sort', sort);
+  params = params.append('_order', order);
+  return this.http.get<Person[]>(`${this.baseUrl}`,{params}).pipe();
 }
 
+
 editPerson(person: Person): Observable<any> {
-  const url = `${this.url}/${person.id}`;
+  const url = `${this.baseUrl}/${person.id}`; 
   return this.http.put(url, person, httpOptions);
 }
 
-deleteTodo(person: Person){
- const url = `${this.url}/${person.id}`;
- return this.http.delete(url, httpOptions);
+deletePerson(person: Person){
+ const url = `${this.baseUrl}/${person.id}`;
+ return this.http.delete(url, httpOptions); 
 }
 
 addPerson(person: Person) {
-  return this.http.post<Person>(this.url, person, httpOptions);
+  
+  return this.http.post<Person>(this.baseUrl, person, httpOptions);
 }
 
 getPerson(person: Person) {
-  const url = `${this.url}/${person.id}`;
+  const url = `${this.baseUrl}/${person.id}`;
   return this.http.get<Person>(url, httpOptions);
 }
 }
