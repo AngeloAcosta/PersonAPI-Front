@@ -8,7 +8,7 @@ import {MatDialogModule,
   MatInputModule,
   MatSelectModule,
   MatIconModule,
-  MatTooltipModule} from '@angular/material'; 
+  MatTooltipModule} from '@angular/material';
 import { InspectComponent } from 'src/app/people/inspect/inspect.component';
 import { EditComponent } from 'src/app/people/edit/edit.component';
 import { CreateComponent } from 'src/app/people/create/create.component';
