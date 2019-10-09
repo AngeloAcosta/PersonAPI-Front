@@ -27,17 +27,17 @@ getPeople(sort, order): Observable<Person[]> {
 
 
 editPerson(person: Person): Observable<any> {
-  const url = `${this.baseUrl}/${person.id}`; 
+  const url = `${this.baseUrl}/${person.id}`;
   return this.http.put(url, person, httpOptions);
 }
 
 deletePerson(person: Person){
  const url = `${this.baseUrl}/${person.id}`;
- return this.http.delete(url, httpOptions); 
+ return this.http.delete(url, httpOptions);
 }
 
 addPerson(person: Person) {
-  
+
   return this.http.post<Person>(this.baseUrl, person, httpOptions);
 }
 
