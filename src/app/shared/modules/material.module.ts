@@ -7,13 +7,13 @@ import {MatDialogModule,
   MatFormFieldModule,
   MatInputModule,
   MatSelectModule,
-  MatIconModule} from '@angular/material';
+  MatIconModule,
+  MatTooltipModule} from '@angular/material'; 
 import { InspectComponent } from 'src/app/people/inspect/inspect.component';
 import { EditComponent } from 'src/app/people/edit/edit.component';
 import { CreateComponent } from 'src/app/people/create/create.component';
+import { ReactiveFormsModule , FormsModule} from '@angular/forms';
 
-
-// Agregar en declarations y en entrycomponents los componentes que entraran en los modals
 @NgModule({
   declarations: [
     InspectComponent,
@@ -28,7 +28,10 @@ import { CreateComponent } from 'src/app/people/create/create.component';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatTooltipModule
   ],
   exports: [
     MatDialogModule,
@@ -38,7 +41,10 @@ import { CreateComponent } from 'src/app/people/create/create.component';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatTooltipModule
   ],
   entryComponents: [
     InspectComponent,

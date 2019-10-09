@@ -1,0 +1,43 @@
+<div>
+<p>
+        <label for="name">Nombre:  </label> 
+        <mat-form-field appearance="outline">
+        <input matInput  id="name" name="name"> 
+        <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+</p>
+<p>
+<label for="name">Last Name:  </label> 
+     <mat-form-field appearance="outline">
+        <input matInput  id="lastname" name="lastname"> 
+        <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+</p>
+  <div> 
+        <label>Document ID: </label>
+        <input type="number" placeholder="##########" maxlength="8">
+        <label>Type :</label> 
+        <mat-form-field>
+        <mat-select >
+        <mat-option selected value="option">Dni</mat-option>
+        <mat-option value="C.E">Carnet de Extranjeria</mat-option>
+        <mat-option value ="pasaporte">Pasaporte</mat-option>
+        </mat-select>
+        </mat-form-field>
+        </div>
+ 
+        <div>
+        <mat-form-field>
+        <mat-select placeholder="Select me">
+        <mat-option value="option">Option</mat-option>
+        </mat-select>
+        </mat-form-field>
+        </div>
+<div>
+        <label for="name">Contact:  </label> 
+        <mat-form-field appearance="outline">
+        <input matInput  id="contact" name="contact"> 
+        <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+</div>
+</div>
