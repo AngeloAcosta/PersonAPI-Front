@@ -1,103 +1,115 @@
-import { EditComponent } from "./../edit/edit.component";
-import { PeopleService } from "./../shared/services/people.service";
-import {
-  Component,
-  OnInit,
-  Inject,
-  ViewChild,
-  AfterViewInit
-} from "@angular/core";
-import { Person } from "../shared/components/person/person";
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-  MatPaginator,
-  MatTableDataSource,
-  PageEvent,
-  MatIcon
-} from "@angular/material";
-import { InspectComponent } from "../inspect/inspect.component";
-import { OverlayContainer } from "@angular/cdk/overlay";
+import { EditComponent } from './../edit/edit.component';
+import { PeopleService } from './../shared/services/people.service';
+import { Component, OnInit, Inject , ViewChild, AfterViewInit} from '@angular/core';
+import { Person } from '../shared/components/person/person';
+import {MatDialog,MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
+import { InspectComponent } from '../inspect/inspect.component';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import {merge,  of as observableOf} from 'rxjs';
+import {startWith, switchMap} from 'rxjs/operators';
 
 @Component({
-  selector: "app-list",
-  templateUrl: "./list.component.html",
-  styleUrls: ["./list.component.scss"]
+  selector: 'app-list',
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  dataSource: MatTableDataSource<Person>;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  tableData: MatTableDataSource<Person>;
   people: Person[];
-  displayedColumns: string[] = [
-    "Nombre",
-    "Documento",
-    "Tipo Documento",
-    "Buttons"
-  ];
-  person: Person;
-  selected;
+  temporalData:Person[];
+  displayedColumns: string[] = ['name', 'docID', 'docType','country', 'buttons'];
+  field:string = 'name'
+  order:string = 'asc'
+  person: Person ={
+    id:30,
+    name:'Paulo',
+    lastName:'Flores',
+    birth:'18/05/1994',
+    docID:'87412547',
+    docType:'DNI',
+    gender:'male',
+    country:'Spain'
+  };
 
-  length = 100;
-  pageSize = 10;
-  pageSizeOptions: number[] = [5, 10, 25, 100];
-
-  pageEvent: PageEvent;
-
-  selectedRowIndex: number = -1;
-
-  constructor(
-    private peopleService: PeopleService,
-    public dialog: MatDialog,
-    overlayContainer: OverlayContainer
-  ) {
-    overlayContainer.getContainerElement().classList.add("mat-light-theme");
-  }
+  constructor(private peopleService: PeopleService,
+              public dialog: MatDialog,
+              overlayContainer: OverlayContainer) {
+              overlayContainer.getContainerElement().classList.add('mat-light-theme');
+              }
 
   ngOnInit() {
-    this.peopleService.getPeople().subscribe(people => {
+
+    this.peopleService.getPeople(this.field, this.order).subscribe(people => {
       this.people = people;
-      console.log(this.people);
-      this.dataSource = new MatTableDataSource(this.people);
-      this.dataSource.paginator = this.paginator;
+      this.temporalData = people;
+      this.loadTable(this.people);
     });
   }
 
-  setPageSizeOptions(setPageSizeOptionsInput: string) {
-    this.pageSizeOptions = setPageSizeOptionsInput.split(",").map(str => +str);
+  orderTable(){
+    merge(this.sort.sortChange)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          return this.peopleService.getPeople(
+            this.sort.active, this.sort.direction);
+        })).subscribe(data => this.loadTable(data))
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+  onChange(value: string) {
+    if (value !== '') {
+      this.people = this.people.filter(
+        item => {
+            let fullname = item.name.toLowerCase()+' '+item.lastName.toLowerCase();
+            return fullname.indexOf(value.toLowerCase())> -1
+      });
+      this.loadTable(this.people)
+    } else {
+      this.people = this.temporalData;
+      this.loadTable(this.people)
     }
   }
 
-  openInfo(person: Person): void {
-    const dialogRef = this.dialog.open(EditComponent, {
-      width: "585px",
-      height: "520px",
-      data: person
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log("The dialog was closed");
-    });
-  }
-
   delete(person: Person): void {
-    console.log(person.id);
-    console.log(this.selected);
-  }
-
-  highlight(row) {
-    this.selectedRowIndex = row.id;
-    console.log(this.paginator.pageIndex, this.paginator.pageSize);
-    const dialogRef = this.dialog.open(InspectComponent, {
-      width: "585px",
-      height: "520px",
-      data: row
+    if(confirm(`Are you sure to delete ${person.name} ?`)){
+     this.peopleService.deletePerson(person).subscribe(resp =>{
+      this.people = this.people.filter(t => t.id !==person.id);
+      this.loadTable(this.people)
     });
+    }
   }
+  openEdit(person: Person): void {
+    const dialogRef = this.dialog.open(EditComponent, {
+    width: '585px',
+    height: '520px',
+    data: person
+  });
+
 }
+
+loadTable(param){
+  this.tableData = new MatTableDataSource(param);
+  this.tableData.paginator = this.paginator;
+  this.tableData.sort = this.sort;
+}
+
+openInfo(row){
+    const dialogRef = this.dialog.open(InspectComponent, {
+     width: '585px',
+     height: '520px',
+     data: row
+   });
+}
+
+add(){
+  this.peopleService.addPerson(this.person).subscribe(resp=>{
+    this.people.push(resp);
+    this.loadTable(this.people)
+  });
+}
+}
+
+
+
