@@ -10,6 +10,7 @@ import { ListComponent } from './list/list.component';
 import { EditComponent } from './edit/edit.component';
 import { PersonComponent } from './shared/components/person/person.component';
 import { MaterialModule } from '../shared/modules/material.module';
+import {ReactiveFormsModule} from '@angular/forms';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -20,7 +21,7 @@ import { MaterialModule } from '../shared/modules/material.module';
     CommonModule,
     PeopleRoutingModule,
     MaterialModule,
-    
+    ReactiveFormsModule
   ],
 })
 export class PeopleModule { }
