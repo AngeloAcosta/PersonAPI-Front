@@ -10,18 +10,25 @@ import { ListComponent } from './list/list.component';
 import { EditComponent } from './edit/edit.component';
 import { PersonComponent } from './shared/components/person/person.component';
 import { MaterialModule } from '../shared/modules/material.module';
-import {ReactiveFormsModule} from '@angular/forms';
+import { InspectComponent } from './inspect/inspect.component';
 @NgModule({
   declarations: [
     HomeComponent,
     ListComponent,
     PersonComponent,
+    InspectComponent,
+    EditComponent,
+    CreateComponent
     ],
   imports: [
     CommonModule,
     PeopleRoutingModule,
     MaterialModule,
-    ReactiveFormsModule
+  ],
+  entryComponents: [
+    InspectComponent,
+    EditComponent,
+    CreateComponent
   ],
 })
 export class PeopleModule { }

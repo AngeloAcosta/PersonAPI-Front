@@ -1,3 +1,4 @@
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatDialogModule,
@@ -8,18 +9,16 @@ import {MatDialogModule,
   MatInputModule,
   MatSelectModule,
   MatIconModule,
-  MatTooltipModule} from '@angular/material';
-import { InspectComponent } from 'src/app/people/inspect/inspect.component';
-import { EditComponent } from 'src/app/people/edit/edit.component';
-import { CreateComponent } from 'src/app/people/create/create.component';
+  MatTooltipModule,
+  MatGridListModule,
+  MatToolbarModule,
+  MatListModule,
+  MatSidenavModule,
+  MatButtonModule} from '@angular/material';
 import { ReactiveFormsModule , FormsModule} from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    InspectComponent,
-    EditComponent,
-    CreateComponent
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     MatDialogModule,
@@ -29,9 +28,17 @@ import { ReactiveFormsModule , FormsModule} from '@angular/forms';
     MatInputModule,
     MatSelectModule,
     MatIconModule,
+    MatGridListModule,
+    MatToolbarModule,
+    MatButtonModule,
     ReactiveFormsModule,
     FormsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatButtonModule,
+    FlexLayoutModule,
   ],
   exports: [
     MatDialogModule,
@@ -42,14 +49,17 @@ import { ReactiveFormsModule , FormsModule} from '@angular/forms';
     MatInputModule,
     MatSelectModule,
     MatIconModule,
+    MatGridListModule,
+    MatToolbarModule,
+    MatButtonModule,
     ReactiveFormsModule,
     FormsModule,
-    MatTooltipModule
-  ],
-  entryComponents: [
-    InspectComponent,
-    EditComponent,
-    CreateComponent
+    MatTooltipModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatButtonModule,
+    FlexLayoutModule
   ]
 })
 export class MaterialModule { }
