@@ -11,16 +11,14 @@ import { EditComponent } from '../edit/edit.component';
 export class InspectComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<InspectComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Person,
+    @Inject(MAT_DIALOG_DATA) public data,
     public dialog: MatDialog) { }
 
   ngOnInit() {
   }
 
-  openEdit(person: Person): void {
+  openEdit(person): void {
     const dialogRef = this.dialog.open(EditComponent, {
-    width: '585px',
-    height: '520px',
     data: person
     });
   }

@@ -18,26 +18,30 @@ constructor(private http: HttpClient) { }
 
 baseUrl: string = environment.baseUrl;
 
-getPeople(sort, order): Observable<Person[]> {
+getPeople(): Observable<any>{
+  return this.http.get<any[]>(`${this.baseUrl}`).pipe();
+}
+
+getPeopleSorted(order, type): Observable<any>{
+  const url = this.baseUrl;
   let params = new HttpParams();
-  params = params.append('_sort', sort);
-  params = params.append('_order', order);
-  return this.http.get<Person[]>(`${this.baseUrl}`,{params}).pipe();
+  params = params.append('orderBy', order);
+  params = params.append('orderType', type);
+  return this.http.get<any[]>(`${url}`,{params}).pipe();
 }
 
-
-editPerson(person: Person): Observable<any> {
+editPerson(person: any, body: any): Observable<any> {
   const url = `${this.baseUrl}/${person.id}`;
-  return this.http.put(url, person, httpOptions);
+  return this.http.put(url, body, httpOptions);
 }
 
-deletePerson(person: Person){
+deletePerson(person: any){
  const url = `${this.baseUrl}/${person.id}`;
  return this.http.delete(url, httpOptions);
 }
 
-addPerson(person: Person) {
-
+addPerson(person: any) {
+  const url =`${this.baseUrl}`;
   return this.http.post<Person>(this.baseUrl, person, httpOptions);
 }
 

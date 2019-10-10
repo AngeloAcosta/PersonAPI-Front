@@ -16,22 +16,12 @@ import {startWith, switchMap} from 'rxjs/operators';
 export class ListComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
-  tableData: MatTableDataSource<Person>;
-  people: Person[];
-  temporalData:Person[];
-  displayedColumns: string[] = ['name', 'docID', 'docType','country', 'buttons'];
-  field:string = 'name'
-  order:string = 'asc'
-  person: Person ={
-    id:30,
-    name:'Paulo',
-    lastName:'Flores',
-    birth:'18/05/1994',
-    docID:'87412547',
-    docType:'DNI',
-    gender:'male',
-    country:'Spain'
-  };
+  tableData: MatTableDataSource<any>;
+  people;
+  temporalData;
+  displayedColumns: string[] = ['1', '2', '3','4', 'buttons'];
+  orderBy: number;
+  orderType: number;
 
   constructor(private peopleService: PeopleService,
               public dialog: MatDialog,
@@ -41,9 +31,9 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
 
-    this.peopleService.getPeople(this.field, this.order).subscribe(people => {
-      this.people = people;
-      this.temporalData = people;
+    this.peopleService.getPeople().subscribe(people => {
+      this.people = people.data;
+      this.temporalData = people.data;
       this.loadTable(this.people);
     });
   }
@@ -53,9 +43,14 @@ export class ListComponent implements OnInit {
       .pipe(
         startWith({}),
         switchMap(() => {
-          return this.peopleService.getPeople(
-            this.sort.active, this.sort.direction);
-        })).subscribe(data => this.loadTable(data))
+          // tslint:disable-next-line: radix
+          this.orderBy = parseInt(this.sort.active);
+          if(this.sort.direction == 'asc'){
+            this.orderType = 1;
+          } else { this.orderType = 2; }
+          return this.peopleService.getPeopleSorted(
+            this.orderBy, this.orderType);
+        })).subscribe(person => this.loadTable(person.data))
   }
 
   onChange(value: string) {
@@ -72,7 +67,7 @@ export class ListComponent implements OnInit {
     }
   }
 
-  delete(person: Person): void {
+  delete(person): void {
     if(confirm(`Are you sure to delete ${person.name} ?`)){
      this.peopleService.deletePerson(person).subscribe(resp =>{
       this.people = this.people.filter(t => t.id !==person.id);
@@ -80,7 +75,7 @@ export class ListComponent implements OnInit {
     });
     }
   }
-  openEdit(person: Person): void {
+  openEdit(person): void {
     const dialogRef = this.dialog.open(EditComponent, {
     width: '585px',
     height: '520px',
@@ -98,16 +93,10 @@ loadTable(param){
 openInfo(row){
     const dialogRef = this.dialog.open(InspectComponent, {
 
-     data: row
+    data: row
    });
 }
 
-add(){
-  this.peopleService.addPerson(this.person).subscribe(resp=>{
-    this.people.push(resp);
-    this.loadTable(this.people)
-  });
-}
 }
 
 
