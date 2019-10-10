@@ -9,9 +9,9 @@ import {merge,  of as observableOf} from 'rxjs';
 import {startWith, switchMap} from 'rxjs/operators';
 
 @Component({
-  selector: "app-list",
-  templateUrl: "./list.component.html",
-  styleUrls: ["./list.component.scss"]
+  selector: 'app-list',
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
@@ -38,18 +38,6 @@ export class ListComponent implements OnInit {
               overlayContainer: OverlayContainer) {
               overlayContainer.getContainerElement().classList.add('mat-light-theme');
               }
-
-  pageEvent: PageEvent;
-
-  selectedRowIndex: number = -1;
-
-  constructor(
-    private peopleService: PeopleService,
-    public dialog: MatDialog,
-    overlayContainer: OverlayContainer
-  ) {
-    overlayContainer.getContainerElement().classList.add("mat-light-theme");
-  }
 
   ngOnInit() {
 
@@ -122,7 +110,6 @@ add(){
   });
 }
 }
-
 
 
 
