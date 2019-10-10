@@ -97,12 +97,6 @@ loadTable(param){
 
 openInfo(row){
     const dialogRef = this.dialog.open(InspectComponent, {
-<<<<<<< HEAD
-     width: '585px',
-     height: '520px',
-=======
-
->>>>>>> develop
      data: row
    });
 }
