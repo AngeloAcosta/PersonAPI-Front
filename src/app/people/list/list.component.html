@@ -3,29 +3,29 @@
     <input class="search" matInput (keyup)="onChange($event.target.value)" placeholder="Search">
   </mat-form-field>
   <div class="options">
-  <button class="buttons" style="align-content: flex-end"(click)=add()>create new</button>
+  <button class="buttons" style="align-content: flex-end">create new</button>
 </div>
 
   <mat-paginator [pageSizeOptions]="[10, 15, 20, 25]" showFirstLastButtons></mat-paginator>
 
   <mat-table  [dataSource]="tableData" matSort  matSortDisableClear class="mat-elevation-z8">
 
-    <ng-container matColumnDef="name">
+    <ng-container matColumnDef="1">
       <mat-header-cell *matHeaderCellDef (click)="orderTable()" mat-sort-header >Name</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.name}} {{element.lastName}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="docID">
+    <ng-container matColumnDef="2">
       <mat-header-cell *matHeaderCellDef mat-sort-header (click)="orderTable()" disableClear> Document </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.docID}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.document}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="docType">
+    <ng-container matColumnDef="3">
       <mat-header-cell *matHeaderCellDef (click)="orderTable()" mat-sort-header> Document Type </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.docType}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.documentType}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="country">
+    <ng-container matColumnDef="4">
       <mat-header-cell *matHeaderCellDef (click)="orderTable()" mat-sort-header> Country </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.country}} </mat-cell>
     </ng-container>

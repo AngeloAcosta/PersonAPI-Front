@@ -1,6 +1,5 @@
-
 <section class="mat-typography container p-2">
-  <div class="row">
+  <div class="row justify-content-between">
     <h4 style="display:inline-block" class="mat-display-2" mat-dialog-title>Person Details</h4>
 
     <button mat-icon-button mat-dialog-close aria-label="Example icon-button with a heart icon">
@@ -17,14 +16,14 @@
           <label class="attributes">Last Name:  </label><label for="name">{{data.lastName}}</label>
         </p>
         <p>
-          <label class="attributes">Date of birth:  </label><label for="birth">{{data.birth}}</label>
+          <label class="attributes">Date of birth:  </label><label for="birth">{{data.birthdate}}</label>
         </p>
-        <p class="cont2">
-          <span class="elem1">
-            <label class="attributes">Document ID:  </label><label for="id">{{data.docID}}</label>
+        <p class="justify-content-between">
+          <span>
+            <label class="attributes">Document ID:  </label><label for="id">{{data.document}}</label>
           </span>
           <span class="elem2">
-            <label class="attributes">Type:  </label><label for="type">{{data.docType}}</label>
+            <label class="attributes">Type:  </label><label for="type">{{data.documentType}}</label>
           </span>
         </p>
         <p>
@@ -37,17 +36,34 @@
           <label class="attributes">Contact</label>
         </p>
 
-        <p>
-          <label class="attributes2 space">Email:</label>
-          <label class="space" *ngIf="data.email == undefined" for="email">-</label>
-          <label class="space" *ngIf="data.email" for="email">{{data.email}}</label>
-        </p>
+       <div *ngIf="data.contactType1 == 'Teléfono';then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+          <p>
+            <label class="space attributes2">Phone Number:</label>
+            <label class="space">{{data.contact1}}</label>
+          </p>
+        </ng-template>
+        <ng-template #elseBlock>
+          <p>
+            <label class="space attributes2">Email:</label>
+            <label class="space">{{data.contact1}}</label>
+          </p>
 
-        <p>
-          <label class="attributes2 space">Phone Number:</label>
-          <label class="space" *ngIf="data.phoneNumber == undefined" for="number">-</label>
-          <label class="space" *ngIf="data.phoneNumber" for="number">{{data.phoneNumber}}</label>
-        </p>
+        </ng-template>
+        <div *ngIf="data.contactType2 == 'Teléfono';then then1Block else else1Block"></div>
+        <ng-template #then1Block>
+          <p>
+            <label class="space attributes2">Phone Number:</label>
+            <label class="space">{{data.contact2}}</label>
+          </p>
+        </ng-template>
+        <ng-template #else1Block>
+          <p>
+            <label class="space attributes2">Email:</label>
+            <label class="space">{{data.contact2}}</label>
+          </p>
+
+        </ng-template>
 
 
 
