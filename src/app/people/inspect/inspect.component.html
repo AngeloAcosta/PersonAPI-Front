@@ -1,24 +1,66 @@
-<h1 mat-dialog-title>Favorite Animal</h1>
-<div mat-dialog-content>
-  <div><h1>asdasdasdasdasdasw</h1></div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>nombre</th>
-        <th>apellido</th>
-        <th>dni</th>
-        <th>sexo</th>
-        <th>telefono</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>{{data.id}}</td>
-          <td>{{data.name}}</td>
-          <td>{{data.docID}}</td>
-          <td>{{data.docType}}</td>
-          <td>asd</td>
-        </tr>
-    </tbody>
-  </table>
-</div>
+
+<section class="mat-typography container p-2">
+  <div class="row">
+    <h4 style="display:inline-block" class="mat-display-2" mat-dialog-title>Person Details</h4>
+
+    <button mat-icon-button mat-dialog-close aria-label="Example icon-button with a heart icon">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <main>
+    <mat-dialog-content  class="">
+        <p>
+          <label class="attributes">Nombre:  </label><label for="name">{{data.name}}</label>
+        </p>
+        <p>
+          <label class="attributes">Last Name:  </label><label for="name">{{data.lastName}}</label>
+        </p>
+        <p>
+          <label class="attributes">Date of birth:  </label><label for="birth">{{data.birth}}</label>
+        </p>
+        <p class="cont2">
+          <span class="elem1">
+            <label class="attributes">Document ID:  </label><label for="id">{{data.docID}}</label>
+          </span>
+          <span class="elem2">
+            <label class="attributes">Type:  </label><label for="type">{{data.docType}}</label>
+          </span>
+        </p>
+        <p>
+          <label class="attributes">Gender:  </label><label for="gender">{{data.gender}}</label>
+        </p>
+        <p>
+          <label class="attributes">Country:  </label><label for="country">{{data.country}}</label>
+        </p>
+        <p>
+          <label class="attributes">Contact</label>
+        </p>
+
+        <p>
+          <label class="attributes2 space">Email:</label>
+          <label class="space" *ngIf="data.email == undefined" for="email">-</label>
+          <label class="space" *ngIf="data.email" for="email">{{data.email}}</label>
+        </p>
+
+        <p>
+          <label class="attributes2 space">Phone Number:</label>
+          <label class="space" *ngIf="data.phoneNumber == undefined" for="number">-</label>
+          <label class="space" *ngIf="data.phoneNumber" for="number">{{data.phoneNumber}}</label>
+        </p>
+
+
+
+
+
+
+    </mat-dialog-content>
+  </main>
+  <footer>
+    <mat-dialog-actions class="cont1">
+        <button  mat-raised-button [color]="'list-it'" class="but1">List Kinships</button>
+        <button  mat-raised-button mat-dialog-close (click)="openEdit(data)" [color]="'edit-it'" class="but2">Edit</button>
+        <button  mat-raised-button mat-dialog-close color="warn" class="but3">Delete</button>
+    </mat-dialog-actions>
+  </footer>
+</section>
