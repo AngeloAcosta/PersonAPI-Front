@@ -3,9 +3,19 @@
 body{
   font-family: Comfortaa;
   background-color: #C0DFED;
-  
 }
 
+@import '~@angular/material/theming';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+$custom-typography: mat-typography-config($font-family: Comfortaa);
+@include mat-core($custom-typography);
+
+@include mat-base-typography($custom-typography);
+
+// Override typography for a specific Angular Material components.
+@include mat-checkbox-typography($custom-typography);
+
+// Override typography for all Angular Material, including mat-base-typography and all components.
+@include angular-material-typography($custom-typography);
+
+@include mat-core($custom-typography);

@@ -13,3 +13,4 @@ npm install
 ```
 npm install --save @ng-bootstrap/ng-bootstrap
 ```
+npm i -s @angular/flex-layout @angular/cdk
