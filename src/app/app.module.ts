@@ -7,10 +7,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { KinshipComponent } from './shared/kinship/kinship.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    KinshipComponent
   ],
   imports: [
     BrowserModule,
