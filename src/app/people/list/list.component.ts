@@ -2,7 +2,7 @@ import { EditComponent } from './../edit/edit.component';
 import { PeopleService } from './../shared/services/people.service';
 import { Component, OnInit, Inject , ViewChild, AfterViewInit} from '@angular/core';
 import { Person } from '../shared/components/person/person';
-import {MatDialog,MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
+import {MatDialog, MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
 import { InspectComponent } from '../inspect/inspect.component';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import {merge,  of as observableOf} from 'rxjs';
@@ -19,7 +19,7 @@ export class ListComponent implements OnInit {
   tableData: MatTableDataSource<any>;
   people;
   temporalData;
-  displayedColumns: string[] = ['1', '2', '3','4', 'buttons'];
+  displayedColumns: string[] = ['1', '2', '3', '4', 'buttons'];
   orderBy: number;
   orderType: number;
 
@@ -38,40 +38,41 @@ export class ListComponent implements OnInit {
     });
   }
 
-  orderTable(){
+  orderTable() {
     merge(this.sort.sortChange)
       .pipe(
         startWith({}),
         switchMap(() => {
           // tslint:disable-next-line: radix
           this.orderBy = parseInt(this.sort.active);
-          if(this.sort.direction == 'asc'){
+          // tslint:disable-next-line: triple-equals
+          if (this.sort.direction == 'asc') {
             this.orderType = 1;
           } else { this.orderType = 2; }
           return this.peopleService.getPeopleSorted(
             this.orderBy, this.orderType);
-        })).subscribe(person => this.loadTable(person.data))
+        })).subscribe(person => this.loadTable(person.data));
   }
 
   onChange(value: string) {
     if (value !== '') {
       this.people = this.people.filter(
         item => {
-            let fullname = item.name.toLowerCase()+' '+item.lastName.toLowerCase();
-            return fullname.indexOf(value.toLowerCase())> -1
+            let fullname = item.name.toLowerCase() + ' ' + item.lastName.toLowerCase();
+            return fullname.indexOf(value.toLowerCase()) > -1;
       });
-      this.loadTable(this.people)
+      this.loadTable(this.people);
     } else {
       this.people = this.temporalData;
-      this.loadTable(this.people)
+      this.loadTable(this.people);
     }
   }
 
   delete(person): void {
-    if(confirm(`Are you sure to delete ${person.name} ?`)){
-     this.peopleService.deletePerson(person).subscribe(resp =>{
-      this.people = this.people.filter(t => t.id !==person.id);
-      this.loadTable(this.people)
+    if (confirm(`Are you sure to delete ${person.name} ?`)) {
+     this.peopleService.deletePerson(person).subscribe(resp => {
+      this.people = this.people.filter(t => t.id !== person.id);
+      this.loadTable(this.people);
     });
     }
   }
@@ -84,13 +85,13 @@ export class ListComponent implements OnInit {
 
 }
 
-loadTable(param){
+loadTable(param) {
   this.tableData = new MatTableDataSource(param);
   this.tableData.paginator = this.paginator;
   this.tableData.sort = this.sort;
 }
 
-openInfo(row){
+openInfo(row) {
     const dialogRef = this.dialog.open(InspectComponent, {
 
     data: row

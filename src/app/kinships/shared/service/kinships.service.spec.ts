@@ -3,13 +3,13 @@ import { TestBed, async, inject } from '@angular/core/testing';
 
 
 describe('Service: Kinships', () => {
-  beforeEach(() =>{
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [KinshipsService]
     });
   });
 
-  it('should ...', inject([KinshipsService], (service: KinshipsService) =>{
+  it('should ...', inject([KinshipsService], (service: KinshipsService) => {
     expect(service).toBeTruthy();
   }));
 });

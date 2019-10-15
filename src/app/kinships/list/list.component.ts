@@ -46,6 +46,7 @@ export class ListComponent implements OnInit {
       .pipe(
         startWith({}),
         switchMap(() => {
+          // tslint:disable-next-line: radix
           this.orderBy = parseInt(this.sort.active);
           if (this.sort.direction === 'asc') {
             this.orderType = 1;
@@ -64,7 +65,7 @@ export class ListComponent implements OnInit {
   onChange(value: string) {
     if (value !== '') {
       this.kinships = this.kinships.filter(item => {
-        let fullname =
+        const fullname =
           item.namePerson.toLowerCase() +
           ' ' +
           item.lasNamePerson.toLowerCase();
