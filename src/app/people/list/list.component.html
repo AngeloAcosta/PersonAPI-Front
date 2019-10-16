@@ -3,7 +3,7 @@
     <input class="search" matInput (keyup)="onChange($event.target.value)" placeholder="Search">
   </mat-form-field>
   <div class="options">
-  <button class="buttons" style="align-content: flex-end">create new</button>
+  <button class="buttons" style="align-content: flex-end" (click)="openCreate()">create new</button>
 </div>
 
   <mat-paginator [pageSizeOptions]="[10, 15, 20, 25]" showFirstLastButtons></mat-paginator>
