@@ -21,9 +21,16 @@ export class ListComponent implements OnInit {
   tableData: MatTableDataSource<any>;
   kinships;
   temporalData;
-  displayedColumns: string[] = ['namePerson', 'documentPerson', 'kinshipType', 'nameRelative', 'documentRelative', 'buttons'];
-  orderBy;
-  orderType;
+  displayedColumns: string[] = [
+    'namePerson',
+    'documentPerson',
+    'kinshipType',
+    'nameRelative',
+    'documentRelative',
+    'buttons'
+  ];
+  orderBy: string;
+  orderType: any;
 
   constructor(
     private kinshipsService: KinshipsService,
@@ -64,11 +71,18 @@ export class ListComponent implements OnInit {
 
   onChange(value: string) {
     if (value !== '') {
-      this.kinships = this.kinships.filter(item => {
-        const fullname =
-          item.namePerson.toLowerCase() + ' ' + item.lastNamePerson.toLowerCase();
-        return fullname.indexOf(value.toLocaleLowerCase()) > -1;
-      });
+      this.kinships = this.kinships.filter(
+        (item: {
+          namePerson: { toLowerCase: () => string };
+          lastNamePerson: { toLowerCase: () => string };
+        }) => {
+          const fullname =
+            item.namePerson.toLowerCase() +
+            ' ' +
+            item.lastNamePerson.toLowerCase();
+          return fullname.indexOf(value.toLocaleLowerCase()) > -1;
+        }
+      );
       this.loadTable(this.kinships);
     } else {
       this.kinships = this.temporalData;

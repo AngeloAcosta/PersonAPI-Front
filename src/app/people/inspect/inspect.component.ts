@@ -1,6 +1,5 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialog} from '@angular/material/dialog';
-import {Person} from '../shared/components/person/person';
 import { EditComponent } from '../edit/edit.component';
 
 @Component({

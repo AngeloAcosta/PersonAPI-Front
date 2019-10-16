@@ -1,11 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {
   MatDialogRef,
-  MAT_DIALOG_DATA,
-  MatFormFieldControl,
-  MatFormField, MatDialog
+  MAT_DIALOG_DATA
 } from '@angular/material';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { Person } from '../shared/components/person/person';
 
 @Component({

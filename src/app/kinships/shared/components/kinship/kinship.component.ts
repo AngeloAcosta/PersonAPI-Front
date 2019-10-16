@@ -8,10 +8,7 @@ import { Kinship } from './kinship';
   styleUrls: ['./kinship.component.css']
 })
 export class KinshipComponent implements OnInit {
+  constructor(kinship: Kinship, person: Person) {}
 
-  constructor(kinship: Kinship, person: Person) { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

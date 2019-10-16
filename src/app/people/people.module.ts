@@ -1,5 +1,3 @@
-
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -19,16 +17,8 @@ import { InspectComponent } from './inspect/inspect.component';
     InspectComponent,
     EditComponent,
     CreateComponent
-    ],
-  imports: [
-    CommonModule,
-    PeopleRoutingModule,
-    MaterialModule,
   ],
-  entryComponents: [
-    InspectComponent,
-    EditComponent,
-    CreateComponent
-  ],
+  imports: [CommonModule, PeopleRoutingModule, MaterialModule],
+  entryComponents: [InspectComponent, EditComponent, CreateComponent]
 })
-export class PeopleModule { }
+export class PeopleModule {}

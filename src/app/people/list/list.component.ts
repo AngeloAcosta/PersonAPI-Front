@@ -1,12 +1,20 @@
 import { EditComponent } from './../edit/edit.component';
 import { PeopleService } from './../shared/services/people.service';
-import { Component, OnInit, Inject , ViewChild, AfterViewInit} from '@angular/core';
-import { Person } from '../shared/components/person/person';
-import {MatDialog, MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
+import {
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import {
+  MatDialog,
+  MatPaginator,
+  MatTableDataSource,
+  MatSort
+} from '@angular/material';
 import { InspectComponent } from '../inspect/inspect.component';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import {merge,  of as observableOf} from 'rxjs';
-import {startWith, switchMap} from 'rxjs/operators';
+import { merge } from 'rxjs';
+import { startWith, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list',
@@ -14,8 +22,8 @@ import {startWith, switchMap} from 'rxjs/operators';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
   tableData: MatTableDataSource<any>;
   people;
   temporalData;
@@ -23,14 +31,15 @@ export class ListComponent implements OnInit {
   orderBy: number;
   orderType: number;
 
-  constructor(private peopleService: PeopleService,
-              public dialog: MatDialog,
-              overlayContainer: OverlayContainer) {
-              overlayContainer.getContainerElement().classList.add('mat-light-theme');
-              }
+  constructor(
+    private peopleService: PeopleService,
+    public dialog: MatDialog,
+    overlayContainer: OverlayContainer
+  ) {
+    overlayContainer.getContainerElement().classList.add('mat-light-theme');
+  }
 
   ngOnInit() {
-
     this.peopleService.getPeople().subscribe(people => {
       this.people = people.data;
       this.temporalData = people.data;
@@ -48,19 +57,30 @@ export class ListComponent implements OnInit {
           // tslint:disable-next-line: triple-equals
           if (this.sort.direction == 'asc') {
             this.orderType = 1;
-          } else { this.orderType = 2; }
+          } else {
+            this.orderType = 2;
+          }
           return this.peopleService.getPeopleSorted(
-            this.orderBy, this.orderType);
-        })).subscribe(person => this.loadTable(person.data));
+            this.orderBy,
+            this.orderType
+          );
+        })
+      )
+      .subscribe(person => this.loadTable(person.data));
   }
 
   onChange(value: string) {
     if (value !== '') {
       this.people = this.people.filter(
-        item => {
-            const fullname = item.name.toLowerCase() + ' ' + item.lastName.toLowerCase();
-            return fullname.indexOf(value.toLowerCase()) > -1;
-      });
+        (item: {
+          name: { toLowerCase: () => string };
+          lastName: { toLowerCase: () => string };
+        }) => {
+          const fullname =
+            item.name.toLowerCase() + ' ' + item.lastName.toLowerCase();
+          return fullname.indexOf(value.toLowerCase()) > -1;
+        }
+      );
       this.loadTable(this.people);
     } else {
       this.people = this.temporalData;
@@ -70,35 +90,29 @@ export class ListComponent implements OnInit {
 
   delete(person): void {
     if (confirm(`Are you sure to delete ${person.name} ?`)) {
-     this.peopleService.deletePerson(person).subscribe(resp => {
-      this.people = this.people.filter(t => t.id !== person.id);
-      this.loadTable(this.people);
-    });
+      this.peopleService.deletePerson(person).subscribe(resp => {
+        this.people = this.people.filter(t => t.id !== person.id);
+        this.loadTable(this.people);
+      });
     }
   }
   openEdit(person): void {
     const dialogRef = this.dialog.open(EditComponent, {
-    width: '585px',
-    height: '520px',
-    data: person
-  });
+      width: '585px',
+      height: '520px',
+      data: person
+    });
+  }
 
-}
+  loadTable(param) {
+    this.tableData = new MatTableDataSource(param);
+    this.tableData.paginator = this.paginator;
+    this.tableData.sort = this.sort;
+  }
 
-loadTable(param) {
-  this.tableData = new MatTableDataSource(param);
-  this.tableData.paginator = this.paginator;
-  this.tableData.sort = this.sort;
-}
-
-openInfo(row) {
+  openInfo(row) {
     const dialogRef = this.dialog.open(InspectComponent, {
-
-    data: row
-   });
+      data: row
+    });
+  }
 }
-
-}
-
-
-
