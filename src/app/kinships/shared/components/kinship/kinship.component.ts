@@ -1,3 +1,4 @@
+import { Person } from './../../../../people/shared/components/person/person';
 import { Component, OnInit } from '@angular/core';
 import { Kinship } from './kinship';
 
@@ -8,7 +9,7 @@ import { Kinship } from './kinship';
 })
 export class KinshipComponent implements OnInit {
 
-  constructor(kinship: Kinship) { }
+  constructor(kinship: Kinship, person: Person) { }
 
   ngOnInit() {
   }

@@ -58,7 +58,7 @@ export class ListComponent implements OnInit {
     if (value !== '') {
       this.people = this.people.filter(
         item => {
-            let fullname = item.name.toLowerCase() + ' ' + item.lastName.toLowerCase();
+            const fullname = item.name.toLowerCase() + ' ' + item.lastName.toLowerCase();
             return fullname.indexOf(value.toLowerCase()) > -1;
       });
       this.loadTable(this.people);

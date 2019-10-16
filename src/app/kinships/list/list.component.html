@@ -2,8 +2,7 @@
   <mat-form-field>
     <input
       class="search"
-      matInput
-      (keyup)="onChange($event.target.value)"
+      matInput (keyup)="onChange($event.target.value)"
       placeholder="Search"
     />
   </mat-form-field>
@@ -40,7 +39,7 @@
         (click)="orderTable()"
         disableClear
       >
-        Document
+        Document Titular
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
         {{ element.documentPerson }}
@@ -63,14 +62,14 @@
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="2">
+    <ng-container matColumnDef="5">
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
         (click)="orderTable()"
         disableClear
       >
-        Document
+        Document Relative
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
         {{ element.documentRelative }}

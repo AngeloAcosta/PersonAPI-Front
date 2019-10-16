@@ -18,7 +18,7 @@ export class KinshipsService {
   baseUrl: string = environment.baseUrl;
 
   getKinship(): Observable<any> {
-    return this.http.get<any[]>(`${this.baseUrl}`).pipe();
+    return this.http.get<any[]>(`${this.baseUrl}/kinships`).pipe();
   }
   getKinshipsSorted(order, type): Observable<any> {
     const url = this.baseUrl;

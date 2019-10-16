@@ -68,7 +68,7 @@ export class ListComponent implements OnInit {
         const fullname =
           item.namePerson.toLowerCase() +
           ' ' +
-          item.lasNamePerson.toLowerCase();
+          item.lasName.toLowerCase();
         return fullname.indexOf(value.toLocaleLowerCase()) > -1;
       });
       this.loadTable(this.kinships);
