@@ -1,0 +1,18 @@
+export class Person {
+  id?: number;
+  Name: string;
+  lastName: string;
+  birthdate: string;
+  documentTypeId: number;
+  document: string;
+  genderId: number;
+  countryId: number;
+  contactType1Id?: number;
+  contact1?: string;
+  contactType2Id?: number;
+  contact2?: string;
+}
+export class ApiPerson {
+  status: string;
+  data: Array<Person>;
+}

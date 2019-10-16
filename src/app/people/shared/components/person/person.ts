@@ -10,3 +10,6 @@ export class Person {
   email?: string;
   phoneNumber?: number;
 }
+
+
+
