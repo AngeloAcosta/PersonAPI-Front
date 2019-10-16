@@ -23,8 +23,8 @@ export class KinshipsService {
   getKinshipsSorted(order, type): Observable<any> {
     const url = this.baseUrl;
     let params = new HttpParams();
-    params = params.append('orderBy', order);
-    params = params.append('orderType', type);
+    params = params.append('_sort', order);
+    params = params.append('_value', type);
     return this.http.get<any[]>(`${url}`, {params}).pipe();
   }
 }

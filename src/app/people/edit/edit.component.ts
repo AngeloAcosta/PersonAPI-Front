@@ -1,17 +1,17 @@
-import { Component, OnInit, Inject } from "@angular/core";
+import { Component, OnInit, Inject } from '@angular/core';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
   MatFormFieldControl,
   MatFormField, MatDialog
-} from "@angular/material";
-import { FormBuilder, FormGroup } from "@angular/forms";
-import { Person } from "../shared/components/person/person";
+} from '@angular/material';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Person } from '../shared/components/person/person';
 
 @Component({
-  selector: "app-edit",
-  templateUrl: "./edit.component.html",
-  styleUrls: ["./edit.component.scss"]
+  selector: 'app-edit',
+  templateUrl: './edit.component.html',
+  styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
   id: number;
@@ -22,7 +22,7 @@ export class EditComponent implements OnInit {
 
   ngOnInit() {}
 
-  onNoClick(): void{
+  onNoClick(): void {
     this.dialogRef.close();
   }
 }

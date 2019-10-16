@@ -206,21 +206,43 @@
   "kinships": [
     {
       "id":"1",
-      "personId":"5",
-      "relativeId":"10",
-      "kinshipType":"B"
+      "namePerson":"Hardi",
+      "lastNamePerson":"Manrique",
+      "documentPerson": "76192501",
+      "kinshipType": "M",
+      "nameRelative": "Fanny",
+      "lastNameRelative": "Hurtado",
+      "documentRelative": "76192503"
     },
     {
       "id":"2",
-      "personId":"5",
-      "relativeId":"11",
-      "kinshipType":"M"
+      "namePerson":"Hardi",
+      "lastNamePerson":"Manrique",
+      "documentPerson": "76192501",
+      "kinshipType": "F",
+      "nameRelative": "Hardi",
+      "lastNameRelative": "Manrique",
+      "documentRelative": "76192502"
     },
     {
       "id":"3",
-      "personId":"5",
-      "relativeId":"12",
-      "kinshipType":"F"
+      "namePerson":"Hardi",
+      "lastNamePerson":"Manrique",
+      "documentPerson": "76192501",
+      "kinshipType": "B",
+      "nameRelative": "Gabriel",
+      "lastNameRelative": "Manrique",
+      "documentRelative": "76192504"
+    },
+    {
+      "id":"4",
+      "namePerson":"Camila",
+      "lastNamePerson":"Urquizo",
+      "documentPerson": "12345678",
+      "kinshipType": "B",
+      "nameRelative": "Carla",
+      "lastNameRelative": "Urquizo",
+      "documentRelative": "87654321"
     }
   ]
 }
