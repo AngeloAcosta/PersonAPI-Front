@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams , HttpHeaders} from '@angular/common/http';
-import {Person} from '../components/person/person';
 import { Observable, pipe, BehaviorSubject } from 'rxjs';
 import { environment } from './../../../../environments/environment';
+import { map } from 'rxjs/operators';
+import { Person, ApiPerson } from '../../create/person';
 
 
 const httpOptions = {
@@ -18,16 +19,23 @@ constructor(private http: HttpClient) { }
 
 baseUrl: string = environment.baseUrl;
 
-getPeople(): Observable<any>{
-  return this.http.get<any[]>(`${this.baseUrl}`).pipe();
+getPeople(): Observable<Person[]> {
+  return this.http.get<ApiPerson>(`${this.baseUrl}`).pipe(
+    map((res: ApiPerson) => {
+    return res.data;
+  }));
 }
 
-getPeopleSorted(order, type): Observable<any>{
+getPeopleSorted(order, type): Observable<Person[]> {
   const url = this.baseUrl;
   let params = new HttpParams();
   params = params.append('orderBy', order);
   params = params.append('orderType', type);
-  return this.http.get<any[]>(`${url}`,{params}).pipe();
+  return this.http.get<ApiPerson>(`${url}`, {params}).pipe(
+    map((res: ApiPerson) => {
+      return res.data;
+    })
+  );
 }
 
 editPerson(person: any, body: any): Observable<any> {
@@ -35,13 +43,15 @@ editPerson(person: any, body: any): Observable<any> {
   return this.http.put(url, body, httpOptions);
 }
 
-deletePerson(person: any){
+deletePerson(person: any) {
  const url = `${this.baseUrl}/${person.id}`;
  return this.http.delete(url, httpOptions);
 }
 
 addPerson(person: any) {
-  const url =`${this.baseUrl}`;
+  const url = `${this.baseUrl}`;
+  console.log(person);
+
   return this.http.post<Person>(this.baseUrl, person, httpOptions);
 }
 
