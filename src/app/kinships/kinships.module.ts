@@ -5,13 +5,15 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { ListComponent } from './list/list.component';
 import { CreateComponent } from './create/create.component';
+// import { InspectComponent } from './inspect.kinships/inspect.component';
 
 
 
 @NgModule({
   declarations: [
     ListComponent,
-    CreateComponent
+    CreateComponent,
+    // InspectComponent
   ],
   imports: [
     CommonModule,

@@ -9,6 +9,7 @@ import { EditComponent } from './edit/edit.component';
 import { PersonComponent } from './shared/components/person/person.component';
 import { MaterialModule } from '../shared/modules/material.module';
 import { InspectComponent } from './inspect/inspect.component';
+import { InspectKinshipsComponent } from './inspect.kinships/inspect.component';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -16,9 +17,10 @@ import { InspectComponent } from './inspect/inspect.component';
     PersonComponent,
     InspectComponent,
     EditComponent,
-    CreateComponent
+    CreateComponent,
+    InspectKinshipsComponent
   ],
   imports: [CommonModule, PeopleRoutingModule, MaterialModule],
-  entryComponents: [InspectComponent, EditComponent, CreateComponent]
+  entryComponents: [InspectComponent, EditComponent, CreateComponent, InspectKinshipsComponent]
 })
 export class PeopleModule {}

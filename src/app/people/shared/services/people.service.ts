@@ -48,4 +48,8 @@ export class PeopleService {
     const url = `${this.baseUrl}/${person.id}`;
     return this.http.get<Person>(url, httpOptions);
   }
+  getPersonKinships(person: Person) {
+    const url = `${this.baseUrl}/${person.id}/kinships`;
+    return this.http.get<any[]>(url, httpOptions);
+  }
 }
