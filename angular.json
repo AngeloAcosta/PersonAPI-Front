@@ -51,6 +51,14 @@
               "extractCss": true,
               "namedChunks": false,
               "aot": true,
+              "assets": [
+                "src/favicon.ico",
+                {
+                  "glob": "_redirects",
+                  "input": "src/assets/",
+                  "output": "/"
+                }
+              ],
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
