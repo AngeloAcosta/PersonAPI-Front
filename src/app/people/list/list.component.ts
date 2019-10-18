@@ -7,6 +7,7 @@ import { InspectComponent } from '../inspect/inspect.component';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import {merge,  of as observableOf} from 'rxjs';
 import {startWith, switchMap} from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list',
@@ -17,8 +18,8 @@ export class ListComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   tableData: MatTableDataSource<any>;
-  people;
-  person;
+  people: Array<any>;
+  person: object;
   temporalData;
   displayedColumns: string[] = ['1', '2', '3', '4', 'buttons'];
   orderBy: number;
@@ -70,17 +71,34 @@ export class ListComponent implements OnInit {
   }
 
   delete(person): void {
-    if (confirm(`Are you sure to delete ${person.name} ?`)) {
-     this.peopleService.deletePerson(person).subscribe(resp => {
-      this.people = this.people.filter(item => item.id !== person.id);
-      this.loadTable(this.people);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        this.peopleService.deletePerson(person).subscribe(resp => {
+          this.people = this.people.filter(item => item.id !== person.id);
+          this.loadTable(this.people);
+        });
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        );
+      }
     });
-    }
+
   }
   openEdit(person): void {
     const dialogRef = this.dialog.open(EditComponent, {
     width: '585px',
     height: '520px',
+    panelClass: 'custom-modalbox',
     data: person
  });
 
@@ -104,7 +122,7 @@ openInfo(row) {
     this.peopleService.getPerson(row).subscribe(person => {
     this.person = person;
     this.temporalData = person;
-    console.log(person);
+
     const dialogRef = this.dialog.open(InspectComponent, {
       data: person
      });
@@ -113,3 +131,6 @@ openInfo(row) {
 }
 
 }
+
+
+

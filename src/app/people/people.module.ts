@@ -11,6 +11,8 @@ import { EditComponent } from './edit/edit.component';
 import { PersonComponent } from './shared/components/person/person.component';
 import { MaterialModule } from '../shared/modules/material.module';
 import { InspectComponent } from './inspect/inspect.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpErrorInterceptor } from './shared/services/people.interceptor';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -30,5 +32,12 @@ import { InspectComponent } from './inspect/inspect.component';
     EditComponent,
     CreateComponent
   ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
+  ]
 })
 export class PeopleModule { }
