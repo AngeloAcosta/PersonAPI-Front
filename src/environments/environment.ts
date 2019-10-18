@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://personal-web-api.herokuapp.com/api/people'
+  baseUrl: 'https://personal-web-api.herokuapp.com/api',
 };
 
 /*

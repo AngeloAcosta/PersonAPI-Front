@@ -74,6 +74,7 @@
             *ngIf="this.user.get('birthdate').hasError('matDatepickerMax')"
             >Date should be inferior at actual</mat-error
           >
+          <mat-error>Wrong Data</mat-error>
         </mat-form-field>
 
         <br />
@@ -82,7 +83,7 @@
             <mat-label>Document</mat-label>
             <mat-select
               formControlName="documentTypeId"
-              (selectionChange)="toggleVisibility3($event)"
+              (selectionChange)="showInputDocument($event)"
               [(ngModel)] = "registro.documentTypeId"
 
             >
@@ -107,6 +108,7 @@
               [(ngModel)] = "registro.document"
               ng-required="user.contactType1Id==2"
             />
+
             <mat-error >
               Please enter a valid Document
             </mat-error>
@@ -169,7 +171,7 @@
             <mat-label>Contact</mat-label>
             <mat-select
               formControlName="contactType1Id"
-              (selectionChange)="toggleVisibility($event)"
+              (selectionChange)="showInputContact($event)"
               [(ngModel)] = "registro.contactType1Id"
             >
               <mat-option
@@ -220,7 +222,7 @@
             <mat-label>Contact</mat-label>
             <mat-select
               formControlName="contactType2Id"
-              (selectionChange)="toggleVisibility2($event)"
+              (selectionChange)="showInputSecondContact($event)"
               [(ngModel)] = "registro.contactType2Id"
             >
               <mat-option
@@ -267,5 +269,15 @@
         <button type="submit" [disabled]="user.invalid" class="btn btn-primary">Create user</button>
       </mat-card-actions>
     </form>
+    <div *ngIf="errors !== undefined" class="mt-2">
+      <div class="errorbox" *ngFor="let error of errors">
+        <p>{{error}}</p>
+      </div>
+    </div>
+    <div *ngIf="success !== undefined && success !== ''" class="mt-2">
+      <div class="successbox">
+        <p>{{success}}</p>
+      </div>
+    </div>
   </mat-card>
 </section>

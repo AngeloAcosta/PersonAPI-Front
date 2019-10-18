@@ -12,7 +12,12 @@ export class Person {
   contactType2Id?: number;
   contact2?: string;
 }
-export class ApiPerson {
+export class ApiPeople {
   status: string;
   data: Array<Person>;
+}
+
+export class ApiPerson {
+  status: string;
+  data: Person;
 }

@@ -1,0 +1,42 @@
+table{
+  width: 100%;
+}
+
+
+.header {
+padding: 5px;
+}
+
+.filter {
+display: block;
+}
+
+.icon{
+background:#8ad1f3;
+color: white;
+margin:2px;
+border-radius: 5px;
+}
+.delete{
+background: #fb7a7a;
+}
+
+mat-form-field{
+width: 70%;
+left: 0px;
+}
+
+mat-header-cell, mat-cell {
+justify-content:center;
+}
+
+.options{
+width: 25%;
+display: inline-flex;
+margin-left: 5%;
+}
+.buttons{
+margin-left: 6%;
+text-align: right;
+display: inline-block;
+}
