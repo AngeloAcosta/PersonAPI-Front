@@ -11,7 +11,7 @@
   <mat-table  [dataSource]="tableData" matSort  matSortDisableClear class="mat-elevation-z8">
 
     <ng-container matColumnDef="1">
-      <mat-header-cell *matHeaderCellDef (click)="orderTable()" mat-sort-header >Name</mat-header-cell>
+      <mat-header-cell id="titular" *matHeaderCellDef (click)="orderTable()" mat-sort-header>Name</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.name}} {{element.lastName}} </mat-cell>
     </ng-container>
 

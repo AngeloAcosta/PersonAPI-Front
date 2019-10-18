@@ -2,7 +2,6 @@ import { CreateComponent } from './../create/create.component';
 import { EditComponent } from './../edit/edit.component';
 import { PeopleService } from './../shared/services/people.service';
 import { Component, OnInit, Inject , ViewChild, AfterViewInit} from '@angular/core';
-import { Person } from '../shared/components/person/person';
 import {MatDialog, MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
 import { InspectComponent } from '../inspect/inspect.component';
 import { OverlayContainer } from '@angular/cdk/overlay';
@@ -19,6 +18,7 @@ export class ListComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   tableData: MatTableDataSource<any>;
   people;
+  person;
   temporalData;
   displayedColumns: string[] = ['1', '2', '3', '4', 'buttons'];
   orderBy: number;
@@ -36,6 +36,7 @@ export class ListComponent implements OnInit {
       this.people = people;
       this.temporalData = people;
       this.loadTable(this.people);
+      console.log(people);
     });
   }
 
@@ -45,7 +46,7 @@ export class ListComponent implements OnInit {
         startWith({}),
         switchMap(() => {
 
-          this.orderBy = parseInt(this.sort.active);
+          this.orderBy = Number(this.sort.active);
           if (this.sort.direction === 'asc') {
             this.orderType = 1;
           } else { this.orderType = 2; }
@@ -81,7 +82,7 @@ export class ListComponent implements OnInit {
     width: '585px',
     height: '520px',
     data: person
-  });
+ });
 
 }
 
@@ -99,13 +100,16 @@ loadTable(param) {
 }
 
 openInfo(row) {
-    const dialogRef = this.dialog.open(InspectComponent, {
 
-    data: row
+    this.peopleService.getPerson(row).subscribe(person => {
+    this.person = person;
+    this.temporalData = person;
+    console.log(person);
+    const dialogRef = this.dialog.open(InspectComponent, {
+      data: person
+     });
+
    });
 }
 
 }
-
-
-

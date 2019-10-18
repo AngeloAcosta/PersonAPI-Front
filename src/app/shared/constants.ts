@@ -27,3 +27,38 @@ export const Contact = [
   { id: 1, type: 'Cellphone' },
   { id: 2, type: 'Email' }
 ];
+
+export const kinshipOptions = [
+    {
+      type: 'Father',
+      value: 'F'
+    },
+    {
+      type: 'Mother',
+      value: 'M'
+    },
+    {
+      type: 'Siblings',
+      value: 'S'
+    },
+    {
+      type: 'Couple',
+      value: 'C'
+    },
+    {
+      type: 'Grandfather (From Mother side)',
+      value: 'GFM'
+    },
+    {
+      type: 'Grandmother (From Mother side)',
+      value: 'GMM'
+    },
+    {
+      type: 'Grandfather (From Father side)',
+      value: 'GFF'
+    },
+    {
+      type: 'Grandmother (From Father side)',
+      value: 'GMF'
+    }
+];
