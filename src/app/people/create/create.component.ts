@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 import { PeopleService } from './../shared/services/people.service';
-import {Person} from './person';
-import {DatePipe} from '@angular/common';
+import { Person } from './person';
+import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 
 import {
@@ -13,12 +13,9 @@ import {
   AbstractControl,
   ValidationErrors
 } from '@angular/forms';
-import {MatDialogRef} from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import Swal from 'sweetalert2';
-import { Country, Gender, Contact, Document } from './constans';
-
-
-
+import { Country, Gender, Contact, Document } from '../../shared/constants';
 
 @Component({
   selector: 'app-create',
@@ -26,19 +23,22 @@ import { Country, Gender, Contact, Document } from './constans';
   styleUrls: ['./create.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-
-
 export class CreateComponent implements OnInit {
-
-  constructor(private peopleService: PeopleService, public dialogRef: MatDialogRef<CreateComponent>, ) {}
+  constructor(
+    private peopleService: PeopleService,
+    public dialogRef: MatDialogRef<CreateComponent>
+  ) { }
   showEmail = true;
   showPhone = false;
   showEmail2 = true;
   showPhone2 = false;
   showDni = true;
   showPass = false;
+  required = false;
   registro: Person;
   dateFormat: DatePipe;
+  errors: string[] = [];
+  success: string;
 
   user: FormGroup;
   minDate = new Date(1900, 0, 1);
@@ -88,19 +88,18 @@ export class CreateComponent implements OnInit {
     });
   }
 
-  toggleVisibility(event) {
+  showInputContact(event) {
     const selectedValue = event.value;
     if (selectedValue === 1) {
       this.showEmail = false;
       this.showPhone = true;
-
     } else {
       this.showEmail = true;
       this.showPhone = false;
     }
   }
 
-  toggleVisibility2(event) {
+  showInputSecondContact(event) {
     const selectedValue = event.value;
     if (selectedValue === 1) {
       this.showEmail2 = false;
@@ -110,7 +109,7 @@ export class CreateComponent implements OnInit {
       this.showPhone2 = false;
     }
   }
-  toggleVisibility3(event) {
+  showInputDocument(event) {
     const selectedValue = event.value;
     if (selectedValue === 1) {
       this.showDni = true;
@@ -121,50 +120,69 @@ export class CreateComponent implements OnInit {
     }
   }
 
-
-
-getErrorMessage(param) {
+  getErrorMessage(param) {
     return this.user.get(param).hasError('required')
       ? 'You must enter a value'
       : this.user.get(param).hasError('pattern')
-      ? 'Please insert only letters'
-      : this.user.get(param).hasError('minlength')
-      ? `${param} must be greater than 2 characters`
-      : '';
+        ? 'Please insert only letters'
+        : this.user.get(param).hasError('minlength')
+          ? `${param} must be greater than 2 characters`
+          : '';
+  }
+  getEmptyError(param) {
+    if (this.required === true) {
+      return this.user.get(param).hasError('required')
+        ? 'You must enter a value'
+        : '';
+    }
   }
 
-
   public setContact() {
-
-    if (this.registro.contact1 === undefined && this.registro.contactType1Id === undefined) {
+    if (
+      this.registro.contact1 === undefined &&
+      this.registro.contactType1Id === undefined
+    ) {
       this.registro.contactType1Id = null;
       this.registro.contact1 = null;
     }
 
-    if (this.registro.contact2 === undefined && this.registro.contactType2Id === undefined) {
+    if (
+      this.registro.contact2 === undefined &&
+      this.registro.contactType2Id === undefined
+    ) {
       this.registro.contactType2Id = null;
       this.registro.contact2 = null;
     }
-
   }
 
-
-
   onSubmit(): void {
-
     this.setContact();
-    this.registro.birthdate = moment(this.registro.birthdate).format('YYYY-MM-DD');
-    console.log(this.registro);
+    this.registro.birthdate = moment(this.registro.birthdate).format(
+      'YYYY-MM-DD'
+    );
 
-    this.peopleService.addPerson(this.registro).subscribe(res => {
-      Swal.fire({
-        type: 'success',
-       title: 'Done',
-       text: ' Person was registered satisfactory',
+    this.peopleService.addPerson(this.registro).subscribe(
+      res => {
+        Swal.fire({
+          type: 'success',
+          title: 'Done',
+          text: ' Person was registered satisfactory'
+        });
 
-      });
-      console.log(res);
-      this.dialogRef.close();
-    });
+        this.dialogRef.close();
+      },
+      error => {
+        if (error.status === 500) {
+          this.errors = [];
+          Swal.fire({
+            type: 'error',
+            title: 'Register Denied',
+            text: ' This document ID is empty or alredy exits '
+          });
+        } else if (error.status === 500) {
+          this.errors = error.data;
+        }
+      }
+    );
   }
 }

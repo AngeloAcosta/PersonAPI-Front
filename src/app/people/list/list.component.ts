@@ -2,12 +2,12 @@ import { CreateComponent } from './../create/create.component';
 import { EditComponent } from './../edit/edit.component';
 import { PeopleService } from './../shared/services/people.service';
 import { Component, OnInit, Inject , ViewChild, AfterViewInit} from '@angular/core';
-import { Person } from '../shared/components/person/person';
 import {MatDialog, MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
 import { InspectComponent } from '../inspect/inspect.component';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import {merge,  of as observableOf} from 'rxjs';
 import {startWith, switchMap} from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list',
@@ -18,7 +18,8 @@ export class ListComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   tableData: MatTableDataSource<any>;
-  people;
+  people: Array<any>;
+  person: object;
   temporalData;
   displayedColumns: string[] = ['1', '2', '3', '4', 'buttons'];
   orderBy: number;
@@ -36,6 +37,7 @@ export class ListComponent implements OnInit {
       this.people = people;
       this.temporalData = people;
       this.loadTable(this.people);
+      console.log(people);
     });
   }
 
@@ -45,7 +47,7 @@ export class ListComponent implements OnInit {
         startWith({}),
         switchMap(() => {
 
-          this.orderBy = parseInt(this.sort.active);
+          this.orderBy = Number(this.sort.active);
           if (this.sort.direction === 'asc') {
             this.orderType = 1;
           } else { this.orderType = 2; }
@@ -69,19 +71,36 @@ export class ListComponent implements OnInit {
   }
 
   delete(person): void {
-    if (confirm(`Are you sure to delete ${person.name} ?`)) {
-     this.peopleService.deletePerson(person).subscribe(resp => {
-      this.people = this.people.filter(item => item.id !== person.id);
-      this.loadTable(this.people);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        this.peopleService.deletePerson(person).subscribe(resp => {
+          this.people = this.people.filter(item => item.id !== person.id);
+          this.loadTable(this.people);
+        });
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        );
+      }
     });
-    }
+
   }
   openEdit(person): void {
     const dialogRef = this.dialog.open(EditComponent, {
     width: '585px',
     height: '520px',
+    panelClass: 'custom-modalbox',
     data: person
-  });
+ });
 
 }
 
@@ -99,9 +118,15 @@ loadTable(param) {
 }
 
 openInfo(row) {
-    const dialogRef = this.dialog.open(InspectComponent, {
 
-    data: row
+    this.peopleService.getPerson(row).subscribe(person => {
+    this.person = person;
+    this.temporalData = person;
+
+    const dialogRef = this.dialog.open(InspectComponent, {
+      data: person
+     });
+
    });
 }
 
