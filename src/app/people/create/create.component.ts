@@ -15,7 +15,7 @@ import {
 } from '@angular/forms';
 import {MatDialogRef} from '@angular/material';
 import Swal from 'sweetalert2';
-import { Country, Gender, Contact, Document } from './constans';
+import { Country, Gender, Contact, Document } from '../../shared/constants';
 
 
 
