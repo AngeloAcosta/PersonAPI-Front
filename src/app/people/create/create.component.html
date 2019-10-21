@@ -106,11 +106,12 @@
               minlength="8"
               maxlength="8"
               [(ngModel)] = "registro.document"
-              ng-required="user.contactType1Id==2"
+              ng-required="user.documentTypeId==1"
             />
 
-            <mat-error >
-              Please enter a valid Document
+            <mat-error *ngIf="this.user.get('document').hasError">
+              {{getEmptyError('document')}}
+              You must enter 8 numbers
             </mat-error>
           </mat-form-field>
           <mat-form-field *ngIf="showPass" >
@@ -122,7 +123,7 @@
                 minlength="8"
                 maxlength="12"
                 [(ngModel)] = "registro.document"
-                ng-required="user.contactType1Id==2"
+                ng-required="user.documentTypeId==2"
               />
               <mat-error >
                 Please enter a valid Document
