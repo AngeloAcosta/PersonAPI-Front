@@ -136,6 +136,13 @@ export class CreateComponent implements OnInit {
       : '';
     
   }
+  getEmptyError(param) {
+    if (this.required === true) {
+      return this.user.get(param).hasError('required')
+        ? 'You must enter a value'
+        : '';
+    }
+  }
 
   public setContact() {
     if (
