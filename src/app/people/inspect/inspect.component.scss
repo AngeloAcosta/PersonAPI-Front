@@ -1,3 +1,16 @@
+*{
+  font-family: 'Raleway', sans-serif;
+}
+.title{
+ justify-content: space-between;
+ margin: 5px 15px 25px;
+
+}
+.title-back{
+ 
+  border-radius: 5px;
+  margin:5px;
+}
 .cont1 {
   display: grid;
   grid-auto-columns: repeat(3, 1fr);
@@ -6,7 +19,7 @@
 
 .but1 {
   grid-column: 1;
-
+  
 }
 
 .but2 {
@@ -34,7 +47,7 @@
 }
 
 .mat-list-it {
-  background-color: rgb(53, 185, 53);
+  background-color: #1ca93c;
   color: #fff;
 }
 

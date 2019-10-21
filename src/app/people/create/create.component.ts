@@ -130,11 +130,11 @@ export class CreateComponent implements OnInit {
           : '';
   }
   getEmptyError(param) {
-    if (this.required === true) {
-      return this.user.get(param).hasError('required')
+    
+      return this.user.get(param).hasError('minlenght')
         ? 'You must enter a value'
-        : '';
-    }
+      : '';
+    
   }
 
   public setContact() {
@@ -154,35 +154,58 @@ export class CreateComponent implements OnInit {
       this.registro.contact2 = null;
     }
   }
+  public verifyEmptyDocument(){
+    if (this.registro.document===undefined||this.registro.document===''){
+      return true;
+    }
+    return false;
+  }
 
   onSubmit(): void {
     this.setContact();
+    console.log(this.registro);
+    let verify = this.verifyEmptyDocument();
+    
     this.registro.birthdate = moment(this.registro.birthdate).format(
       'YYYY-MM-DD'
     );
-
-    this.peopleService.addPerson(this.registro).subscribe(
-      res => {
-        Swal.fire({
-          type: 'success',
-          title: 'Done',
-          text: ' Person was registered satisfactory'
-        });
-
-        this.dialogRef.close();
-      },
-      error => {
-        if (error.status === 500) {
-          this.errors = [];
-          Swal.fire({
-            type: 'error',
+    if (verify==true){
+      Swal.fire({
+        type: 'error',
             title: 'Register Denied',
             text: ' This document ID is empty or alredy exits '
+
+      });
+
+    }else{
+      this.peopleService.addPerson(this.registro).subscribe(
+        res => {
+          
+          Swal.fire({
+            type: 'success',
+            title: 'Done',
+            text: ' Person was registered satisfactory'
           });
-        } else if (error.status === 500) {
-          this.errors = error.data;
+         console.log(res);
+         
+          this.dialogRef.close();
+        },
+        error => {
+          if (error.status === 500) {
+            this.errors = [];
+            Swal.fire({
+              type: 'error',
+              title: 'Register Denied',
+              text: ' This document ID is empty or alredy exits '
+            });
+          } else if (error.status === 500) {
+            this.errors = error.data;
+          }
         }
-      }
-    );
+      );
+
+    }
+
+    
   }
 }
