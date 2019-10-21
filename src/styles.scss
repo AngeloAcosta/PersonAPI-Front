@@ -1,8 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @font-face{font-family: Comfortaa; src: url('./fonts/Comfortaa-Regular.ttf')}
 body{
-  font-family: Comfortaa;
+  
   background-color: #C0DFED;
+}
+*{
+  font-family: 'Raleway', sans-serif;
 }
 
 @import '~@angular/material/theming';
