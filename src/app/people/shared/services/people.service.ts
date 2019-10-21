@@ -47,7 +47,7 @@ export class PeopleService {
   }
 
   deletePerson(person: any) {
-    const url = `${this.baseUrl}/${person.id}`;
+    const url = `${this.baseUrl}/people/${person.id}`;
     return this.http.delete(url, httpOptions);
   }
 
