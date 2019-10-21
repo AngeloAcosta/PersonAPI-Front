@@ -130,15 +130,8 @@ export class CreateComponent implements OnInit {
           : '';
   }
   getEmptyError(param) {
-    
-      return this.user.get(param).hasError('minlenght')
-        ? 'You must enter a value'
-      : '';
-    
-  }
-  getEmptyError(param) {
     if (this.required === true) {
-      return this.user.get(param).hasError('required')
+      return this.user.get(param).hasError('minlenght')
         ? 'You must enter a value'
         : '';
     }
@@ -172,7 +165,7 @@ export class CreateComponent implements OnInit {
     this.setContact();
     console.log(this.registro);
     let verify = this.verifyEmptyDocument();
-    
+
     this.registro.birthdate = moment(this.registro.birthdate).format(
       'YYYY-MM-DD'
     );
@@ -187,14 +180,14 @@ export class CreateComponent implements OnInit {
     }else{
       this.peopleService.addPerson(this.registro).subscribe(
         res => {
-          
+
           Swal.fire({
             type: 'success',
             title: 'Done',
             text: ' Person was registered satisfactory'
           });
          console.log(res);
-         
+
           this.dialogRef.close();
         },
         error => {
@@ -213,6 +206,6 @@ export class CreateComponent implements OnInit {
 
     }
 
-    
+
   }
 }
