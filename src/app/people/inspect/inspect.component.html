@@ -87,7 +87,13 @@
   </main>
   <footer>
     <mat-dialog-actions class="cont1">
-      <button mat-raised-button [color]="'list-it'" (click)="openKinship(data)" class="but1">
+      <button
+        mat-raised-button
+        mat-dialog-close
+        [color]="'list-it'"
+        (click)="openKinship(data)"
+        class="but1"
+      >
         List Kinships
       </button>
       <button

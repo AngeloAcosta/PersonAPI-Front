@@ -48,8 +48,53 @@ export class PeopleService {
     const url = `${this.baseUrl}/${person.id}`;
     return this.http.get<Person>(url, httpOptions);
   }
-  getPersonKinships(person: Person) {
+  getPersonKinships(person: Person): Observable<any[]> {
     const url = `${this.baseUrl}/${person.id}/kinships`;
-    return this.http.get<any[]>(url, httpOptions);
+    const kinships = [
+      {
+        id:"1",
+        namePerson:"Hardi",
+        lastNamePerson:"Manrique",
+        documentPerson: "76192501",
+        kinshipType: "Mother",
+        nameRelative: "Fanny",
+        lastNameRelative: "Hurtado",
+        documentRelative: "76192503"
+      },
+      {
+        id:"2",
+        namePerson:"Hardi",
+        lastNamePerson:"Manrique",
+        documentPerson: "76192501",
+        kinshipType: "Father",
+        nameRelative: "Hardi",
+        lastNameRelative: "Manrique",
+        documentRelative: "76192502"
+      },
+      {
+        id:"3",
+        namePerson:"Hardi",
+        lastNamePerson:"Manrique",
+        documentPerson: "76192501",
+        kinshipType: "Brother",
+        nameRelative: "Gabriel",
+        lastNameRelative: "Manrique",
+        documentRelative: "76192504"
+      },
+      // {
+      //   id:"4",
+      //   namePerson:"Camila",
+      //   lastNamePerson:"Urquizo",
+      //   documentPerson: "12345678",
+      //   kinshipType: "Sister",
+      //   nameRelative: "Carla",
+      //   lastNameRelative: "Urquizo",
+      //   documentRelative: "87654321"
+      // }
+    ]
+    //return this.http.get<any[]>(url, httpOptions);
+    return new Observable(o =>{
+      o.next(kinships);
+    });
   }
 }

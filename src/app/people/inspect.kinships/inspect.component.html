@@ -1,3 +1,25 @@
+<style>
+
+  .kinshipTable{
+    width: 100%;
+    padding: 8px;
+  }
+  .kinshipTable  td{
+    border: 1px solid black;
+    padding: 8px;
+  }
+  .kinshipTable>td {
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .kinshipTable>.ksTitle{
+    padding: 12px 10px 12px 8px;
+    background-color: #c0dfed;
+    text-align: left;
+  }
+  .kinshipTable tr:hover {background-color: #ddd;}
+</style>
+
 <section class="mat-typography container p-2">
     <div class="row justify-content-between">
       <h4 style="display:inline-block" class="mat-display-2" mat-dialog-title>
@@ -15,93 +37,53 @@
 
     <main>
       <mat-dialog-content class="">
-        <p>
-          <label class="attributes">Nombre: </label
-          ><label for="name">{{ data.name }}</label>
-        </p>
-        <p>
-          <label class="attributes">Last Name: </label
-          ><label for="name">{{ data.lastName }}</label>
-        </p>
-        <p>
-          <label class="attributes">Date of birth: </label
-          ><label for="birth">{{ data.birthdate }}</label>
-        </p>
-        <p class="justify-content-between">
-          <span>
-            <label class="attributes">Document ID: </label
-            ><label for="id">{{ data.document }}</label>
-          </span>
-          <span class="elem2">
-            <label class="attributes">Type: </label
-            ><label for="type">{{ data.documentType }}</label>
-          </span>
-        </p>
-        <p>
-          <label class="attributes">Gender: </label
-          ><label for="gender">{{ data.gender }}</label>
-        </p>
-        <p>
-          <label class="attributes">Country: </label
-          ><label for="country">{{ data.country }}</label>
-        </p>
-        <p>
-          <label class="attributes">Contact</label>
-        </p>
-
-        <div
-          *ngIf="data.contactType1 == 'Teléfono'; then thenBlock; else elseBlock"
-        ></div>
-        <ng-template #thenBlock>
           <p>
-            <label class="space attributes2">Phone Number:</label>
-            <label class="space">{{ data.contact1 }}</label>
+            <label class="attributes">Name : </label
+            ><label for="name"> {{ data[0].namePerson }} {{ data[0].lastNamePerson }}</label>
           </p>
-        </ng-template>
-        <ng-template #elseBlock>
           <p>
-            <label class="space attributes2">Email:</label>
-            <label class="space">{{ data.contact1 }}</label>
+            <label class="attributes"> Document : </label>
+            <label for="documentType"> {{ data[0].documentPerson }} </label>
           </p>
-        </ng-template>
-        <div
-          *ngIf="
-            data.contactType2 == 'Teléfono';
-            then then1Block;
-            else else1Block
-          "
-        ></div>
-        <ng-template #then1Block>
-          <p>
-            <label class="space attributes2">Phone Number:</label>
-            <label class="space">{{ data.contact2 }}</label>
-          </p>
-        </ng-template>
-        <ng-template #else1Block>
-          <p>
-            <label class="space attributes2">Email:</label>
-            <label class="space">{{ data.contact2 }}</label>
-          </p>
-        </ng-template>
+        <!-- <div *ngFor="let item of data">
+            <p>
+              <label class="attributes"> <strong>  Person Relative : </strong> </label>
+              <label for="id"> &nbsp;&nbsp;{{ item.nameRelative }} {{ item.lastNameRelative }} </label>
+            </p>
+            <p>
+              <label class="attributes"> <strong> Document Relative : </strong> </label>
+              <label for="documentType"> &nbsp;&nbsp; {{ item.documentRelative }}</label>
+            </p>
+            <p>
+              <label for="attributes"><strong> Kinship Type : </strong> </label>
+              <label for=""> &nbsp;&nbsp; {{ item.kinshipType }} </label>
+            </p>
+          </div> -->
+          <table class="kinshipTable">
+            <td class="ksTitle">Name Relative</td>
+            <td class="ksTitle">Documents Relative</td>
+            <td class="ksTitle">Kinship Type</td>
+            <tr *ngFor="let doc of data">
+              <td> {{ doc.nameRelative }} </td>
+              <td> {{ doc.documentRelative }} </td>
+              <td> {{ doc.kinshipType }} </td>
+              <td> <button disabled="disabled"> Delete</button> <button type="submit"> Edit </button></td>
+            </tr>
+          </table>
+            <!-- {{item.namePerson}} -->
       </mat-dialog-content>
     </main>
     <footer>
-      <mat-dialog-actions class="cont1">
-        <button mat-raised-button [color]="'list-it'" class="but1">
-          List Kinships
-        </button>
+      <!-- <mat-dialog-actions class="cont1">
+        <button mat-raised-button mat-dialog-close color="warn" class="but3">Delete</button>
         <button
-          mat-raised-button
-          mat-dialog-close
-          (click)="openEdit(data)"
-          [color]="'edit-it'"
-          class="but2"
-        >
-          Edit
+        mat-raised-button
+        mat-dialog-close
+        [color]="'edit-it'"
+        class="but2">
+        Edit
         </button>
-        <button mat-raised-button mat-dialog-close color="warn" class="but3">
-          Delete
-        </button>
-      </mat-dialog-actions>
+        <button mat-raised-button [color]="'list-it'" class="but1"> Back </button>
+      </mat-dialog-actions> -->
     </footer>
   </section>

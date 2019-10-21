@@ -17,7 +17,8 @@ export class InspectKinshipsComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.peopleService.getPersonKinships(this.data).subscribe(kinship => {
+    this.peopleService.getPersonKinships(this.data).subscribe(kinships => {
+      this.data = kinships;
       // this.kinship = kinship.data;
       // this.temporalData = people.data;
       // this.loadTable(this.people);

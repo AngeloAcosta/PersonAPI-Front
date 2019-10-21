@@ -26,7 +26,7 @@ export class InspectComponent implements OnInit {
     });
   }
   openKinship(person): void {
-    const dialogRef = this.dialog.open(InspectKinshipsComponent,{
+    const dialogRef = this.dialog.open(InspectKinshipsComponent, {
       data: person
     });
   }
