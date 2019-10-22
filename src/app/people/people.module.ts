@@ -1,5 +1,3 @@
-
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -21,17 +19,9 @@ import { HttpErrorInterceptor } from './shared/services/people.interceptor';
     InspectComponent,
     EditComponent,
     CreateComponent
-    ],
-  imports: [
-    CommonModule,
-    PeopleRoutingModule,
-    MaterialModule,
   ],
-  entryComponents: [
-    InspectComponent,
-    EditComponent,
-    CreateComponent
-  ],
+  imports: [CommonModule, PeopleRoutingModule, MaterialModule],
+  entryComponents: [InspectComponent, EditComponent, CreateComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -40,4 +30,4 @@ import { HttpErrorInterceptor } from './shared/services/people.interceptor';
     }
   ]
 })
-export class PeopleModule { }
+export class PeopleModule {}

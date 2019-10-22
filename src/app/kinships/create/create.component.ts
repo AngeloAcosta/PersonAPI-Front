@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Person } from 'src/app/people/shared/components/person/person';
+import { Person } from 'src/app/models/person.model';
 import { PeopleService } from 'src/app/people/shared/services/people.service';
 import { KinshipsService } from 'src/app/kinships/shared/service/kinships.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
