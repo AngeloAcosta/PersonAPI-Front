@@ -37,7 +37,6 @@ export class ListComponent implements OnInit {
       this.people = people;
       this.temporalData = people;
       this.loadTable(this.people);
-      console.log(people);
     });
   }
 
