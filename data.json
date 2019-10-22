@@ -203,12 +203,38 @@
       "country": "Spain"
     }
   ],
-  "kinship": [
+  "kinships": [
     {
       "id":"1",
-      "personId":"5",
-      "relativeId":"10",
-      "kinshipType":"B"
+      "namePerson":"Hardi",
+      "lastNamePerson":"Manrique",
+      "kinshipType": "Mother",
+      "nameRelative": "Fanny",
+      "lastNameRelative": "Hurtado"
+    },
+    {
+      "id":"2",
+      "namePerson":"Hardi",
+      "lastNamePerson":"Manrique",
+      "kinshipType": "Father",
+      "nameRelative": "Hardi",
+      "lastNameRelative": "Manrique"
+    },
+    {
+      "id":"3",
+      "namePerson":"Hardi",
+      "lastNamePerson":"Manrique",
+      "kinshipType": "Brother",
+      "nameRelative": "Gabriel",
+      "lastNameRelative": "Manrique"
+    },
+    {
+      "id":"4",
+      "namePerson":"Camila",
+      "lastNamePerson":"Urquizo",
+      "kinshipType": "Sister",
+      "nameRelative": "Carla",
+      "lastNameRelative": "Urquizo"
     }
   ]
 }
