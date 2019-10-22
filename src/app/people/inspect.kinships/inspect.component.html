@@ -36,7 +36,38 @@
     </div>
 
     <main>
-      <mat-dialog-content class="">
+
+        <mat-table  [dataSource]="tableData" matSort  matSortDisableClear class="mat-elevation-z8">
+
+            <ng-container matColumnDef="1">
+              <mat-header-cell id="titular"  *matHeaderCellDef (click)="orderTable()" mat-sort-header>Relative Name
+              </mat-header-cell>
+              <mat-cell class="colum-name" *matCellDef="let element"> {{element.nameRelative}} {{element.lastName}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="2">
+              <mat-header-cell *matHeaderCellDef mat-sort-header (click)="orderTable()" disableClear> Relative Document </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.documentRelative}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="3" class="colum-country">
+              <mat-header-cell class="colum-country" *matHeaderCellDef (click)="orderTable()" mat-sort-header> Kinship Type </mat-header-cell>
+              <mat-cell class="colum-country" *matCellDef="let element"> {{element.kinshipType}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="buttons">
+                <mat-header-cell *matHeaderCellDef > Action </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                 <mat-icon  matTooltip="Info about the Person" class="icon" >info</mat-icon>
+                  <mat-icon matTooltip="Edit Person" class="icon" >edit</mat-icon>
+                  <mat-icon matTooltip="Delete Person" class="icon delete">delete_forever</mat-icon>
+                </mat-cell>
+             </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+
+      <!-- <mat-dialog-content class="">
           <p>
             <label class="attributes">Name : </label
             ><label for="name"> {{ data[0].namePerson }} {{ data[0].lastNamePerson }}</label>
@@ -45,7 +76,7 @@
             <label class="attributes"> Document : </label>
             <label for="documentType"> {{ data[0].documentPerson }} </label>
           </p>
-        <!-- <div *ngFor="let item of data">
+        <div *ngFor="let item of data">
             <p>
               <label class="attributes"> <strong>  Person Relative : </strong> </label>
               <label for="id"> &nbsp;&nbsp;{{ item.nameRelative }} {{ item.lastNameRelative }} </label>
@@ -58,7 +89,7 @@
               <label for="attributes"><strong> Kinship Type : </strong> </label>
               <label for=""> &nbsp;&nbsp; {{ item.kinshipType }} </label>
             </p>
-          </div> -->
+          </div>
           <table class="kinshipTable">
             <td class="ksTitle">Name Relative</td>
             <td class="ksTitle">Documents Relative</td>
@@ -70,9 +101,10 @@
               <td> <button disabled="disabled"> Delete</button> <button type="submit"> Edit </button></td>
             </tr>
           </table>
-            <!-- {{item.namePerson}} -->
-      </mat-dialog-content>
+            {{item.namePerson}}
+      </mat-dialog-content> -->
     </main>
+
     <footer>
       <!-- <mat-dialog-actions class="cont1">
         <button mat-raised-button mat-dialog-close color="warn" class="but3">Delete</button>
