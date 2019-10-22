@@ -1,32 +1,98 @@
-<section class="container p-4">
+<section class="container p-2">
   <div fxLayout="row" fxLayoutAlign="center center">
-    <p class="mat-display-1">Create Kinship</p>
+    <p class="mat-display-1 mb-4">Create Kinship</p>
   </div>
 
-  <div id ="divForm">
-    <div class="px-2">
+  <div id="divForm">
+    <div class="px-2 py-2">
       <mat-card>
         <mat-card-subtitle>Person</mat-card-subtitle>
+        <mat-card-content>
+          <mat-form-field>
+            <input matInput placeholder="Search Person" [matAutocomplete]="firstAutocomplete"
+              [formControl]="firstSearchInputControl">
+            <mat-autocomplete #firstAutocomplete="matAutocomplete">
+              <mat-option *ngFor="let person of firstFilteredPeople | async" [value]="person.document"
+                (click)="SetInfoFirstPerson(person.id)">
+                <span>{{person.name + ' ' + person.lastName}}</span> |
+                <small>{{person.document}}</small>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <div *ngIf="firstPerson">
+            <p>
+              <label class="attributes">Name: </label><label>{{ firstPerson.name + ' ' + firstPerson.lastName }}</label>
+            </p>
+            <p>
+              <label class="attributes">Birthdate: </label><label>{{ firstPerson.birth }}</label>
+            </p>
+            <p>
+              <label class="attributes">Gender: </label><label>{{ firstPerson.gender }}</label>
+            </p>
+            <p>
+              <label class="attributes">Country: </label><label>{{ firstPerson.country }}</label>
+            </p>
+          </div>
+        </mat-card-content>
       </mat-card>
     </div>
-    <div class="px-2">
+    <div class="px-2 py-2">
       <mat-card>
         <mat-card-subtitle>Relative</mat-card-subtitle>
+        <mat-card-content>
+          <mat-form-field>
+            <input matInput placeholder="Search Relative" [matAutocomplete]="secondAutocomplete"
+              [formControl]="secondSearchInputControl">
+            <mat-autocomplete #secondAutocomplete="matAutocomplete">
+              <mat-option *ngFor="let person of secondFilteredPeople | async" [value]="person.document"
+                (click)="SetInfoSecondPerson(person.id)">
+                <span>{{person.name + ' ' + person.lastName}}</span> |
+                <small>{{person.document}}</small>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <div *ngIf="secondPerson">
+            <p>
+              <label class="attributes">Name:
+              </label><label>{{ secondPerson.name + ' ' + secondPerson.lastName }}</label>
+            </p>
+            <p>
+              <label class="attributes">Birthdate: </label><label>{{ secondPerson.birth }}</label>
+            </p>
+            <p>
+              <label class="attributes">Gender: </label><label>{{ secondPerson.gender }}</label>
+            </p>
+            <p>
+              <label class="attributes">Country: </label><label>{{ secondPerson.country }}</label>
+            </p>
+          </div>
+        </mat-card-content>
       </mat-card>
     </div>
-    <div>
-      <mat-form-field
-       class="large-input">
-        <mat-label>Kinship</mat-label>
-        <mat-select>
-          <mat-option value="Father">Father</mat-option>
-          <mat-option value="Mother">Mother</mat-option>
-          <mat-option value="Brother">Brother</mat-option>
-          <mat-option value="Spouse">Spouse</mat-option>
-          <mat-option value="Grandparent">Grandparent</mat-option>
-          <mat-option value="Grandchild">Grandchild</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <div class="px-2 py-2">
+      <mat-card>
+        <mat-card-content>
+          <form [formGroup]="createKinshipForm" (ngSubmit)="onSubmit()">
+            <mat-form-field>
+              <mat-select placeholder="Kinship" formControlName="kinship">
+                <mat-option *ngFor="let relation of relations" [value]="relation.value">{{ relation.type }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="submit" class="mx-4">Submit</button>
+          </form>
+          <div *ngIf="errors !== undefined" class="mt-2">
+            <div class="errorbox" *ngFor="let error of errors">
+              <p>{{error}}</p>
+            </div>
+          </div>
+          <div *ngIf="success !== undefined && success !== ''" class="mt-2">
+            <div class="successbox">
+              <p>{{success}}</p>
+            </div>
+          </div>
+
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
 

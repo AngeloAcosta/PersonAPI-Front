@@ -1,11 +1,6 @@
 <section id="post" class="container p-4">
   <mat-form-field>
-    <input
-      class="search"
-      matInput
-      (keyup)="onChange($event.target.value)"
-      placeholder="Search"
-    />
+    <input class="search" matInput (keyup)="onChange($event.target.value)" placeholder="Search" />
   </mat-form-field>
   <div class="options">
     <button class="buttons" style="align-content: flex-end">
@@ -13,37 +8,18 @@
     </button>
   </div>
 
-  <mat-paginator
-    [pageSizeOptions]="[10, 15, 20, 25]"
-    showFirstLastButtons
-  ></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[10, 15, 20, 25]" showFirstLastButtons></mat-paginator>
 
-  <mat-table
-    [dataSource]="tableData"
-    matSort
-    matSortDisableClear
-    class="mat-elevation-z8"
-  >
-    <ng-container matColumnDef="namePerson">
-      <mat-header-cell
-        id="titular"
-        *matHeaderCellDef
-        (click)="orderTable()"
-        mat-sort-header
-        >Titular</mat-header-cell
-      >
+  <mat-table [dataSource]="tableData" matSort matSortDisableClear class="mat-elevation-z8">
+    <ng-container matColumnDef="1">
+      <mat-header-cell *matHeaderCellDef (click)="orderTable()" mat-sort-header>Titular</mat-header-cell>
       <mat-cell *matCellDef="let element">
         {{ element.namePerson }} {{ element.lastNamePerson }}
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="documentPerson">
-      <mat-header-cell
-        *matHeaderCellDef
-        mat-sort-header
-        (click)="orderTable()"
-        disableClear
-      >
+    <ng-container matColumnDef="2">
+      <mat-header-cell *matHeaderCellDef mat-sort-header (click)="orderTable()" disableClear>
         Document
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
@@ -51,34 +27,24 @@
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="kinshipType">
-      <mat-header-cell
-        *matHeaderCellDef
-        mat-sort-header
-        (click)="orderTable()"
-        disableClear
-      >
+    <ng-container matColumnDef="3">
+      <mat-header-cell *matHeaderCellDef (click)="orderTable()" mat-sort-header>
         Kinship Type
       </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{ element.kinshipType }} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="nameRelative">
+    <ng-container matColumnDef="4">
       <mat-header-cell *matHeaderCellDef (click)="orderTable()" mat-sort-header>
         Relative
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        {{ element.nameRelative }} {{ element.lastNamePerson }}
+        {{ element.nameRelative }} {{ element.lastNameRelative }}
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="documentRelative">
-      <mat-header-cell
-        *matHeaderCellDef
-        mat-sort-header
-        (click)="orderTable()"
-        disableClear
-      >
+    <ng-container matColumnDef="2">
+      <mat-header-cell *matHeaderCellDef mat-sort-header (click)="orderTable()" disableClear>
         Document
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
@@ -89,8 +55,8 @@
     <ng-container matColumnDef="buttons">
       <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <!-- <mat-icon matTooltip="Edit Person" class="icon" (click)="openEdit(element)">edit</mat-icon>
-            <mat-icon matTooltip="Delete Person" class="icon delete" (click)="delete(element)">delete_forever</mat-icon>-->
+        <mat-icon matTooltip="Edit Person" class="icon">edit</mat-icon>
+        <mat-icon matTooltip="Delete Person" class="icon delete">delete_forever</mat-icon>
       </mat-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

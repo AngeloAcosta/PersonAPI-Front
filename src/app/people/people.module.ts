@@ -10,6 +10,8 @@ import { PersonComponent } from './shared/components/person/person.component';
 import { MaterialModule } from '../shared/modules/material.module';
 import { InspectComponent } from './inspect/inspect.component';
 import { InspectKinshipsComponent } from './inspect.kinships/inspect.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpErrorInterceptor } from './shared/services/people.interceptor';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -21,6 +23,13 @@ import { InspectKinshipsComponent } from './inspect.kinships/inspect.component';
     InspectKinshipsComponent
   ],
   imports: [CommonModule, PeopleRoutingModule, MaterialModule],
-  entryComponents: [InspectComponent, EditComponent, CreateComponent, InspectKinshipsComponent]
+  entryComponents: [InspectComponent, EditComponent, CreateComponent, InspectKinshipsComponent],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
+  ]
 })
 export class PeopleModule {}

@@ -6,7 +6,11 @@ import { MatCardModule } from '@angular/material/card';
 import { ListComponent } from './list/list.component';
 import { CreateComponent } from './create/create.component';
 // import { InspectComponent } from './inspect.kinships/inspect.component';
-
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { KinshipComponent } from './shared/components/kinship/kinship.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpErrorInterceptor } from './shared/service/kinships.interceptor';
 
 
 @NgModule({
@@ -14,14 +18,24 @@ import { CreateComponent } from './create/create.component';
     ListComponent,
     CreateComponent,
     // InspectComponent
+    KinshipComponent
   ],
   imports: [
     CommonModule,
     KinshipsRoutingModule,
     MaterialModule,
-    MatCardModule
+    MatCardModule,
+    MatFormFieldModule,
+    MatAutocompleteModule
   ],
   entryComponents: [
   ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
+  ]
 })
 export class KinshipsModule { }

@@ -1,6 +1,6 @@
 <section class="mat-typography container p-2">
-  <div class="row justify-content-between">
-    <h4 style="display:inline-block" class="mat-display-2" mat-dialog-title>
+  <div class="row justify-content-between title-back">
+    <h4  class="mat-display-2 title" mat-dialog-title>
       Person Details
     </h4>
 
@@ -9,7 +9,7 @@
       mat-dialog-close
       aria-label="Example icon-button with a heart icon"
     >
-      <mat-icon>close</mat-icon>
+      <mat-icon>x</mat-icon>
     </button>
   </div>
 
@@ -49,51 +49,19 @@
         <label class="attributes">Contact</label>
       </p>
 
-      <div
-        *ngIf="data.contactType1 == 'Teléfono'; then thenBlock; else elseBlock"
-      ></div>
-      <ng-template #thenBlock>
-        <p>
-          <label class="space attributes2">Phone Number:</label>
-          <label class="space">{{ data.contact1 }}</label>
-        </p>
-      </ng-template>
-      <ng-template #elseBlock>
-        <p>
-          <label class="space attributes2">Email:</label>
-          <label class="space">{{ data.contact1 }}</label>
-        </p>
-      </ng-template>
-      <div
-        *ngIf="
-          data.contactType2 == 'Teléfono';
-          then then1Block;
-          else else1Block
-        "
-      ></div>
-      <ng-template #then1Block>
-        <p>
-          <label class="space attributes2">Phone Number:</label>
+      <p>
+        <label class="space attributes2">{{ data.contactType1 }}:</label>
+        <label class="space">{{ data.contact1 }}</label>
+      </p>
+      <p>
+          <label class="space attributes2">{{ data.contactType2 }}:</label>
           <label class="space">{{ data.contact2 }}</label>
         </p>
-      </ng-template>
-      <ng-template #else1Block>
-        <p>
-          <label class="space attributes2">Email:</label>
-          <label class="space">{{ data.contact2 }}</label>
-        </p>
-      </ng-template>
     </mat-dialog-content>
   </main>
   <footer>
     <mat-dialog-actions class="cont1">
-      <button
-        mat-raised-button
-        mat-dialog-close
-        [color]="'list-it'"
-        (click)="openKinship(data)"
-        class="but1"
-      >
+      <button mat-raised-button (click)="openKinship(data)" [color]="'list-it'" class="but1">
         List Kinships
       </button>
       <button
@@ -105,7 +73,7 @@
       >
         Edit
       </button>
-      <button mat-raised-button mat-dialog-close color="warn" class="but3">
+      <button mat-raised-button mat-dialog-close color="warn" (click)="delete(data)" class="but3">
         Delete
       </button>
     </mat-dialog-actions>

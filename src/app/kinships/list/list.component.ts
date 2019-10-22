@@ -21,16 +21,9 @@ export class ListComponent implements OnInit {
   tableData: MatTableDataSource<any>;
   kinships;
   temporalData;
-  displayedColumns: string[] = [
-    'namePerson',
-    'documentPerson',
-    'kinshipType',
-    'nameRelative',
-    'documentRelative',
-    'buttons'
-  ];
-  orderBy: string;
-  orderType: any;
+  displayedColumns: string[] = ['1', '2', '3', '4', '5', 'buttons'];
+  orderBy: number;
+  orderType: number;
 
   constructor(
     private kinshipsService: KinshipsService,
@@ -42,8 +35,8 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     this.kinshipsService.getKinship().subscribe(kinships => {
-      this.kinships = kinships;
-      this.temporalData = kinships;
+      this.kinships = kinships.data;
+      this.temporalData = kinships.data;
       this.loadTable(this.kinships);
     });
   }
@@ -53,36 +46,30 @@ export class ListComponent implements OnInit {
       .pipe(
         startWith({}),
         switchMap(() => {
-          // tslint:disable-next-line: radix
-          this.orderBy = this.sort.active;
-          /*if (this.sort.direction === 'asc') {
+          this.orderBy = parseInt(this.sort.active, 10);
+          if (this.sort.direction === 'asc') {
             this.orderType = 1;
           } else {
             this.orderType = 2;
-          }*/
+          }
           return this.kinshipsService.getKinshipsSorted(
             this.orderBy,
             this.orderType
           );
         })
       )
-      .subscribe(kinship => this.loadTable(kinship)); // Agregar.data cuando se lo ponga en la API
+      .subscribe(kinship => this.loadTable(kinship.data));
   }
 
   onChange(value: string) {
     if (value !== '') {
-      this.kinships = this.kinships.filter(
-        (item: {
-          namePerson: { toLowerCase: () => string };
-          lastNamePerson: { toLowerCase: () => string };
-        }) => {
-          const fullname =
-            item.namePerson.toLowerCase() +
-            ' ' +
-            item.lastNamePerson.toLowerCase();
-          return fullname.indexOf(value.toLocaleLowerCase()) > -1;
-        }
-      );
+      this.kinships = this.kinships.filter(item => {
+        const fullname =
+          item.namePerson.toLowerCase() +
+          ' ' +
+          item.lasNamePerson.toLowerCase();
+        return fullname.indexOf(value.toLocaleLowerCase()) > -1;
+      });
       this.loadTable(this.kinships);
     } else {
       this.kinships = this.temporalData;
