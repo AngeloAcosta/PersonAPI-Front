@@ -49,7 +49,6 @@ export class PeopleService {
 
   addPerson(person: any) {
     const url = `${this.peopleUrl}`;
-    console.log(person);
 
     return this.http.post<Person>(url, person, httpOptions);
   }
