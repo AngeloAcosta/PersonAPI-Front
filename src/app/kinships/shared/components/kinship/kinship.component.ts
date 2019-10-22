@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Kinship } from './kinship';
+
 
 @Component({
   selector: 'app-kinship',
@@ -7,10 +7,7 @@ import { Kinship } from './kinship';
   styleUrls: ['./kinship.component.css']
 })
 export class KinshipComponent implements OnInit {
+  constructor() {}
 
-  constructor(kinship: Kinship) { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

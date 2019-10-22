@@ -26,7 +26,7 @@ export const ISO_FORMAT = {
 };
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

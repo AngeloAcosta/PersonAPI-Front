@@ -1,11 +1,9 @@
-
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, pipe, BehaviorSubject, from } from 'rxjs';
 import { environment } from './../../../../environments/environment';
 import { map } from 'rxjs/operators';
-import { Person, ApiPeople, ApiPerson } from '../../create/person';
+import { Person, ApiPeople } from '../../create/person';
 
 
 const httpOptions = {
@@ -13,59 +11,51 @@ const httpOptions = {
     'Content-type': 'application/json'
   })
 };
+
 @Injectable({
   providedIn: 'root'
 })
 export class PeopleService {
   constructor(private http: HttpClient) {}
-
-  baseUrl: string = environment.baseUrl;
-
+  peopleUrl: string = environment.baseUrl + '/people';
   getPeople(): Observable<Person[]> {
-    return this.http.get<ApiPeople>(`${this.baseUrl}/people`).pipe(
+    return this.http.get<ApiPeople>(`${this.peopleUrl}`).pipe(
       map((res: ApiPeople) => {
         return res.data;
       })
     );
   }
-
   getPeopleSorted(order, type): Observable<Person[]> {
-    const url = this.baseUrl;
+    const url = this.peopleUrl;
     let params = new HttpParams();
     params = params.append('orderBy', order);
     params = params.append('orderType', type);
-    return this.http.get<ApiPeople>(`${url}/people`, { params }).pipe(
+    return this.http.get<ApiPeople>(`${url}`, { params }).pipe(
       map((res: ApiPeople) => {
         return res.data;
       })
     );
   }
 
-  editPerson(person: Person): Observable<Person> {
-    const url = `${this.baseUrl}/people/${person.id}`;
-    return this.http.put<Person>(url, person, httpOptions);
+  editPerson(person: any): Observable<any> {
+    const url = `${this.peopleUrl}/${person.id}`;
+    return this.http.put(url, person, httpOptions);
   }
 
   deletePerson(person: any) {
-    const url = `${this.baseUrl}/people/${person.id}`;
+    const url = `${this.peopleUrl}/${person.id}`;
     return this.http.delete(url, httpOptions);
   }
 
   addPerson(person: any) {
-    const url = `${this.baseUrl}/people`;
-
+    const url = `${this.peopleUrl}`;
+    console.log(person);
 
     return this.http.post<Person>(url, person, httpOptions);
   }
-
-  /*getPerson(person: Person) {
-    const url = `${this.baseUrl}/${person.id}`;
-    return this.http.get<Person>(url, httpOptions);
-  }*/
-
-  getPerson(person: Person): Observable<Person> {
-    return this.http.get<ApiPerson>(`${this.baseUrl}/people/${person.id}`).pipe(
-      map((res: ApiPerson) => {
+  getPerson(person: Person): Observable<Person[]> {
+    return this.http.get<ApiPeople>(`${this.peopleUrl}/${person.id}`).pipe(
+      map((res: ApiPeople) => {
       return res.data;
     }));
   }

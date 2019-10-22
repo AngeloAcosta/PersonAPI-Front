@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { KinshipComponent } from './kinship.component';
 
-describe('KinshipComponent', () => {
-  let component: KinshipComponent;
-  let fixture: ComponentFixture<KinshipComponent>;
+import { ListComponent } from './listkinship.component';
+
+describe('ListComponent', () => {
+  let component: ListComponent;
+  let fixture: ComponentFixture<ListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ KinshipComponent ]
-    })
-    .compileComponents();
+      declarations: [ListComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(KinshipComponent);
+    fixture = TestBed.createComponent(ListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
