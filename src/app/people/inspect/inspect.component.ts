@@ -1,7 +1,5 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialog} from '@angular/material/dialog';
-//import {Person} from '../shared/components/person/person';
-import {Person} from '../create/person';
 import { PeopleService } from './../shared/services/people.service';
 import { EditComponent } from '../edit/edit.component';
 import Swal from 'sweetalert2';
@@ -13,9 +11,9 @@ import Swal from 'sweetalert2';
 })
 export class InspectComponent implements OnInit {
   constructor(private peopleService: PeopleService,
-    public dialogRef: MatDialogRef<InspectComponent>,
-    @Inject(MAT_DIALOG_DATA) public data,
-    public dialog: MatDialog) { }
+              public dialogRef: MatDialogRef<InspectComponent>,
+              @Inject(MAT_DIALOG_DATA) public data,
+              public dialog: MatDialog) { }
     people: Array<any>;
     person: object;
 
@@ -34,7 +32,6 @@ export class InspectComponent implements OnInit {
       if (result.value) {
         this.peopleService.deletePerson(person).subscribe(resp => {
           this.people = this.people.filter(item => item.id !== person.id);
-          
         });
         Swal.fire(
           'Deleted!',

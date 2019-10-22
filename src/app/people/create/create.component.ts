@@ -130,11 +130,9 @@ export class CreateComponent implements OnInit {
           : '';
   }
   getEmptyError(param) {
-    
       return this.user.get(param).hasError('minlenght')
         ? 'You must enter a value'
       : '';
-    
   }
 
   public setContact() {
@@ -154,8 +152,8 @@ export class CreateComponent implements OnInit {
       this.registro.contact2 = null;
     }
   }
-  public verifyEmptyDocument(){
-    if (this.registro.document===undefined||this.registro.document===''){
+  public verifyEmptyDocument() {
+    if (this.registro.document === undefined || this.registro.document === '') {
       return true;
     }
     return false;
@@ -164,12 +162,11 @@ export class CreateComponent implements OnInit {
   onSubmit(): void {
     this.setContact();
     console.log(this.registro);
-    let verify = this.verifyEmptyDocument();
-    
+    const verify = this.verifyEmptyDocument();
     this.registro.birthdate = moment(this.registro.birthdate).format(
       'YYYY-MM-DD'
     );
-    if (verify==true){
+    if (verify === true) {
       Swal.fire({
         type: 'error',
             title: 'Register Denied',
@@ -177,17 +174,14 @@ export class CreateComponent implements OnInit {
 
       });
 
-    }else{
+    } else {
       this.peopleService.addPerson(this.registro).subscribe(
         res => {
-          
           Swal.fire({
             type: 'success',
             title: 'Done',
             text: ' Person was registered satisfactory'
           });
-         console.log(res);
-         
           this.dialogRef.close();
         },
         error => {
@@ -205,7 +199,5 @@ export class CreateComponent implements OnInit {
       );
 
     }
-
-    
   }
 }

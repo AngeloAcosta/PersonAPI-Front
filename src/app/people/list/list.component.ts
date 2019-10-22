@@ -108,7 +108,6 @@ export class ListComponent implements OnInit {
     const dialogRef = this.dialog.open(CreateComponent, {
       width: '585px',
       height: '520px',
-      
     });
   }
 
