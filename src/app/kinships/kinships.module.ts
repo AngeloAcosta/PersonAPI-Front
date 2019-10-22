@@ -3,22 +3,24 @@ import { KinshipsRoutingModule } from './kinships-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { ListComponent } from './list/list.component';
 import { CreateComponent } from './create/create.component';
 // import { InspectComponent } from './inspect.kinships/inspect.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { KinshipComponent } from './shared/components/kinship/kinship.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from './shared/service/kinships.interceptor';
+import { EditComponent } from './edit/edit.component';
+import { ListComponent } from './list/listkinship.component';
 
 
 @NgModule({
   declarations: [
     ListComponent,
     CreateComponent,
-    // InspectComponent
-    KinshipComponent
+    KinshipComponent,
+    EditComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,9 @@ import { HttpErrorInterceptor } from './shared/service/kinships.interceptor';
     MaterialModule,
     MatCardModule,
     MatFormFieldModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   entryComponents: [
   ],

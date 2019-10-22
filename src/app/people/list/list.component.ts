@@ -37,7 +37,6 @@ export class ListComponent implements OnInit {
       this.people = people;
       this.temporalData = people;
       this.loadTable(this.people);
-      console.log(people);
     });
   }
 
@@ -108,7 +107,6 @@ export class ListComponent implements OnInit {
     const dialogRef = this.dialog.open(CreateComponent, {
       width: '585px',
       height: '520px',
-
     });
   }
 

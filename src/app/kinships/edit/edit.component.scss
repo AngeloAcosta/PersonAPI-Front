@@ -1,0 +1,29 @@
+#divForm {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  div {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}
+
+.full-width {
+  width: 70%;
+}
+
+.errorbox {
+  margin: 0 0;
+  padding: 0px;
+  color: #d9534f;
+}
+
+.successbox {
+  margin: 0 0;
+  padding: 0px;
+  color: #5cb85c;
+}
+
+
+

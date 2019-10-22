@@ -55,8 +55,6 @@ export class EditComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log(this.data);
-
     this.registro = new Person();
     this.registro = this.data;
     this.user = new FormGroup({
@@ -162,7 +160,6 @@ getErrorMessage(param) {
 
     this.setContact();
     this.registro.birthdate = moment(this.registro.birthdate).format('YYYY-MM-DD');
-    console.log(this.registro);
 
     this.peopleService.editPerson(this.registro).subscribe(res => {
       Swal.fire({
@@ -170,6 +167,7 @@ getErrorMessage(param) {
        title: 'Done',
        text: ' Person was registered satisfactory',
       });
+      this.dialogRef.close();
     });
   }
 

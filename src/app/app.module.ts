@@ -24,8 +24,8 @@ export const ISO_FORMAT = {
 };
 @NgModule({
   declarations: [
-    AppComponent,
-    KinshipComponent
+    KinshipComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
