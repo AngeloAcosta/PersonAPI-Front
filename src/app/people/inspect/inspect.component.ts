@@ -1,6 +1,5 @@
 import { InspectKinshipsComponent } from '../inspect.kinships/inspect.component';
 import {Person} from '../create/person';
-// import { Kinship } from './../../kinships/shared/components/kinship/kinship';
 import { Component, OnInit, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialog} from '@angular/material/dialog';
 import { PeopleService } from './../shared/services/people.service';

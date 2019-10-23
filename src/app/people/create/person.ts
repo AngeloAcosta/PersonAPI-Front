@@ -1,6 +1,6 @@
 export class Person {
   id?: number;
-  Name: string;
+  name: string;
   lastName: string;
   birthdate: string;
   documentTypeId: number;

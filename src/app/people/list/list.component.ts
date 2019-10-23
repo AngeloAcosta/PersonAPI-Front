@@ -8,6 +8,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import {merge,  of as observableOf} from 'rxjs';
 import {startWith, switchMap} from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { Person } from '../create/person';
 
 @Component({
   selector: 'app-list',
@@ -17,8 +18,8 @@ import Swal from 'sweetalert2';
 export class ListComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
-  tableData: MatTableDataSource<any>;
-  people: Array<any>;
+  tableData: MatTableDataSource<Person>;
+  people: Array<Person>;
   person: object;
   temporalData;
   displayedColumns: string[] = ['1', '2', '3', '4', 'buttons'];
@@ -59,7 +60,7 @@ export class ListComponent implements OnInit {
     if (value !== '') {
       this.people = this.people.filter(
         item => {
-            const fullname = item.name.toLowerCase() + ' ' + item.lastName.toLowerCase();
+            const fullname = `${item.name.toLowerCase()} ${item.lastName.toLowerCase()}`;
             return fullname.indexOf(value.toLowerCase()) > -1;
       });
       this.loadTable(this.people);

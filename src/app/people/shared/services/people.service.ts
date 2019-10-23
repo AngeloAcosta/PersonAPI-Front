@@ -19,7 +19,7 @@ const httpOptions = {
 export class PeopleService {
   constructor(private http: HttpClient) {}
   peopleUrl: string = environment.baseUrl + '/people';
-  // kinship: string = envir
+
   getPeople(): Observable<Person[]> {
     return this.http.get<ApiPeople>(`${this.peopleUrl}`).pipe(
       map((res: ApiPeople) => {
@@ -99,7 +99,7 @@ export class PeopleService {
         lastNameRelative: 'Manrique',
         documentRelative: '76192504'
       }];
-    return new Observable(o =>{
+    return new Observable(o => {
       o.next(kinships);
     });
   }

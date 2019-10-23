@@ -9,6 +9,7 @@ import {
   MatSort,
   MatPaginator
 } from '@angular/material';
+import { Kinship } from 'src/app/models/kinship.model';
 
 @Component({
   selector: 'app-inspect',
@@ -18,8 +19,8 @@ import {
 export class InspectKinshipsComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
-  tableData: MatTableDataSource<any>;
-  temporalData: any[];
+  tableData: MatTableDataSource<Kinship>;
+  temporalData: Kinship[];
   displayedColumns: string[] = ['1', '2', '3', 'buttons'];
   orderBy: number;
   orderType: number;
@@ -35,7 +36,6 @@ export class InspectKinshipsComponent implements OnInit {
     this.peopleService.getPersonKinships(this.data).subscribe(kinships => {
       this.data = kinships;
       this.loadKinshipTable(this.data);
-      console.log(this.data);
       this.temporalData = kinships;
     });
   }
@@ -46,7 +46,7 @@ export class InspectKinshipsComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           this.orderBy = Number(this.sort.active);
-          if (this.sort.direction === "asc") {
+          if (this.sort.direction === 'asc') {
             this.orderType = 1;
           } else {
             this.orderType = 2;

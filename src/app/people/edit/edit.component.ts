@@ -58,7 +58,7 @@ export class EditComponent implements OnInit {
     this.registro = new Person();
     this.registro = this.data;
     this.user = new FormGroup({
-      name: new FormControl(this.data.Name, [
+      name: new FormControl(this.data.name, [
         Validators.required,
         Validators.minLength(3),
         Validators.pattern('[a-zA-Z ]*')
@@ -169,9 +169,5 @@ getErrorMessage(param) {
       });
       this.dialogRef.close();
     });
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 }

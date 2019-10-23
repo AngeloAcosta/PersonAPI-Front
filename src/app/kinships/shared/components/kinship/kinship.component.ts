@@ -1,4 +1,3 @@
-// import { Person } from './../../../../people/shared/components/person/person';
 import { Component, OnInit } from '@angular/core';
 
 
