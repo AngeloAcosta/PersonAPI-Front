@@ -1,121 +1,96 @@
-<style>
-
-  .kinshipTable{
-    width: 100%;
-    padding: 8px;
-  }
-  .kinshipTable  td{
-    border: 1px solid black;
-    padding: 8px;
-  }
-  .kinshipTable>td {
-    font-weight: 600;
-    font-size: 16px;
-  }
-  .kinshipTable>.ksTitle{
-    padding: 12px 10px 12px 8px;
-    background-color: #c0dfed;
-    text-align: left;
-  }
-  .kinshipTable tr:hover {background-color: #ddd;}
-</style>
-
 <section class="mat-typography container p-2">
-    <div class="row justify-content-between">
-      <h4 style="display:inline-block" class="mat-display-2" mat-dialog-title>
-        Kinships Details
-      </h4>
+  <div class="row justify-content-between">
+    <h4 class="kinshipTitle" mat-dialog-title>
+      Kinships Details
+    </h4>
 
-      <button
-        mat-icon-button
-        mat-dialog-close
-        aria-label="Example icon-button with a heart icon"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
+    <button
+      mat-icon-button
+      mat-dialog-close
+      aria-label="Example icon-button with a heart icon"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
 
-    <main>
+  <main>
+    <mat-dialog-content>
+      <p>
+        <label for="" style="font-size: 20px;">Details</label>
+      </p>
+      <p>
+        <label for=""> <strong> Person Name: </strong></label>
+        <label>
+          &nbsp;&nbsp; {{ data[0].namePerson }} {{ data[0].lastNamePerson }}
+        </label>
+      </p>
+      <p>
+        <label for=""> <strong> Person Document: </strong></label>
+        <label> &nbsp;&nbsp; {{ data[0].documentPerson }} </label>
+      </p>
+    </mat-dialog-content>
 
-        <mat-table  [dataSource]="tableData" matSort  matSortDisableClear class="mat-elevation-z8">
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20, 25]"
+      showFirstLastButtons
+    ></mat-paginator>
+    <mat-table
+      [dataSource]="tableData"
+      matSort
+      matSortDisableClear
+      class="mat-elevation-z8"
+    >
+      <ng-container matColumnDef="1">
+        <mat-header-cell
+          id="titular"
+          *matHeaderCellDef
+          (click)="orderTable()"
+          mat-sort-header
+          >Relative Name
+        </mat-header-cell>
+        <mat-cell class="colum-name" *matCellDef="let element">
+          {{ element.nameRelative }} {{ element.lastNameRelative }}
+        </mat-cell>
+      </ng-container>
 
-            <ng-container matColumnDef="1">
-              <mat-header-cell id="titular"  *matHeaderCellDef (click)="orderTable()" mat-sort-header>Relative Name
-              </mat-header-cell>
-              <mat-cell class="colum-name" *matCellDef="let element"> {{element.nameRelative}} {{element.lastName}} </mat-cell>
-            </ng-container>
+      <ng-container matColumnDef="2">
+        <mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          (click)="orderTable()"
+          disableClear
+        >
+          Relative Document
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.documentRelative }}
+        </mat-cell>
+      </ng-container>
 
-            <ng-container matColumnDef="2">
-              <mat-header-cell *matHeaderCellDef mat-sort-header (click)="orderTable()" disableClear> Relative Document </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.documentRelative}} </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="3" class="colum-country">
-              <mat-header-cell class="colum-country" *matHeaderCellDef (click)="orderTable()" mat-sort-header> Kinship Type </mat-header-cell>
-              <mat-cell class="colum-country" *matCellDef="let element"> {{element.kinshipType}} </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="buttons">
-                <mat-header-cell *matHeaderCellDef > Action </mat-header-cell>
-                <mat-cell *matCellDef="let element">
-                 <mat-icon  matTooltip="Info about the Person" class="icon" >info</mat-icon>
-                  <mat-icon matTooltip="Edit Person" class="icon" >edit</mat-icon>
-                  <mat-icon matTooltip="Delete Person" class="icon delete">delete_forever</mat-icon>
-                </mat-cell>
-             </ng-container>
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-          </mat-table>
-
-      <!-- <mat-dialog-content class="">
-          <p>
-            <label class="attributes">Name : </label
-            ><label for="name"> {{ data[0].namePerson }} {{ data[0].lastNamePerson }}</label>
-          </p>
-          <p>
-            <label class="attributes"> Document : </label>
-            <label for="documentType"> {{ data[0].documentPerson }} </label>
-          </p>
-        <div *ngFor="let item of data">
-            <p>
-              <label class="attributes"> <strong>  Person Relative : </strong> </label>
-              <label for="id"> &nbsp;&nbsp;{{ item.nameRelative }} {{ item.lastNameRelative }} </label>
-            </p>
-            <p>
-              <label class="attributes"> <strong> Document Relative : </strong> </label>
-              <label for="documentType"> &nbsp;&nbsp; {{ item.documentRelative }}</label>
-            </p>
-            <p>
-              <label for="attributes"><strong> Kinship Type : </strong> </label>
-              <label for=""> &nbsp;&nbsp; {{ item.kinshipType }} </label>
-            </p>
-          </div>
-          <table class="kinshipTable">
-            <td class="ksTitle">Name Relative</td>
-            <td class="ksTitle">Documents Relative</td>
-            <td class="ksTitle">Kinship Type</td>
-            <tr *ngFor="let doc of data">
-              <td> {{ doc.nameRelative }} </td>
-              <td> {{ doc.documentRelative }} </td>
-              <td> {{ doc.kinshipType }} </td>
-              <td> <button disabled="disabled"> Delete</button> <button type="submit"> Edit </button></td>
-            </tr>
-          </table>
-            {{item.namePerson}}
-      </mat-dialog-content> -->
-    </main>
-
-    <footer>
-      <!-- <mat-dialog-actions class="cont1">
-        <button mat-raised-button mat-dialog-close color="warn" class="but3">Delete</button>
-        <button
-        mat-raised-button
-        mat-dialog-close
-        [color]="'edit-it'"
-        class="but2">
-        Edit
-        </button>
-        <button mat-raised-button [color]="'list-it'" class="but1"> Back </button>
-      </mat-dialog-actions> -->
-    </footer>
-  </section>
+      <ng-container matColumnDef="3" class="colum-country">
+        <mat-header-cell
+          class="colum-country"
+          *matHeaderCellDef
+          (click)="orderTable()"
+          mat-sort-header
+        >
+          Kinship Type
+        </mat-header-cell>
+        <mat-cell class="colum-country" *matCellDef="let element">
+          {{ element.kinshipType }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="buttons">
+        <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-icon matTooltip="Edit Person" class="icon">edit</mat-icon>
+          <mat-icon matTooltip="Delete Person" class="icon delete"
+            >delete_forever</mat-icon
+          >
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+  </main>
+</section>

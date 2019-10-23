@@ -2,3 +2,101 @@
   background-color: rgb(42, 92, 230);
   color: #fff;
 }
+
+.kinshipTable {
+  width: 100%;
+  padding: 8px;
+}
+.kinshipTable td {
+  border: 1px solid black;
+  padding: 8px;
+}
+.kinshipTable > td {
+  font-weight: 600;
+  font-size: 16px;
+}
+.kinshipTable > .ksTitle {
+  padding: 12px 10px 12px 8px;
+  background-color: #c0dfed;
+  text-align: left;
+}
+.kinshipTable tr:hover {
+  background-color: #ddd;
+}
+
+table {
+  width: 100%;
+}
+.colum-name {
+  text-align: left;
+}
+
+.header {
+  padding: 5px;
+}
+
+.filter {
+  display: block;
+}
+
+.icon {
+  background: #8ad1f3;
+  color: white;
+  margin: 2px;
+  border-radius: 5px;
+}
+.delete {
+  background: #fb7a7a;
+}
+
+mat-form-field {
+  width: 70%;
+  left: 0px;
+}
+
+mat-header-cell,
+mat-cell {
+  justify-content: left;
+}
+
+.kinshipTitle {
+  font: 400 45px/48px Roboto, "Helvetica Neue", sans-serif;
+  margin: 5px 15px 25px;
+}
+
+.options {
+  width: 25%;
+  display: inline-flex;
+  margin-left: 5%;
+}
+.buttons {
+  margin-left: 6%;
+  text-align: right;
+  display: inline-block;
+}
+
+@media screen and (min-width: 400px) and (max-width: 767px) {
+  .colum-doctype {
+    display: none;
+  }
+}
+@media screen and (min-width: 400px) and (max-width: 500px) {
+  .colum-doctype {
+    display: none;
+  }
+  span {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 359px) and (max-width: 400px) {
+  .colum-doctype {
+    display: none;
+  }
+  .colum-country {
+    display: none;
+  }
+  span {
+    display: none;
+  }
+}

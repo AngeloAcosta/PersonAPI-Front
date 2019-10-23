@@ -12,3 +12,8 @@ export class Kinship {
   nameRelative: string;
   lastNameRelative: string;
 }
+
+export class ApiKinships {
+  status: string;
+  data: Array<Kinship>;
+}
