@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 import { PeopleService } from './../shared/services/people.service';
-import { Person } from './person';
+import { Person } from './create.models';
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 
@@ -130,9 +130,11 @@ export class CreateComponent implements OnInit {
           : '';
   }
   getEmptyError(param) {
+
       return this.user.get(param).hasError('minlenght')
         ? 'You must enter a value'
       : '';
+
   }
 
   public setContact() {
@@ -161,7 +163,9 @@ export class CreateComponent implements OnInit {
 
   onSubmit(): void {
     this.setContact();
+    console.log(this.registro);
     const verify = this.verifyEmptyDocument();
+
     this.registro.birthdate = moment(this.registro.birthdate).format(
       'YYYY-MM-DD'
     );
@@ -181,6 +185,7 @@ export class CreateComponent implements OnInit {
             title: 'Done',
             text: ' Person was registered satisfactory'
           });
+
           this.dialogRef.close();
         },
         error => {
@@ -196,7 +201,6 @@ export class CreateComponent implements OnInit {
           }
         }
       );
-
     }
   }
 }

@@ -8,6 +8,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import {merge,  of as observableOf} from 'rxjs';
 import {startWith, switchMap} from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { Person } from 'src/app/models/person.model';
 
 @Component({
   selector: 'app-list',
@@ -17,8 +18,8 @@ import Swal from 'sweetalert2';
 export class ListComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
-  tableData: MatTableDataSource<any>;
-  people: Array<any>;
+  tableData: MatTableDataSource<Person>;
+  people: Array<Person>;
   person: object;
   temporalData;
   displayedColumns: string[] = ['1', '2', '3', '4', 'buttons'];
@@ -37,6 +38,7 @@ export class ListComponent implements OnInit {
       this.people = people;
       this.temporalData = people;
       this.loadTable(this.people);
+      console.log(people);
     });
   }
 
@@ -59,8 +61,8 @@ export class ListComponent implements OnInit {
     if (value !== '') {
       this.people = this.people.filter(
         item => {
-            const fullname = item.name.toLowerCase() + ' ' + item.lastName.toLowerCase();
-            return fullname.indexOf(value.toLowerCase()) > -1;
+          const fullname = `${item.name.toLowerCase()} ${item.lastName.toLowerCase()}`;
+          return fullname.indexOf(value.toLowerCase()) > -1;
       });
       this.loadTable(this.people);
     } else {
@@ -93,20 +95,27 @@ export class ListComponent implements OnInit {
     });
 
   }
-  openEdit(person): void {
-    const dialogRef = this.dialog.open(EditComponent, {
-    width: '585px',
-    height: '520px',
-    panelClass: 'custom-modalbox',
-    data: person
- });
+
+  openEdit(row): void {
+    this.peopleService.getPerson(row.id).subscribe(person => {
+      this.person = person;
+      this.temporalData = person;
+
+      const dialogRef = this.dialog.open(EditComponent, {
+        width: '530px',
+        height: '520px',
+        panelClass: 'custom-modalbox',
+        data: person
+       });
+
+     });
 
 }
 
   openCreate(): void {
     const dialogRef = this.dialog.open(CreateComponent, {
-      width: '585px',
-      height: '520px',
+      width: '555px',
+      height: '520px'
     });
   }
 
@@ -117,8 +126,7 @@ loadTable(param) {
 }
 
 openInfo(row) {
-
-    this.peopleService.getPerson(row).subscribe(person => {
+    this.peopleService.getPerson(row.id).subscribe(person => {
     this.person = person;
     this.temporalData = person;
 

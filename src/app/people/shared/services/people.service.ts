@@ -3,8 +3,10 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, pipe, BehaviorSubject, from } from 'rxjs';
 import { environment } from './../../../../environments/environment';
 import { map } from 'rxjs/operators';
-import { Person, ApiPeople } from '../../create/person';
-
+import { Person, ApiPeople, ApiPerson } from '../../create/create.models';
+import { Personedit } from '../../edit/editperson';
+import { InspectModel } from '../../inspect/inspect.models';
+import { ResponseModel } from '../../../shared/models';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -37,9 +39,9 @@ export class PeopleService {
     );
   }
 
-  editPerson(person: any): Observable<any> {
+  editPerson(person: Personedit): Observable<Personedit> {
     const url = `${this.peopleUrl}/${person.id}`;
-    return this.http.put(url, person, httpOptions);
+    return this.http.put<Personedit>(url, person, httpOptions);
   }
 
   deletePerson(person: any) {
@@ -52,10 +54,13 @@ export class PeopleService {
 
     return this.http.post<Person>(url, person, httpOptions);
   }
-  getPerson(person: Person): Observable<Person[]> {
-    return this.http.get<ApiPeople>(`${this.peopleUrl}/${person.id}`).pipe(
-      map((res: ApiPeople) => {
-      return res.data;
-    }));
+
+
+  getPerson(id: number): Observable<InspectModel> {
+    return this.http.get<ResponseModel<InspectModel>>(`${this.peopleUrl}/${id}`).pipe(
+      map((res: ResponseModel<InspectModel>) => {
+        return res.data;
+      })
+    );
   }
 }
