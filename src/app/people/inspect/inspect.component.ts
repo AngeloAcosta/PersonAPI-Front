@@ -1,5 +1,5 @@
 import { InspectKinshipsComponent } from '../inspect.kinships/inspect.component';
-import {Person} from '../create/person';
+import { Person } from './../create/create.models';
 import { Component, OnInit, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialog} from '@angular/material/dialog';
 import { PeopleService } from './../shared/services/people.service';
@@ -7,16 +7,17 @@ import { EditComponent } from '../edit/edit.component';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-inspect',
-  templateUrl: './inspect.component.html',
-  styleUrls: ['./inspect.component.scss']
+    selector: 'app-inspect',
+    templateUrl: './inspect.component.html',
+    styleUrls: ['./inspect.component.scss']
 })
+
 export class InspectComponent implements OnInit {
   constructor(private peopleService: PeopleService,
               public dialogRef: MatDialogRef<InspectComponent>,
               @Inject(MAT_DIALOG_DATA) public data,
               public dialog: MatDialog) { }
-    people: Array<any>;
+    people: Array<Person>;
     person: object;
 
   ngOnInit() {

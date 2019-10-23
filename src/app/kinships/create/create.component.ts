@@ -57,32 +57,14 @@ export class CreateComponent implements OnInit {
   SetInfoFirstPerson(value: string) {
     const res = this.listPeople.find(item => item.id === value);
     if (res) {
-      this.firstPerson = {
-        id: res.id,
-        name: res.name,
-        lastName: res.lastName,
-        birth: res.birthdate,
-        docID: res.document,
-        docType: res.documentType,
-        gender: res.gender,
-        country: res.country
-      };
+      this.firstPerson = res;
     }
   }
 
   SetInfoSecondPerson(value: string) {
     const res = this.listPeople.find(item => item.id === value);
     if (res) {
-      this.secondPerson = {
-        id: res.id,
-        name: res.name,
-        lastName: res.lastName,
-        birth: res.birthdate,
-        docID: res.document,
-        docType: res.documentType,
-        gender: res.gender,
-        country: res.country
-      };
+      this.secondPerson = res;
     }
   }
 
