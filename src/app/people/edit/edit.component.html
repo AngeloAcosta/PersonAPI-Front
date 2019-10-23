@@ -10,7 +10,7 @@
 
           <mat-form-field>
             <input matInput #input maxlength="40" matInput placeholder="Name" pattern="[a-zA-Z\s]*" minlength="3"
-              formControlName="name" [(ngModel)]="registro.Name" value="{{data.Name}}" required />
+              formControlName="name" [(ngModel)]="registro.name" value="{{data.name}}" required />
 
             <mat-error *ngIf="this.user.get('name').hasError">{{
                 getErrorMessage('name')
