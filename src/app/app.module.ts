@@ -8,7 +8,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
-import { KinshipComponent } from './kinships/shared/components/kinship/kinship.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 export const ISO_FORMAT = {
@@ -24,7 +23,6 @@ export const ISO_FORMAT = {
 };
 @NgModule({
   declarations: [
-    KinshipComponent,
     AppComponent
   ],
   imports: [
