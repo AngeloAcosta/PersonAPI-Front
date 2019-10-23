@@ -1,9 +1,7 @@
-
 import { Component, OnInit, Inject } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 import { PeopleService } from './../shared/services/people.service';
-import {Person} from './../create/person';
-import {DatePipe} from '@angular/common';
+import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 
 import {
@@ -14,15 +12,16 @@ import {
   AbstractControl,
   ValidationErrors
 } from '@angular/forms';
-import {MatDialogRef, MAT_DIALOG_DATA,
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
   MatFormFieldControl,
-  MatFormField, MatDialog
+  MatFormField,
+  MatDialog
 } from '@angular/material';
 import Swal from 'sweetalert2';
-import { Country, Gender, Contact, Document } from '../../shared/constants';
-
-
-
+import { isNgTemplate } from '@angular/compiler';
+import { InspectModel, Person } from '../../people/inspect/inspect.models';
 
 @Component({
   selector: 'app-edit',
@@ -30,12 +29,13 @@ import { Country, Gender, Contact, Document } from '../../shared/constants';
   styleUrls: ['./edit.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-
-
 export class EditComponent implements OnInit {
-
-  constructor(private peopleService: PeopleService, public dialogRef: MatDialogRef<EditComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: Person ) {}
+  constructor(
+    private peopleService: PeopleService,
+    public dialogRef: MatDialogRef<EditComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: InspectModel
+  ) {
+  }
   editPerson = this.data;
 
   selectedDoc: string;
@@ -47,22 +47,35 @@ export class EditComponent implements OnInit {
   showPass = false;
   registro: Person;
   dateFormat: DatePipe;
-
+  errors: string[] = [];
+  success: string;
+  succesfullsubmit = false;
+  originPerson: Person;
   user: FormGroup;
   minDate = new Date(1900, 0, 1);
 
   maxDate = new Date();
-  countries = [...Country];
-  genderIds = [...Gender];
-  documents = [...Document];
-  contacts = [...Contact];
+  countries = [...this.data.countries];
+  genderIds = [...this.data.genders];
+  documents = [...this.data.documentTypes];
+  contacts = [...this.data.contactTypes];
 
+  documentTypeIdSelected: number;
+  genderIdSelected: number;
+  countryIdSelected: number;
+  contactType1IdSelected: number;
+  contactType2IdSelected: number;
 
   ngOnInit() {
-    this.registro = new Person();
-    this.registro = this.data;
+    this.registro = this.data.person;
+    this.originPerson = {...this.data.person};
+    this.countryIdSelected = this.data.person.countryId;
+    this.contactType1IdSelected = this.data.person.contactType1Id;
+    this.contactType2IdSelected = this.data.person.contactType2Id;
+    this.documentTypeIdSelected = this.data.person.documentTypeId;
+    this.genderIdSelected = this.data.person.genderId;
     this.user = new FormGroup({
-      name: new FormControl(this.data.Name, [
+      name: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
         Validators.pattern('[a-zA-Z ]*')
@@ -73,12 +86,14 @@ export class EditComponent implements OnInit {
         Validators.pattern('[a-zA-ZñÑáéíóúÁÉÍÓÚ ]*')
       ]),
       birthdate: new FormControl('', [Validators.required]),
-      documentTypeId: new FormControl(this.data.documentTypeId, [Validators.required]),
-      document: new FormControl(null, [Validators.pattern('[0-9]{8}')]),
-      document2: new FormControl(null, [Validators.pattern('[a-zA-Z0-9]{12}')]),
+      documentTypeId: new FormControl('', [
+        Validators.required
+      ]),
+      document: new FormControl('', [Validators.pattern('[0-9]{8}')]),
+      document2: new FormControl('', [Validators.pattern('[a-zA-Z0-9]{12}')]),
       genderId: new FormControl('', Validators.required),
       countryId: new FormControl('', [Validators.required]),
-      contactType1Id: new FormControl(null),
+      contactType1Id: new FormControl(),
 
       email: new FormControl(null, [
         Validators.email,
@@ -94,46 +109,64 @@ export class EditComponent implements OnInit {
         )
       ]),
       phone2: new FormControl('', [Validators.pattern('[0-9]{7,9}')]),
-      contactType2Id: new FormControl(null)
+      contactType2Id: new FormControl()
     });
+    this.showInputSecondContact(this.contactType2IdSelected);
+    this.showInputContact(this.contactType1IdSelected);
+    this.showInputDocument(this.documentTypeIdSelected);
   }
 
-  toggleVisibility(event) {
+  changeInputContact(event) {
     const selectedValue = event.value;
+    this.showInputContact(selectedValue);
+  }
+
+  private showInputContact(selectedValue: any) {
     if (selectedValue === 1) {
       this.showEmail = false;
       this.showPhone = true;
-
+      this.user.get('email').setValue('');
     } else {
       this.showEmail = true;
       this.showPhone = false;
+      this.user.get('phone').setValue('');
     }
   }
 
-  toggleVisibility2(event) {
+  changeInputSecondContact(event) {
     const selectedValue = event.value;
+    this.showInputSecondContact(selectedValue);
+  }
+  private showInputSecondContact(selectedValue: any) {
     if (selectedValue === 1) {
       this.showEmail2 = false;
       this.showPhone2 = true;
+      this.user.get('email2').setValue('');
     } else {
       this.showEmail2 = true;
       this.showPhone2 = false;
+      this.user.get('phone2').setValue('');
     }
   }
-  toggleVisibility3(event) {
+
+  changeInputDocument(event) {
     const selectedValue = event.value;
+    this.showInputDocument(selectedValue);
+  }
+
+  private showInputDocument(selectedValue: any) {
     if (selectedValue === 1) {
       this.showDni = true;
       this.showPass = false;
+      this.user.get('document2').setValue('');
     } else {
       this.showDni = false;
       this.showPass = true;
+      this.user.get('document').setValue('');
     }
   }
 
-
-
-getErrorMessage(param) {
+  getErrorMessage(param) {
     return this.user.get(param).hasError('required')
       ? 'You must enter a value'
       : this.user.get(param).hasError('pattern')
@@ -144,35 +177,79 @@ getErrorMessage(param) {
   }
 
 
-  public setContact() {
 
-    if (this.registro.contact1 === undefined && this.registro.contactType1Id === undefined) {
-      this.registro.contactType1Id = null;
+
+  public setContact() {
+    if (
+      this.registro.contact1 === undefined &&
+      this.registro.contactType1 === undefined
+    ) {
+      this.registro.contactType1 = null;
       this.registro.contact1 = null;
     }
 
-    if (this.registro.contact2 === undefined && this.registro.contactType2Id === undefined) {
-      this.registro.contactType2Id = null;
+    if (
+      this.registro.contact2 === undefined &&
+      this.registro.contactType2 === undefined
+    ) {
+      this.registro.contactType2 = null;
       this.registro.contact2 = null;
     }
-
   }
 
-
+  public verifyEmptyDocument() {
+    if (this.registro.document === undefined || this.registro.document === '') {
+      return true;
+    }
+    return false;
+  }
 
   onSubmit(): void {
-
     this.setContact();
-    this.registro.birthdate = moment(this.registro.birthdate).format('YYYY-MM-DD');
+    const errors = [];
 
-    this.peopleService.editPerson(this.registro).subscribe(res => {
+    this.registro.birthdate = moment(this.registro.birthdate).format(
+      'YYYY-MM-DD'
+    );
+    const verify = this.verifyEmptyDocument();
+
+    if (verify === true) {
       Swal.fire({
-        type: 'success',
-       title: 'Done',
-       text: ' Person was registered satisfactory',
-
+        type: 'error',
+        title: 'Register Denied',
+        text: ' This document ID is empty or alredy exits '
       });
-      this.dialogRef.close();
-    });
+    } else {
+
+      this.registro.countryId = this.countryIdSelected;
+      this.registro.contactType1Id = this.contactType1IdSelected;
+      this.registro.contactType2Id = this.contactType2IdSelected;
+      this.registro.documentTypeId = this.documentTypeIdSelected;
+
+      this.peopleService.editPerson(this.registro).subscribe(
+            res => {
+              Swal.fire({
+                type: 'success',
+                title: 'Done',
+                text: ' Person was update satisfactory'
+              });
+              this.succesfullsubmit = true;
+              this.dialogRef.close();
+            },
+            error => {
+              if (error.status === 400) {
+                this.errors = [];
+                Swal.fire({
+                  type: 'error',
+                  title: 'Register Denied',
+                  text: error.error.message
+                });
+
+              } else if (error.status === 500) {
+                this.errors = error.data;
+              }
+        }
+      );
+    }
   }
 }
