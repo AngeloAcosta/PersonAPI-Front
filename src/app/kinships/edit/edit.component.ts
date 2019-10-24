@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Person } from 'src/app/models/person.model';
-import { Observable } from 'rxjs';
 import { kinshipOptions } from 'src/app/shared/constants';
+import { MAT_DIALOG_DATA } from '@angular/material';
+import { KinshipModel } from 'src/app/models/kinship.model';
 
 @Component({
   selector: 'app-edit',
@@ -10,14 +11,9 @@ import { kinshipOptions } from 'src/app/shared/constants';
   styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
-
-  firstPerson: Person;
-  secondPerson: Person;
-  listPeople: any[];
-  relationSelected: string;
   errors: string[] = [];
   success: string;
-
+  relationSelected = this.data.kinshipType;
   editkinship = new FormGroup({
     idPerson: new FormControl(''),
     idRelative: new FormControl(''),
@@ -26,7 +22,7 @@ export class EditComponent implements OnInit {
 
   relations: {type: string, value: string}[] = kinshipOptions;
 
-  constructor() { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: KinshipModel) { }
 
   ngOnInit() {
   }

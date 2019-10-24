@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   baseUrl: 'https://personal-web-api.herokuapp.com/api',
+  localBaseUrl: 'http://localhost:5001/api'
 };
 
 /*
