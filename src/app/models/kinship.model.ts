@@ -16,10 +16,14 @@ export class Kinship {
 }
 
 export class KinshipModel {
-  idKinship?: number;
+  personId: number;
+  personName: string;
+  personLastName: string;
+  relativeId: number;
+  relativeName: string;
+  relativeLastName: string;
+  kinshipTypeId: string;
   kinshipType: string;
-  person: Person;
-  relative: Person;
 }
 
 export class ApiKinship {

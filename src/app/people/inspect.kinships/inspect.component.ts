@@ -1,3 +1,4 @@
+import { KinshipModel } from './../../models/kinship.model';
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PeopleService } from './../shared/services/people.service';
@@ -19,11 +20,11 @@ import { Kinship } from 'src/app/models/kinship.model';
 export class InspectKinshipsComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
-  tableData: MatTableDataSource<Kinship>;
-  temporalData: Kinship[];
-  displayedColumns: string[] = ['1', '2', '3', 'buttons'];
+  tableData: MatTableDataSource<KinshipModel>;
+  displayedColumns: string[] = ['1', '2', 'buttons'];
   orderBy: number;
   orderType: number;
+  person;
 
   constructor(
     private peopleService: PeopleService,
@@ -33,10 +34,12 @@ export class InspectKinshipsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+
     this.peopleService.getPersonKinships(this.data).subscribe(kinships => {
-      this.data = kinships;
-      this.loadKinshipTable(this.data);
-      this.temporalData = kinships;
+      this.person = kinships;
+      this.loadKinshipTable(this.person);
+      console.log(this.person);
+
     });
   }
 

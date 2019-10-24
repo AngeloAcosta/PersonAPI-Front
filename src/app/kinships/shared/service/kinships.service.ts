@@ -38,7 +38,7 @@ export class KinshipsService {
     );
   }
   editKinship(kinship: KinshipModel): Observable<KinshipModel> {
-    const url = `${this.kinshipsUrl}/${kinship.idKinship}`;
+    const url = `${this.kinshipsUrl}/${kinship.personId}`;
     return this.http.put<KinshipModel>(url, kinship, httpOptions);
   }
   deleteKinship(kinship: any) {
@@ -50,7 +50,7 @@ export class KinshipsService {
   return this.http.post<KinshipRelation>(url, kinship, httpOptions);
   }
   getKinship(kinship: KinshipModel): Observable<KinshipModel[]> {
-    return this.http.get<ApiKinship>(`${this.kinshipsUrl}/${kinship.idKinship}`).pipe(
+    return this.http.get<ApiKinship>(`${this.kinshipsUrl}/${kinship.personId}`).pipe(
       map((res: ApiKinship) => {
         return res.data;
       }));
