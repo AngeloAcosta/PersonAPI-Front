@@ -22,10 +22,9 @@ const httpOptions = {
 export class PeopleService {
   constructor(private http: HttpClient) {}
   peopleUrl: string = environment.baseUrl + '/people';
-  localUrl: string = environment.localBaseUrl + '/people';
 
   getPeople(): Observable<Person[]> {
-    return this.http.get<ApiPeople>(`${this.localUrl}?limit=420`).pipe(
+    return this.http.get<ApiPeople>(`${this.peopleUrl}?limit=420`).pipe(
       map((res: ApiPeople) => {
         return res.data;
       })
@@ -71,7 +70,7 @@ export class PeopleService {
   }
 
   getPersonKinships(person: Person): Observable<ApiKinship> {
-    const url = `${this.localUrl}/${person.id}/kinships`;
+    const url = `${this.peopleUrl}/${person.id}/kinships`;
     return this.http.get<KinshipModel>(url, httpOptions).pipe(
       map((res: any) => {
         return res.data;
@@ -81,7 +80,7 @@ export class PeopleService {
 
 
   getPerson(id: number): Observable<ApiPerson> {
-    return this.http.get<ResponseModel<ApiPerson>>(`${this.localUrl}/${id}`).pipe(
+    return this.http.get<ResponseModel<ApiPerson>>(`${this.peopleUrl}/${id}`).pipe(
       map((res: ResponseModel<ApiPerson>) => {
         return res.data;
       })

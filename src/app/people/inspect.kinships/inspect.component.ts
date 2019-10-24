@@ -41,6 +41,5 @@ export class InspectKinshipsComponent implements OnInit {
   loadKinshipTable(param) {
     this.tableData = new MatTableDataSource(param);
     this.tableData.paginator = this.paginator;
-    this.tableData.sort = this.sort;
   }
 }
