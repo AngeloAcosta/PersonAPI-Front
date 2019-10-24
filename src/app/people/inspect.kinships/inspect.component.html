@@ -1,0 +1,73 @@
+<section class="mat-typography container p-2">
+  <div class="row justify-content-between">
+    <h4 class="kinshipTitle" mat-dialog-title>
+      Kinships Details
+    </h4>
+
+    <button
+      mat-icon-button
+      mat-dialog-close
+      aria-label="Example icon-button with a heart icon">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <main>
+    <mat-dialog-content>
+      <p>
+        <label for=""> <strong> Person Name: </strong></label>
+        <label>
+          &nbsp;&nbsp; {{ data.name }} {{ data.lastName }}
+        </label>
+      </p>
+      <p>
+
+        <label> <strong> Person Document: </strong></label>
+        <label> &nbsp;&nbsp; {{ data.documentType }} {{ data.document }} </label>
+      </p>
+    </mat-dialog-content>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20, 25]"
+      showFirstLastButtons
+    ></mat-paginator>
+    <mat-table
+      [dataSource]="tableData"
+      class="mat-elevation-z8"
+    >
+      <ng-container matColumnDef="1">
+        <mat-header-cell class="KinshipTable"
+          id="titular"
+          *matHeaderCellDef
+          >Relative Name
+        </mat-header-cell>
+        <mat-cell class="colum-name" *matCellDef="let element">
+          {{ element.relativeName }} {{ element.relativeLastName }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="2" class="colum-country">
+        <mat-header-cell class="KinshipTable"
+          class="colum-country"
+          *matHeaderCellDef
+        >
+          Kinship Type
+        </mat-header-cell>
+        <mat-cell class="colum-country" *matCellDef="let element">
+          {{ element.kinshipType }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="buttons">
+        <mat-header-cell class="KinshipTable" *matHeaderCellDef> Action </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-icon matTooltip="Edit Kinship" class="icon">edit</mat-icon>
+          <mat-icon matTooltip="Delete Kinship" class="icon delete"
+            >delete_forever</mat-icon
+          >
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+  </main>
+</section>

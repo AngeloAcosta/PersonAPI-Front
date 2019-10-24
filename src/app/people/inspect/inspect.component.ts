@@ -1,3 +1,4 @@
+import { InspectKinshipsComponent } from '../inspect.kinships/inspect.component';
 import { Person } from './../create/create.models';
 import { Component, OnInit, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialog} from '@angular/material/dialog';
@@ -49,6 +50,11 @@ export class InspectComponent implements OnInit {
       width: '585px',
       height: '520px',
     data: person
+    });
+  }
+  openKinship(data): void {
+    const dialogRef = this.dialog.open(InspectKinshipsComponent, {
+      data: data.person
     });
   }
 }

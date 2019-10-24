@@ -208,6 +208,8 @@
       "id":"1",
       "namePerson":"Hardi",
       "lastNamePerson":"Manrique",
+      "documentPerson": "76192501",
+      "documentRelative": "76192503",
       "kinshipType": "Mother",
       "nameRelative": "Fanny",
       "lastNameRelative": "Hurtado"
@@ -216,6 +218,8 @@
       "id":"2",
       "namePerson":"Hardi",
       "lastNamePerson":"Manrique",
+      "documentPerson": "76192501",
+      "documentRelative": "76192502",
       "kinshipType": "Father",
       "nameRelative": "Hardi",
       "lastNameRelative": "Manrique"
@@ -224,6 +228,8 @@
       "id":"3",
       "namePerson":"Hardi",
       "lastNamePerson":"Manrique",
+      "documentPerson": "76192501",
+      "documentRelative": "76192504",
       "kinshipType": "Brother",
       "nameRelative": "Gabriel",
       "lastNameRelative": "Manrique"
@@ -232,6 +238,8 @@
       "id":"4",
       "namePerson":"Camila",
       "lastNamePerson":"Urquizo",
+      "documentPerson": "12345678",
+      "documentRelative": "87654321",
       "kinshipType": "Sister",
       "nameRelative": "Carla",
       "lastNameRelative": "Urquizo"

@@ -134,7 +134,6 @@ export class CreateComponent implements OnInit {
       return this.user.get(param).hasError('minlenght')
         ? 'You must enter a value'
       : '';
-
   }
 
   public setContact() {

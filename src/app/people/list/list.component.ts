@@ -138,6 +138,3 @@ openInfo(row) {
 }
 
 }
-
-
-

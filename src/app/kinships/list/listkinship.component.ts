@@ -81,7 +81,7 @@ export class ListComponent implements OnInit {
       this.kinships = this.kinships.filter(
         item => {
         const fullname =
-        `${item.person.name.toLowerCase()} ${item.person.lastName.toLowerCase()}`;
+        `${item.personName.toLowerCase()} ${item.personLastName.toLowerCase()}`;
         return fullname.indexOf(value.toLocaleLowerCase()) > variableNum.n;
       });
       this.loadTable(this.kinships);
