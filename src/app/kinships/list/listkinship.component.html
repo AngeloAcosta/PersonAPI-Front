@@ -1,5 +1,8 @@
-<section id="post" class="container p-4">
-  <div class="headerTable pb-4">
+<section id="post" class="container">
+  <div class="d-flex flex-row justify-content-center">
+    <p class="mat-display-1 mb-3">List Kinship</p>
+  </div>
+  <div class="headerTable mb-4">
     <mat-form-field appearance="fill">
       <mat-label>Search</mat-label>
       <input class="search" matInput (keyup)="onChange($event.target.value)" />
@@ -17,7 +20,7 @@
     <ng-container matColumnDef="1">
       <mat-header-cell id="person" *matHeaderCellDef (click)="orderTable()" mat-sort-header>Person</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        {{ element.person.name }} {{ element.person.lastName }}
+        {{ element.personName }} {{ element.personLastName }}
       </mat-cell>
     </ng-container>
 
@@ -25,7 +28,7 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header (click)="orderTable()" disableClear>
         Kinship Type
       </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ getKinshipType(element.kinshipType) }}
+      <mat-cell *matCellDef="let element"> {{ element.kinshipType }}
       </mat-cell>
     </ng-container>
 
@@ -34,16 +37,16 @@
         Relative
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        {{ element.relative.name }} {{ element.relative.lastName }}
+        {{ element.relativeName }} {{ element.relativeLastName }}
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="buttons">
       <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-icon  matTooltip="Info about the Person" class="icon" (click)="openInfo(element)">info</mat-icon>
-        <mat-icon matTooltip="Edit Person" class="icon" (click)="openEdit(element)">edit</mat-icon>
-        <mat-icon matTooltip="Delete Person" class="icon delete" (click)="delete(element)">delete_forever</mat-icon>
+        <mat-icon matTooltip="Info about the Kinship" class="icon" (click)="openInfo(element)">info</mat-icon>
+        <mat-icon matTooltip="Edit Kinship" class="icon" (click)="openEdit(element)">edit</mat-icon>
+        <mat-icon matTooltip="Delete Kinship" class="icon delete" (click)="delete(element)">delete_forever</mat-icon>
       </mat-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

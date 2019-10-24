@@ -46,20 +46,20 @@ export const kinshipOptions = [
       value: 'C'
     },
     {
-      type: 'Grandfather (From Mother side)',
-      value: 'GFM'
+      type: 'Maternal grandfather',
+      value: 'MGF'
     },
     {
-      type: 'Grandmother (From Mother side)',
-      value: 'GMM'
+      type: 'Maternal grandmother',
+      value: 'MGM'
     },
     {
-      type: 'Grandfather (From Father side)',
-      value: 'GFF'
+      type: 'Paternal grandmother',
+      value: 'PGM'
     },
     {
-      type: 'Grandmother (From Father side)',
-      value: 'GMF'
+      type: 'Paternal grandfather',
+      value: 'PGF'
     }
 ];
 

@@ -1,11 +1,11 @@
 import { ApiKinship, KinshipModel } from './../../../models/kinship.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable, pipe, BehaviorSubject, from } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from './../../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { Kinship } from 'src/app/models/kinship.model';
-import { Person, ApiPeople, ApiPerson } from '../../create/create.models';
+import { Person, ApiPeople } from '../../create/create.models';
 import { Personedit } from '../../edit/editperson';
 import { InspectModel } from '../../inspect/inspect.models';
 import { ResponseModel } from '../../../shared/models';

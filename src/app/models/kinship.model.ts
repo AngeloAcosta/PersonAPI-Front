@@ -1,9 +1,7 @@
-import { Person } from './person.model';
-
 export class KinshipRelation {
-  idPerson: string;
-  idRelative: string;
-  kinship: string;
+  personId: string;
+  relativeId: string;
+  kinshipType: string;
 }
 
 export class Kinship {
@@ -15,6 +13,12 @@ export class Kinship {
   lastNameRelative: string;
 }
 
+export class TryKinship {
+  added: Array<string>;
+  modified: Array<string>;
+  deleted: Array<string>;
+}
+
 export class KinshipModel {
   personId: number;
   personName: string;
@@ -24,6 +28,12 @@ export class KinshipModel {
   relativeLastName: string;
   kinshipTypeId: string;
   kinshipType: string;
+}
+
+export class ApiTryKinship {
+  status: string;
+  data: TryKinship;
+  message: string;
 }
 
 export class ApiKinship {
