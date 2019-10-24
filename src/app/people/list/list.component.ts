@@ -88,7 +88,7 @@ export class ListComponent implements OnInit {
         });
         Swal.fire(
           'Deleted!',
-          'Your file has been deleted.',
+          'This person has been deleted.',
           'success'
         );
       }
