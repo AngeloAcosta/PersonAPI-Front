@@ -5,7 +5,7 @@ import { KinshipsService } from 'src/app/kinships/shared/service/kinships.servic
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { kinshipOptions } from '../../shared/constants';
+import { kinshipOptions, variableNum } from '../../shared/constants';
 
 @Component({
   selector: 'app-create',
@@ -33,19 +33,17 @@ export class CreateComponent implements OnInit {
 
   constructor(private peopleService: PeopleService, private kinshipService: KinshipsService) {
     this.firstFilteredPeople = this.firstSearchInputControl.valueChanges.pipe(
-      startWith(''),
       map(key => key ? this._filterPeople(key) : this.listPeople !== undefined ? this.listPeople.slice() : [] )
     );
 
     this.secondFilteredPeople = this.secondSearchInputControl.valueChanges.pipe(
-      startWith(''),
       map(key => key ? this._filterPeople(key) : this.listPeople !== undefined ? this.listPeople.slice() : [] )
     );
   }
 
   private _filterPeople(value: string): Person[] {
     const filterValue = value.toString().toLowerCase();
-    return this.listPeople.filter(item => item.document.toLowerCase().indexOf(filterValue) > -1);
+    return this.listPeople.filter(item => item.document.toLowerCase().indexOf(filterValue) > variableNum.n);
   }
 
   ngOnInit() {
@@ -87,7 +85,7 @@ export class CreateComponent implements OnInit {
           if (error.status === 404) {
             this.errors = ['An error ocurred with the server, please try again.', 'Bad Request 404'];
           } else if (error.status === 400) {
-            this.errors = error.data;
+            this.errors = error.error.data.length ? error.error.data : [error.error.message];
           }
         });
 

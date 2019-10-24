@@ -62,3 +62,7 @@ export const kinshipOptions = [
       value: 'GMF'
     }
 ];
+
+export const variableNum = {
+    n: -1
+};
