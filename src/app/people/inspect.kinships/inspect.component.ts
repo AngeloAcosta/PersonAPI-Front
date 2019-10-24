@@ -33,8 +33,6 @@ export class InspectKinshipsComponent implements OnInit {
     this.peopleService.getPersonKinships(this.data).subscribe(kinships => {
       this.person = kinships;
       this.loadKinshipTable(this.person);
-      console.log(this.person);
-
     });
   }
 
