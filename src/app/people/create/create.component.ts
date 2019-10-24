@@ -162,6 +162,7 @@ export class CreateComponent implements OnInit {
 
   onSubmit(): void {
     this.setContact();
+    console.log(this.registro);
     const verify = this.verifyEmptyDocument();
 
     this.registro.birthdate = moment(this.registro.birthdate).format(

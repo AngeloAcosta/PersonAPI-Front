@@ -12,9 +12,16 @@ mat-card{
 mat-card-content{
   align-content: center;
 }
+mat-card-actions{
+  justify-content: space-between;
+}
 .hide-scroll {
   overflow: hidden;
 }
 .viewport{
   overflow: auto;
 }
+.but2{
+  margin-right: 11px !important;
+}
+
