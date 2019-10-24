@@ -33,16 +33,12 @@
     ></mat-paginator>
     <mat-table
       [dataSource]="tableData"
-      matSort
-      matSortDisableClear
       class="mat-elevation-z8"
     >
       <ng-container matColumnDef="1">
         <mat-header-cell class="KinshipTable"
           id="titular"
           *matHeaderCellDef
-          (click)="orderTable()"
-          mat-sort-header
           >Relative Name
         </mat-header-cell>
         <mat-cell class="colum-name" *matCellDef="let element">
@@ -54,8 +50,6 @@
         <mat-header-cell class="KinshipTable"
           class="colum-country"
           *matHeaderCellDef
-          (click)="orderTable()"
-          mat-sort-header
         >
           Kinship Type
         </mat-header-cell>

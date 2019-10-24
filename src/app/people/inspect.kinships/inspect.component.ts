@@ -2,15 +2,11 @@ import { KinshipModel } from './../../models/kinship.model';
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PeopleService } from './../shared/services/people.service';
-import { merge, of as observableOf } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
 import {
   MatDialog,
   MatTableDataSource,
-  MatSort,
   MatPaginator
 } from '@angular/material';
-import { Kinship } from 'src/app/models/kinship.model';
 
 @Component({
   selector: 'app-inspect',
@@ -19,7 +15,6 @@ import { Kinship } from 'src/app/models/kinship.model';
 })
 export class InspectKinshipsComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
   tableData: MatTableDataSource<KinshipModel>;
   displayedColumns: string[] = ['1', '2', 'buttons'];
   orderBy: number;
@@ -41,27 +36,6 @@ export class InspectKinshipsComponent implements OnInit {
       console.log(this.person);
 
     });
-  }
-
-  orderTable() {
-    merge(this.sort.sortChange)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.orderBy = Number(this.sort.active);
-          if (this.sort.direction === 'asc') {
-            this.orderType = 1;
-          } else {
-            this.orderType = 2;
-          }
-          return this.peopleService.getKinshipSorted(
-            this.orderBy,
-            this.orderType,
-            this.data
-          );
-        })
-      )
-      .subscribe(person => this.loadKinshipTable(person));
   }
 
   loadKinshipTable(param) {
