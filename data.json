@@ -1,6 +1,5 @@
 {
-  "users": [
-    {
+  "users": [{
       "id": 1,
       "name": "aaa",
       "lastName": "bbbbb",
@@ -203,11 +202,10 @@
       "country": "Spain"
     }
   ],
-  "kinships": [
-    {
-      "id":"1",
-      "namePerson":"Hardi",
-      "lastNamePerson":"Manrique",
+  "kinships": [{
+      "id": "1",
+      "namePerson": "Hardi",
+      "lastNamePerson": "Manrique",
       "documentPerson": "76192501",
       "documentRelative": "76192503",
       "kinshipType": "Mother",
@@ -215,9 +213,9 @@
       "lastNameRelative": "Hurtado"
     },
     {
-      "id":"2",
-      "namePerson":"Hardi",
-      "lastNamePerson":"Manrique",
+      "id": "2",
+      "namePerson": "Hardi",
+      "lastNamePerson": "Manrique",
       "documentPerson": "76192501",
       "documentRelative": "76192502",
       "kinshipType": "Father",
@@ -225,9 +223,9 @@
       "lastNameRelative": "Manrique"
     },
     {
-      "id":"3",
-      "namePerson":"Hardi",
-      "lastNamePerson":"Manrique",
+      "id": "3",
+      "namePerson": "Hardi",
+      "lastNamePerson": "Manrique",
       "documentPerson": "76192501",
       "documentRelative": "76192504",
       "kinshipType": "Brother",
@@ -235,9 +233,9 @@
       "lastNameRelative": "Manrique"
     },
     {
-      "id":"4",
-      "namePerson":"Camila",
-      "lastNamePerson":"Urquizo",
+      "id": "4",
+      "namePerson": "Camila",
+      "lastNamePerson": "Urquizo",
       "documentPerson": "12345678",
       "documentRelative": "87654321",
       "kinshipType": "Sister",

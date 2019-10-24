@@ -29,7 +29,6 @@ export class InspectKinshipsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
     this.peopleService.getPersonKinships(this.data).subscribe(kinships => {
       this.person = kinships;
       this.loadKinshipTable(this.person);

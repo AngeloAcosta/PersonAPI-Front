@@ -34,7 +34,10 @@ export class ListComponent implements OnInit {
               }
 
   ngOnInit() {
+    this.getInitialData();
+  }
 
+  getInitialData() {
     this.peopleService.getPeople().subscribe(people => {
       this.people = people;
       this.temporalData = people;
@@ -107,7 +110,9 @@ export class ListComponent implements OnInit {
         panelClass: 'custom-modalbox',
         data: person
        });
-
+      dialogRef.afterClosed().subscribe(() => {
+          this.getInitialData();
+       });
      });
 
 }
@@ -129,7 +134,6 @@ openInfo(row) {
     this.peopleService.getPerson(row.id).subscribe(person => {
     this.person = person;
     this.temporalData = person;
-
     const dialogRef = this.dialog.open(InspectComponent, {
       data: person
      });

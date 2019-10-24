@@ -13,6 +13,7 @@ import { merge } from 'rxjs';
 import { CreateComponent } from '../create/create.component';
 import { Kinship, KinshipModel } from 'src/app/models/kinship.model';
 import { kinshipOptions, variableNum } from 'src/app/shared/constants';
+import { CompileMetadataResolver } from '@angular/compiler';
 
 @Component({
   selector: 'app-list',
@@ -25,6 +26,7 @@ export class ListComponent implements OnInit {
   tableData: MatTableDataSource<Kinship[]>;
   kinships: KinshipModel[];
   temporalData: KinshipModel[];
+  sortedData: KinshipModel[];
   displayedColumns: string[] = [
     '1',
     '2',
@@ -44,6 +46,10 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getInitialData();
+  }
+
+  getInitialData() {
     this.kinshipsService.getKinships().subscribe(kinships => {
       this.kinships = kinships;
       this.temporalData = kinships;
@@ -57,23 +63,25 @@ export class ListComponent implements OnInit {
   }
 
   orderTable() {
-    merge(this.sort.sortChange)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.orderBy = parseInt(this.sort.active, 10);
-          if (this.sort.direction === 'asc') {
-            this.orderType = 1;
-          } else {
-            this.orderType = 2;
-          }
-          return this.kinshipsService.getKinshipsSorted(
-            this.orderBy,
-            this.orderType
-          );
-        })
-      )
-      .subscribe(kinship => this.loadTable(kinship));
+    const tempData = this.kinships.slice();
+    if (!this.sort.active || this.sort.direction === '') {
+      this.sortedData = tempData;
+      return;
+    }
+    this.sortedData = tempData.sort((a, b) => {
+      const isAsc = this.sort.direction === 'asc';
+      switch (this.sort.active) {
+        case '1': return this.compareValues(a.personName, b.personName, isAsc);
+        case '2': return this.compareValues(a.kinshipType, b.kinshipType, isAsc);
+        case '3': return this.compareValues(a.relativeName, b.relativeName, isAsc);
+        default: return 0;
+      }
+    });
+    this.loadTable(this.sortedData);
+  }
+
+ compareValues(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
   onChange(value: string) {
@@ -96,10 +104,17 @@ export class ListComponent implements OnInit {
 
   openEdit(kinship): void {
     const dialogRef = this.dialog.open(EditComponent, {
-      width: '560px',
-      height: '465px',
-      panelClass: 'custom-modalbox',
+      width: '65%',
+      height: '77%',
+      panelClass: ['edit-modalbox'],
       data: kinship
+    });
+    dialogRef.componentInstance.onEdit.subscribe(() => {
+      dialogRef.close();
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getInitialData();
     });
   }
 
@@ -107,7 +122,13 @@ export class ListComponent implements OnInit {
     const dialogRef = this.dialog.open(CreateComponent, {
       width: '80%',
       height: '450px',
-      panelClass: 'custom-modalbox'
+      panelClass: 'create-modalbox'
+    });
+    dialogRef.componentInstance.onCreate.subscribe(() => {
+      dialogRef.close();
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.getInitialData();
     });
   }
 
@@ -118,5 +139,5 @@ export class ListComponent implements OnInit {
   }
 
   openInfo(row) {
-}
+  }
 }
