@@ -52,9 +52,9 @@ export class InspectComponent implements OnInit {
     data: person
     });
   }
-  openKinship(person): void {
+  openKinship(data): void {
     const dialogRef = this.dialog.open(InspectKinshipsComponent, {
-      data: person
+      data: data.person
     });
   }
 }

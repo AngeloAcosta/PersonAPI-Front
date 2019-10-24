@@ -79,9 +79,9 @@ export class PeopleService {
   }
 
 
-  getPerson(id: number): Observable<ApiPerson> {
-    return this.http.get<ResponseModel<ApiPerson>>(`${this.peopleUrl}/${id}`).pipe(
-      map((res: ResponseModel<ApiPerson>) => {
+  getPerson(id: number): Observable<InspectModel> {
+    return this.http.get<ResponseModel<InspectModel>>(`${this.peopleUrl}/${id}`).pipe(
+      map((res: ResponseModel<InspectModel>) => {
         return res.data;
       })
     );
