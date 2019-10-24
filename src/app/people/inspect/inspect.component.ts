@@ -37,7 +37,7 @@ export class InspectComponent implements OnInit {
         });
         Swal.fire(
           'Deleted!',
-          'Your file has been deleted.',
+          'This person has been deleted.',
           'success'
         );
       }

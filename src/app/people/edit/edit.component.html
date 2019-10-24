@@ -1,6 +1,9 @@
 <section fxLayout="row wrap" fxLayoutAlign="center center" class="hide-scroll">
   <mat-card fxFlex="500px" fxFlex.xs="100%" class="viewport">
+
     <mat-card-title>Edit User</mat-card-title>
+
+
     <form [formGroup]="user" (ngSubmit)="onSubmit()">
       <mat-card-content>
         <div [formGroup]="user">
@@ -221,6 +224,9 @@
               value="{{ data.person.contact1 }}"
               ng-required="user.contactType1Id==1"
             />
+            <mat-error>
+                Please enter a valid phone
+              </mat-error>
           </mat-form-field>
         </div>
 
@@ -271,11 +277,22 @@
               value="{{ data.person.contact2 }}"
               ng-required="user.contactType2Id==1"
             />
+            <mat-error>
+                Please enter a valid phone
+              </mat-error>
           </mat-form-field>
         </div>
       </mat-card-content>
       <mat-card-actions>
+        <button mat-raised-button mat-dialog-close class="btn btn-primary" color="primary" class="but2">
+            Back
+          </button>
         <button type="submit" [disabled]="user.invalid"  class="btn btn-primary">Edit User</button>
+        <button mat-raised-button mat-dialog-close color="warn" (click)="delete(data.person)" class="but3">
+          Delete
+        </button>
+
+
       </mat-card-actions>
     </form>
   </mat-card>

@@ -37,7 +37,7 @@ export class EditComponent implements OnInit {
   ) {
   }
   editPerson = this.data;
-
+  people: Array<Person>;
   selectedDoc: string;
   showEmail = true;
   showPhone = false;
@@ -203,6 +203,33 @@ export class EditComponent implements OnInit {
     }
     return false;
   }
+
+  delete(person): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        this.peopleService.deletePerson(person).subscribe(resp => {
+          this.people = this.people.filter(item => item.id !== person.id);
+        });
+        Swal.fire(
+          'Deleted!',
+          'This person has been deleted.',
+          'success'
+        );
+
+
+      }
+    });
+
+  }
+
 
   onSubmit(): void {
     this.setContact();
