@@ -9,6 +9,7 @@ import {merge,  of as observableOf} from 'rxjs';
 import {startWith, switchMap} from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { Person } from 'src/app/models/person.model';
+import { variableNum } from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-list',
@@ -38,7 +39,6 @@ export class ListComponent implements OnInit {
       this.people = people;
       this.temporalData = people;
       this.loadTable(this.people);
-      console.log(people);
     });
   }
 
@@ -62,7 +62,7 @@ export class ListComponent implements OnInit {
       this.people = this.people.filter(
         item => {
           const fullname = `${item.name.toLowerCase()} ${item.lastName.toLowerCase()}`;
-          return fullname.indexOf(value.toLowerCase()) > -1;
+          return fullname.indexOf(value.toLowerCase()) > variableNum.n;
       });
       this.loadTable(this.people);
     } else {
