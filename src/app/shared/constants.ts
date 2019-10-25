@@ -19,12 +19,12 @@ export const Gender = [
 
 export const Document = [
   { id: 1, type: 'DNI' },
-  { id: 2, type: 'Immigration card' },
+  { id: 2, type: 'Foreign card' },
   { id: 3, type: 'Passport' }
 ];
 
 export const Contact = [
-  { id: 1, type: 'Cellphone' },
+  { id: 1, type: 'Phone' },
   { id: 2, type: 'Email' }
 ];
 
@@ -46,19 +46,23 @@ export const kinshipOptions = [
       value: 'C'
     },
     {
-      type: 'Grandfather (From Mother side)',
-      value: 'GFM'
+      type: 'Maternal grandfather',
+      value: 'MGF'
     },
     {
-      type: 'Grandmother (From Mother side)',
-      value: 'GMM'
+      type: 'Maternal grandmother',
+      value: 'MGM'
     },
     {
-      type: 'Grandfather (From Father side)',
-      value: 'GFF'
+      type: 'Paternal grandmother',
+      value: 'PGM'
     },
     {
-      type: 'Grandmother (From Father side)',
-      value: 'GMF'
+      type: 'Paternal grandfather',
+      value: 'PGF'
     }
 ];
+
+export const variableNum = {
+    n: -1
+};
