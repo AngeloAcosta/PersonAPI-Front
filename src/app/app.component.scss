@@ -1,13 +1,16 @@
 .menu-spacer {
   flex: 1 1 auto;
 }
+
 mat-toolbar {
   background-color: #8ec1da;
 }
+
 .nav-link {
   text-decoration: none;
   color: gray;
 }
+
 .side-menu-link {
   text-decoration: none;
   color: white;
@@ -16,9 +19,11 @@ mat-toolbar {
 mat-sidenav-content {
   background-color: #c0dfed;
 }
+
 mat-sidenav {
   background-color: #9477bc;
 }
+
 .menu {
   color: #9477bc;
 }
@@ -27,38 +32,47 @@ mat-sidenav {
   0% {
     background-position: 0 0;
   }
+
   100% {
     background-position: -300px 0;
   }
 }
+
 @-moz-keyframes animatedBackground {
   0% {
     background-position: 0 0;
   }
+
   100% {
     background-position: -300px 0;
   }
 }
+
 @-webkit-keyframes animatedBackground {
   0% {
     background-position: 0 0;
   }
+
   100% {
     background-position: -300px 0;
   }
 }
+
 @-ms-keyframes animatedBackground {
   0% {
     background-position: 0 0;
   }
+
   100% {
     background-position: -300px 0;
   }
 }
+
 @-o-keyframes animatedBackground {
   0% {
     background-position: 0 0;
   }
+
   100% {
     background-position: -300px 0;
   }

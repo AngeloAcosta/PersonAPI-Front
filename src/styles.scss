@@ -1,10 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
-@font-face{font-family: Comfortaa; src: url('./fonts/Comfortaa-Regular.ttf')}
-body{
-  
+@font-face {
+  font-family: Comfortaa;
+  src: url('./fonts/Comfortaa-Regular.ttf')
+}
+
+body {
+
   background-color: #C0DFED;
 }
-*{
+
+* {
   font-family: 'Raleway', sans-serif;
 }
 
@@ -22,3 +27,32 @@ $custom-typography: mat-typography-config($font-family: Comfortaa);
 @include angular-material-typography($custom-typography);
 
 @include mat-core($custom-typography);
+
+.edit-modalbox,
+.create-modalbox {
+  .mat-dialog-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.edit-modalbox {
+  width: 35% !important;
+}
+
+@media (max-width: 770px) {
+  .create-modalbox {
+    .mat-dialog-container {
+      align-items: stretch;
+    }
+  }
+
+  .edit-modalbox {
+    width: 65% !important;
+
+    .mat-dialog-container {
+      align-items: center;
+    }
+  }
+}

@@ -1,102 +1,179 @@
 <section fxLayout="row wrap" fxLayoutAlign="center center" class="hide-scroll">
   <mat-card fxFlex="500px" fxFlex.xs="100%" class="viewport">
+
     <mat-card-title>Edit User</mat-card-title>
+
+
     <form [formGroup]="user" (ngSubmit)="onSubmit()">
       <mat-card-content>
-
         <div [formGroup]="user">
-
-
-
           <mat-form-field>
-            <input matInput #input maxlength="40" matInput placeholder="Name" pattern="[a-zA-Z\s]*" minlength="3"
-              formControlName="name" [(ngModel)]="registro.Name" value="{{data.Name}}" required />
+            <input
+              matInput
+              #input
+              maxlength="40"
+              matInput
+              placeholder="Name"
+              pattern="[a-zA-Z\s]*"
+              minlength="3"
+              formControlName="name"
+              [(ngModel)]="registro.name"
+              value="{{ data.person.name }}"
+              required
+            />
 
             <mat-error *ngIf="this.user.get('name').hasError">{{
-                getErrorMessage('name')
-              }}</mat-error>
+              getErrorMessage("name")
+            }}</mat-error>
           </mat-form-field>
-
-
         </div>
 
         <mat-form-field>
           <div [formGroup]="user">
-            <input matInput #input maxlength="80" pattern="[a-zA-ZñÑ'áéíóúÁÉÍÓÚ\s]*" matInput placeholder="Last name"
-              formControlName="lastName" [(ngModel)]="registro.lastName" value="{{data.lastName}}" minlength="3"
-              required />
+            <input
+              matInput
+              #input
+              maxlength="80"
+              pattern="[a-zA-ZñÑ'áéíóúÁÉÍÓÚ\s]*"
+              matInput
+              placeholder="Last name"
+              formControlName="lastName"
+              [(ngModel)]="registro.lastName"
+              value="{{ data.person.lastName }}"
+              minlength="3"
+              required
+            />
           </div>
 
           <mat-error *ngIf="this.user.get('lastName').hasError">{{
-                getErrorMessage('lastName')
-            }}</mat-error>
+            getErrorMessage("lastName")
+          }}</mat-error>
         </mat-form-field>
         <br />
 
         <mat-form-field>
-          <input matInput formControlName="birthdate" [min]="minDate" [max]="maxDate" [matDatepicker]="dp3"
-            placeholder="Date of birthdate" [(ngModel)]="registro.birthdate" value="{{data.birthdate}}" required />
+          <input
+            matInput
+            formControlName="birthdate"
+            [min]="minDate"
+            [max]="maxDate"
+            [matDatepicker]="dp3"
+            placeholder="Date of birthdate"
+            [(ngModel)]="registro.birthdate"
+
+            required
+          />
 
           <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
           <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-          <mat-error *ngIf="this.user.get('birthdate').hasError('matDatepickerMin')">Date should be superior</mat-error>
-          <mat-error *ngIf="this.user.get('birthdate').hasError('matDatepickerMax')">Date should be inferior at actual
+          <mat-error
+            *ngIf="this.user.get('birthdate').hasError('matDatepickerMin')"
+            >Date should be superior</mat-error
+          >
+          <mat-error
+            *ngIf="this.user.get('birthdate').hasError('matDatepickerMax')"
+            >Date should be inferior at actual
           </mat-error>
         </mat-form-field>
 
         <br />
         <div [formGroup]="user">
           <mat-form-field>
-            <mat-label>Document</mat-label>
-            <mat-select formControlName="documentTypeId" (selectionChange)="toggleVisibility3($event)"
-              [(ngModel)]="data.documentTypeId">
-              <mat-option *ngFor="let documentId of documents" [value]="documentId.id">
-                {{ documentId.type }}
+            <mat-label>Type of Document</mat-label>
+            <mat-select
+              formControlName="documentTypeId"
+              (selectionChange)="changeInputDocument($event)"
+              [(ngModel)]="documentTypeIdSelected"
+
+
+            >
+              <mat-option
+                *ngFor="let document of documents"
+                [value]="document.id"
+              >
+                {{ document.name }}
               </mat-option>
             </mat-select>
 
             <mat-error>Select one option</mat-error>
           </mat-form-field>
           <mat-form-field *ngIf="showDni">
-            <input matInput type="text" placeholder="DocumentID" formControlName="document" minlength="8" maxlength="8"
-              [(ngModel)]="registro.document" value="{{data.document}}" ng-required="user.documentType1Id==1" />
+            <input
+              matInput
+              type="text"
+              placeholder="DocumentID"
+              formControlName="document"
+              minlength="8"
+              maxlength="8"
+              [(ngModel)]="registro.document"
+              value="{{ data.person.document }}"
+              ng-required="user.documentType1Id==1"
+            />
             <mat-error>
               Please enter a valid Document
             </mat-error>
           </mat-form-field>
           <mat-form-field *ngIf="showPass">
-            <input matInput type="text" placeholder="Passport or Inmmigration Card" formControlName="document2"
-              minlength="8" maxlength="12" [(ngModel)]="registro.document" value="{{data.document}}"
-              ng-required="user.documentType1Id==2" />
+            <input
+              matInput
+              type="text"
+              placeholder="Passport or Inmmigration Card"
+              formControlName="document2"
+              minlength="8"
+              maxlength="12"
+              [(ngModel)]="registro.document"
+              value="{{ data.person.document }}"
+              ng-required="user.documentType1Id==2"
+            />
             <mat-error>
               Please enter a valid Document
             </mat-error>
           </mat-form-field>
-
         </div>
 
         <br />
         <div [formGroup]="user">
           <mat-form-field>
             <mat-label>Gender</mat-label>
-            <mat-select formControlName="genderId" [(ngModel)]="registro.genderId" required>
-              <mat-option *ngFor="let gend of genderIds" [value]="gend.id">
-                {{ gend.type }}
+            <mat-select
+              formControlName="genderId"
+              [(ngModel)]="genderIdSelected"
+
+
+
+              required
+            >
+              <mat-option *ngFor="let gend of genderIds"
+              [value]="gend.id">
+                {{ gend.name }}
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="this.user.get('genderId').hasError('required')">Select one option</mat-error>
+            <mat-error *ngIf="this.user.get('genderId').hasError('required')"
+              >Select one option</mat-error
+            >
           </mat-form-field>
         </div>
         <br />
         <div [formGroup]="user">
           <mat-form-field>
             <mat-label>Country</mat-label>
-            <mat-select formControlName="countryId" [(ngModel)]="registro.countryId" required>
-              <mat-option *ngFor="let countryId of countries" [value]="countryId.id">
-                {{ countryId.name }}
+            <mat-select
+              formControlName="countryId"
+              [(ngModel)]="countryIdSelected"
+
+
+              required
+            >
+              <mat-option
+                *ngFor="let country of countries"
+                [value]="country.id"
+              >
+                {{ country.name }}
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="this.user.get('countryId').hasError('required')">Select one option</mat-error>
+            <mat-error *ngIf="this.user.get('countryId').hasError('required')"
+              >Select one option</mat-error
+            >
           </mat-form-field>
         </div>
         <br />
@@ -104,60 +181,118 @@
         <div [formGroup]="user">
           <mat-form-field>
             <mat-label>Contact</mat-label>
-            <mat-select formControlName="contactType1Id" (selectionChange)="toggleVisibility($event)"
-              [(ngModel)]="registro.contactType1Id">
-              <mat-option *ngFor="let contactId of contacts" [value]="contactId.id">
-                {{ contactId.type }}
+            <mat-select
+              formControlName="contactType1Id"
+              (selectionChange)="changeInputContact($event)"
+              [(ngModel)]="contactType1IdSelected"
+
+
+            >
+              <mat-option
+                *ngFor="let contact of contacts"
+                [value]="contact.id"
+              >
+                {{ contact.name }}
               </mat-option>
             </mat-select>
 
             <mat-error>Select one option</mat-error>
           </mat-form-field>
           <mat-form-field *ngIf="showEmail">
-            <input matInput type="text" placeholder="Email" formControlName="email" [(ngModel)]="registro.contact1"
-              value="{{data.contact1}}" ng-required="user.contactType1Id==2" />
+            <input
+              matInput
+              type="text"
+              placeholder="Email"
+              formControlName="email"
+              [(ngModel)]="registro.contact1"
+              value="{{ data.person.contact1 }}"
+              ng-required="user.contactType1Id==2"
+            />
             <mat-error>
               Please enter a valid email address
             </mat-error>
           </mat-form-field>
           <mat-form-field *ngIf="showPhone">
-            <input matInput type="text" placeholder="Cellphone" maxlength="9" formControlName="phone"
-              pattern="[0-9]{7,9}" [(ngModel)]="registro.contact1" value="{{data.contact1}}"
-              ng-required="user.contactType1Id==1" />
+            <input
+              matInput
+              type="text"
+              placeholder="Phone"
+              maxlength="9"
+              formControlName="phone"
+              pattern="[0-9]{7,9}"
+              [(ngModel)]="registro.contact1"
+              value="{{ data.person.contact1 }}"
+              ng-required="user.contactType1Id==1"
+            />
+            <mat-error>
+                Please enter a valid phone
+              </mat-error>
           </mat-form-field>
-
         </div>
 
         <br />
         <div [formGroup]="user">
           <mat-form-field>
             <mat-label>Contact</mat-label>
-            <mat-select formControlName="contactType2Id" (selectionChange)="toggleVisibility2($event)"
-              [(ngModel)]="registro.contactType2Id">
-              <mat-option *ngFor="let contactId of contacts" [value]="contactId.id">
-                {{ contactId.type }}
+            <mat-select
+              formControlName="contactType2Id"
+              (selectionChange)="changeInputSecondContact($event)"
+              [(ngModel)]="contactType2IdSelected"
+
+
+            >
+              <mat-option
+                *ngFor="let contact of contacts"
+                [value]="contact.id"
+              >
+                {{ contact.name }}
               </mat-option>
             </mat-select>
 
             <mat-error>Select one option</mat-error>
           </mat-form-field>
           <mat-form-field *ngIf="showEmail2">
-            <input matInput type="text" placeholder="Email" formControlName="email2" [(ngModel)]="registro.contact2"
-              value="{{data.contact2}}" ng-required="user.contactType2Id==2" />
+            <input
+              matInput
+              type="text"
+              placeholder="Email"
+              formControlName="email2"
+              [(ngModel)]="registro.contact2"
+              value="{{ data.person.contact2 }}"
+              ng-required="user.contactType2Id==2"
+            />
             <mat-error>
               Please enter a valid email address
             </mat-error>
           </mat-form-field>
           <mat-form-field *ngIf="showPhone2">
-            <input matInput type="text" placeholder="Cellphone" formControlName="phone2" maxlength="9"
-              pattern="[0-9]{7,9}" [(ngModel)]="registro.contact2" value="{{data.contact2}}"
-              ng-required="user.contactType2Id==1" />
+            <input
+              matInput
+              type="text"
+              placeholder="Phone"
+              formControlName="phone2"
+              maxlength="9"
+              pattern="[0-9]{7,9}"
+              [(ngModel)]="registro.contact2"
+              value="{{ data.person.contact2 }}"
+              ng-required="user.contactType2Id==1"
+            />
+            <mat-error>
+                Please enter a valid phone
+              </mat-error>
           </mat-form-field>
         </div>
-
       </mat-card-content>
       <mat-card-actions>
-        <button type="submit" class="btn btn-primary">Edit user</button>
+        <button mat-raised-button mat-dialog-close class="btn btn-primary" color="primary" class="but2">
+            Back
+          </button>
+        <button type="submit" [disabled]="user.invalid"  class="btn btn-primary">Edit User</button>
+        <button mat-raised-button mat-dialog-close color="warn" (click)="delete(data.person)" class="but3">
+          Delete
+        </button>
+
+
       </mat-card-actions>
     </form>
   </mat-card>

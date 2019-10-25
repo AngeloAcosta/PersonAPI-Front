@@ -1,52 +1,35 @@
-<section id="post" class="container p-4">
-  <mat-form-field>
-    <input
-      class="search"
-      matInput
-      (keyup)="onChange($event.target.value)"
-      placeholder="Search"
-    />
-  </mat-form-field>
-  <div class="options">
-    <button class="buttons" style="align-content: flex-end">
-      Create Kinship
-    </button>
+<section id="post" class="container">
+  <div class="d-flex flex-row justify-content-center">
+    <p class="mat-display-1 mb-3">List Kinship</p>
+  </div>
+  <div class="headerTable mb-4">
+    <mat-form-field appearance="fill">
+      <mat-label>Search</mat-label>
+      <input class="search" matInput (keyup)="onChange($event.target.value)" />
+    </mat-form-field>
+    <div class="options">
+      <button mat-raised-button color="primary" (click)="openCreate()">
+        Create Kinship
+      </button>
+    </div>
   </div>
 
-  <mat-paginator
-    [pageSizeOptions]="[10, 15, 20, 25]"
-    showFirstLastButtons
-  ></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[10, 15, 20, 25]" showFirstLastButtons></mat-paginator>
 
-  <mat-table
-    [dataSource]="tableData"
-    matSort
-    matSortDisableClear
-    class="mat-elevation-z8"
-  >
+  <mat-table [dataSource]="tableData" matSort matSortDisableClear class="mat-elevation-z8">
     <ng-container matColumnDef="1">
-      <mat-header-cell
-        id="titular"
-        *matHeaderCellDef
-        (click)="orderTable()"
-        mat-sort-header
-        >Titular</mat-header-cell
-      >
+      <mat-header-cell id="person" *matHeaderCellDef (click)="orderTable()" mat-sort-header>Person</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        {{ element.namePerson }} {{ element.lastNamePerson }}
+        {{ element.personName }} {{ element.personLastName }}
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="2">
-      <mat-header-cell
-        *matHeaderCellDef
-        mat-sort-header
-        (click)="orderTable()"
-        disableClear
-      >
+      <mat-header-cell *matHeaderCellDef mat-sort-header (click)="orderTable()" disableClear>
         Kinship Type
       </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ element.kinshipType }} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{ element.kinshipType }}
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="3">
@@ -54,25 +37,16 @@
         Relative
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        {{ element.nameRelative }} {{ element.lastNameRelative }}
+        {{ element.relativeName }} {{ element.relativeLastName }}
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="buttons">
       <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-icon
-          matTooltip="Edit Person"
-          class="icon"
-          (click)="openEdit(element)"
-          >edit</mat-icon
-        >
-        <mat-icon
-          matTooltip="Delete Person"
-          class="icon delete"
-          (click)="delete(element)"
-          >delete_forever</mat-icon
-        >
+        <mat-icon matTooltip="Info about the Kinship" class="icon" (click)="openInfo(element)">info</mat-icon>
+        <mat-icon matTooltip="Edit Kinship" class="icon" (click)="openEdit(element)">edit</mat-icon>
+        <mat-icon matTooltip="Delete Kinship" class="icon delete" (click)="delete(element)">delete_forever</mat-icon>
       </mat-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
