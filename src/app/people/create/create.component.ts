@@ -131,8 +131,8 @@ export class CreateComponent implements OnInit {
   }
   getEmptyError(param) {
 
-      return this.user.get(param).hasError('minlenght')
-        ? 'You must enter a value'
+    return this.user.get(param).hasError('minlenght')
+      ? 'You must enter a value'
       : '';
   }
 
@@ -170,21 +170,26 @@ export class CreateComponent implements OnInit {
     if (verify === true) {
       Swal.fire({
         type: 'error',
-            title: 'Register Denied',
-            text: ' This document ID is empty or alredy exits '
+        title: 'Register Denied',
+        text: ' This document ID is empty or alredy exits '
 
       });
 
     } else {
       this.peopleService.addPerson(this.registro).subscribe(
         res => {
-          Swal.fire({
-            type: 'success',
-            title: 'Done',
-            text: ' Person was registered satisfactory'
-          });
-
           this.dialogRef.close();
+          Swal.fire({
+            title: 'Done',
+            text: ' Person was registered satisfactory',
+            type: 'success',
+            toast: true,
+            position: 'top-end',
+            width: 300,
+            backdrop: false,
+            showConfirmButton: false,
+            timer: 1750
+          });
         },
         error => {
           if (error.status === 500) {

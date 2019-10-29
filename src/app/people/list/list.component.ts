@@ -2,7 +2,7 @@ import { CreateComponent } from './../create/create.component';
 import { EditComponent } from './../edit/edit.component';
 import { PeopleService } from './../shared/services/people.service';
 import { Component, OnInit, Inject , ViewChild, AfterViewInit} from '@angular/core';
-import {MatDialog, MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
+import { MatDialog, MatPaginator, MatTableDataSource, MatSort, MatDialogRef } from '@angular/material';
 import { InspectComponent } from '../inspect/inspect.component';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import {merge,  of as observableOf} from 'rxjs';
@@ -89,10 +89,17 @@ export class ListComponent implements OnInit {
           this.people = this.people.filter(item => item.id !== person.id);
           this.loadTable(this.people);
         });
-        Swal.fire(
-          'Deleted!',
-          'This person has been deleted.',
-          'success'
+        Swal.fire({
+          title: 'Deleted!',
+          text: 'This person has been deleted.',
+          type: 'success',
+          toast: true,
+          position: 'top-end',
+          width: 300,
+          backdrop: false,
+          showConfirmButton: false,
+          timer: 1750,
+        }
         );
       }
     });
