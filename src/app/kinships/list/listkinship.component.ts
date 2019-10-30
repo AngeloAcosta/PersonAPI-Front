@@ -138,6 +138,4 @@ export class ListComponent implements OnInit {
     this.tableData.sort = this.sort;
   }
 
-  openInfo(row) {
-  }
 }
