@@ -34,8 +34,7 @@ export class EditComponent implements OnInit {
     private peopleService: PeopleService,
     public dialogRef: MatDialogRef<EditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: InspectModel
-  ) {
-  }
+  ) {}
   editPerson = this.data;
   people: Array<Person>;
   selectedDoc: string;
@@ -68,7 +67,7 @@ export class EditComponent implements OnInit {
 
   ngOnInit() {
     this.registro = this.data.person;
-    this.originPerson = {...this.data.person};
+    this.originPerson = { ...this.data.person };
     this.countryIdSelected = this.data.person.countryId;
     this.contactType1IdSelected = this.data.person.contactType1Id;
     this.contactType2IdSelected = this.data.person.contactType2Id;
@@ -86,9 +85,7 @@ export class EditComponent implements OnInit {
         Validators.pattern('[a-zA-ZñÑáéíóúÁÉÍÓÚ ]*')
       ]),
       birthdate: new FormControl('', [Validators.required]),
-      documentTypeId: new FormControl('', [
-        Validators.required
-      ]),
+      documentTypeId: new FormControl('', [Validators.required]),
       document: new FormControl('', [Validators.pattern('[0-9]{8}')]),
       document2: new FormControl('', [Validators.pattern('[a-zA-Z0-9]{12}')]),
       genderId: new FormControl('', Validators.required),
@@ -176,9 +173,6 @@ export class EditComponent implements OnInit {
       : '';
   }
 
-
-
-
   public setContact() {
     if (
       this.registro.contact1 === undefined &&
@@ -213,23 +207,26 @@ export class EditComponent implements OnInit {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
+    }).then(result => {
       if (result.value) {
         this.peopleService.deletePerson(person).subscribe(resp => {
           this.people = this.people.filter(item => item.id !== person.id);
         });
-        Swal.fire(
-          'Deleted!',
-          'This person has been deleted.',
-          'success'
-        );
-
-
+        this.dialogRef.close();
+        Swal.fire({
+          title: 'Deleted!',
+          text: 'This person has been deleted.',
+          type: 'success',
+          toast: true,
+          position: 'top-end',
+          width: 300,
+          backdrop: false,
+          showConfirmButton: false,
+          timer: 1750
+        });
       }
     });
-
   }
-
 
   onSubmit(): void {
     this.setContact();
@@ -247,34 +244,39 @@ export class EditComponent implements OnInit {
         text: ' This document ID is empty or alredy exits '
       });
     } else {
-
       this.registro.countryId = this.countryIdSelected;
       this.registro.contactType1Id = this.contactType1IdSelected;
       this.registro.contactType2Id = this.contactType2IdSelected;
       this.registro.documentTypeId = this.documentTypeIdSelected;
 
       this.peopleService.editPerson(this.registro).subscribe(
-            res => {
-              Swal.fire({
-                type: 'success',
-                title: 'Done',
-                text: ' Person was update satisfactory'
-              });
-              this.succesfullsubmit = true;
-              this.dialogRef.close();
-            },
-            error => {
-              if (error.status === 400) {
-                this.errors = [];
-                Swal.fire({
-                  type: 'error',
-                  title: 'Register Denied',
-                  text: error.error.message
-                });
-
-              } else if (error.status === 500) {
-                this.errors = error.data;
-              }
+        res => {
+          this.dialogRef.close();
+          Swal.fire({
+            type: 'success',
+            title: 'Done',
+            text: ' Person was update satisfactory',
+            toast: true,
+            position: 'top-end',
+            width: 300,
+            backdrop: false,
+            showConfirmButton: false,
+            timer: 1750
+          });
+          this.succesfullsubmit = true;
+          this.dialogRef.close();
+        },
+        error => {
+          if (error.status === 400) {
+            this.errors = [];
+            Swal.fire({
+              type: 'error',
+              title: 'Register Denied',
+              text: error.error.message
+            });
+          } else if (error.status === 500) {
+            this.errors = error.data;
+          }
         }
       );
     }

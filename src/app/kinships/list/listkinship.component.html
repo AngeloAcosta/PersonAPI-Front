@@ -44,7 +44,6 @@
     <ng-container matColumnDef="buttons">
       <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-icon matTooltip="Info about the Kinship" class="icon" (click)="openInfo(element)">info</mat-icon>
         <mat-icon matTooltip="Edit Kinship" class="icon" (click)="openEdit(element)">edit</mat-icon>
         <mat-icon matTooltip="Delete Kinship" class="icon delete" (click)="delete(element)">delete_forever</mat-icon>
       </mat-cell>
