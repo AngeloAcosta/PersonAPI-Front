@@ -14,6 +14,7 @@ import { CreateComponent } from '../create/create.component';
 import { Kinship, KinshipModel } from 'src/app/models/kinship.model';
 import { kinshipOptions, variableNum } from 'src/app/shared/constants';
 import { CompileMetadataResolver } from '@angular/compiler';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list',
@@ -27,15 +28,10 @@ export class ListComponent implements OnInit {
   kinships: KinshipModel[];
   temporalData: KinshipModel[];
   sortedData: KinshipModel[];
-  displayedColumns: string[] = [
-    '1',
-    '2',
-    '3',
-    'buttons'
-  ];
+  displayedColumns: string[] = ['1', '2', '3', 'buttons'];
   orderBy: number;
   orderType: number;
-  relations: {type: string, value: string}[] = kinshipOptions;
+  relations: { type: string; value: string }[] = kinshipOptions;
 
   constructor(
     private kinshipsService: KinshipsService,
@@ -71,25 +67,27 @@ export class ListComponent implements OnInit {
     this.sortedData = tempData.sort((a, b) => {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
-        case '1': return this.compareValues(a.personName, b.personName, isAsc);
-        case '2': return this.compareValues(a.kinshipType, b.kinshipType, isAsc);
-        case '3': return this.compareValues(a.relativeName, b.relativeName, isAsc);
-        default: return 0;
+        case '1':
+          return this.compareValues(a.personName, b.personName, isAsc);
+        case '2':
+          return this.compareValues(a.kinshipType, b.kinshipType, isAsc);
+        case '3':
+          return this.compareValues(a.relativeName, b.relativeName, isAsc);
+        default:
+          return 0;
       }
     });
     this.loadTable(this.sortedData);
   }
 
- compareValues(a: number | string, b: number | string, isAsc: boolean) {
+  compareValues(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
   onChange(value: string) {
     if (value !== '') {
-      this.kinships = this.kinships.filter(
-        item => {
-        const fullname =
-        `${item.personName.toLowerCase()} ${item.personLastName.toLowerCase()}`;
+      this.kinships = this.kinships.filter(item => {
+        const fullname = `${item.personName.toLowerCase()} ${item.personLastName.toLowerCase()}`;
         return fullname.indexOf(value.toLocaleLowerCase()) > variableNum.n;
       });
       this.loadTable(this.kinships);
@@ -100,8 +98,37 @@ export class ListComponent implements OnInit {
   }
 
   delete(kinship): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(result => {
+      if (result.value) {
+        this.kinshipsService.deleteKinship(kinship).subscribe(resp => {
+          this.kinships = this.kinships.filter(item => item !== kinship);
+          this.loadTable(this.kinships);
+        });
+      }
+      this.openSuccessDeleteMessage();
+    });
   }
-
+  openSuccessDeleteMessage(): void {
+    Swal.fire({
+      type: 'success',
+      title: 'Done',
+      text: 'This kinship was deleted succesfully',
+      toast: true,
+      position: 'top-end',
+      width: 300,
+      backdrop: false,
+      showConfirmButton: false,
+      timer: 1750
+    });
+  }
   openEdit(kinship): void {
     const dialogRef = this.dialog.open(EditComponent, {
       width: '65%',

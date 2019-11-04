@@ -36,10 +36,18 @@ export class InspectComponent implements OnInit {
         this.peopleService.deletePerson(person).subscribe(resp => {
           this.people = this.people.filter(item => item.id !== person.id);
         });
-        Swal.fire(
-          'Deleted!',
-          'This person has been deleted.',
-          'success'
+        this.dialogRef.close();
+        Swal.fire({
+          title: 'Deleted!',
+          text: 'This person has been deleted.',
+          type: 'success',
+          toast: true,
+          position: 'top-end',
+          width: 300,
+          backdrop: false,
+          showConfirmButton: false,
+          timer: 1750,
+        }
         );
       }
     });
