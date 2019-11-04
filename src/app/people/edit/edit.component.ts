@@ -1,27 +1,20 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
-import { PeopleService } from './../shared/services/people.service';
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
-
 import {
   FormControl,
   FormGroup,
-  Validators,
-  PatternValidator,
-  AbstractControl,
-  ValidationErrors
+  Validators
 } from '@angular/forms';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
-  MatFormFieldControl,
-  MatFormField,
-  MatDialog
 } from '@angular/material';
 import Swal from 'sweetalert2';
-import { isNgTemplate } from '@angular/compiler';
-import { InspectModel, Person } from '../../people/inspect/inspect.models';
+import { PeopleService } from 'src/app/services/people.service';
+import { ModifyPerson, SimplePerson } from 'src/app/services/services.models';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-edit',
@@ -31,12 +24,11 @@ import { InspectModel, Person } from '../../people/inspect/inspect.models';
 })
 export class EditComponent implements OnInit {
   constructor(
+    private commonService: CommonService,
     private peopleService: PeopleService,
     public dialogRef: MatDialogRef<EditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: InspectModel
-  ) {}
-  editPerson = this.data;
-  people: Array<Person>;
+    @Inject(MAT_DIALOG_DATA) public personId: number
+  ) { }
   selectedDoc: string;
   showEmail = true;
   showPhone = false;
@@ -44,20 +36,20 @@ export class EditComponent implements OnInit {
   showPhone2 = false;
   showDni = true;
   showPass = false;
-  registro: Person;
+  registro: ModifyPerson;
   dateFormat: DatePipe;
   errors: string[] = [];
   success: string;
   succesfullsubmit = false;
-  originPerson: Person;
+  person: SimplePerson;
   user: FormGroup;
   minDate = new Date(1900, 0, 1);
 
   maxDate = new Date();
-  countries = [...this.data.countries];
-  genderIds = [...this.data.genders];
-  documents = [...this.data.documentTypes];
-  contacts = [...this.data.contactTypes];
+  countries = [];
+  genderIds = [];
+  documents = [];
+  contacts = [];
 
   documentTypeIdSelected: number;
   genderIdSelected: number;
@@ -66,13 +58,41 @@ export class EditComponent implements OnInit {
   contactType2IdSelected: number;
 
   ngOnInit() {
-    this.registro = this.data.person;
-    this.originPerson = { ...this.data.person };
-    this.countryIdSelected = this.data.person.countryId;
-    this.contactType1IdSelected = this.data.person.contactType1Id;
-    this.contactType2IdSelected = this.data.person.contactType2Id;
-    this.documentTypeIdSelected = this.data.person.documentTypeId;
-    this.genderIdSelected = this.data.person.genderId;
+    // Initialize common data
+    this.commonService.listContactTypes().subscribe(response => {
+      if (response.ok) {
+        this.contacts = response.data;
+      }
+    });
+    this.commonService.listCountries().subscribe(response => {
+      if (response.ok) {
+        this.countries = response.data;
+      }
+    });
+    this.commonService.listDocumentTypes().subscribe(response => {
+      if (response.ok) {
+        this.documents = response.data;
+      }
+    });
+    this.commonService.listGenders().subscribe(response => {
+      if (response.ok) {
+        this.genderIds = response.data;
+      }
+    });
+    // Initialize form data
+    this.person = new SimplePerson();
+    this.registro = new SimplePerson();
+    this.peopleService.inspectPerson(this.personId).subscribe(response => {
+      if (response.ok) {
+        this.registro = response.data;
+        this.person = response.data;
+        this.countryIdSelected = response.data.countryId;
+        this.contactType1IdSelected = response.data.contactType1Id;
+        this.contactType2IdSelected = response.data.contactType2Id;
+        this.documentTypeIdSelected = response.data.documentTypeId;
+        this.genderIdSelected = response.data.genderId;
+      }
+    });
     this.user = new FormGroup({
       name: new FormControl('', [
         Validators.required,
@@ -167,26 +187,26 @@ export class EditComponent implements OnInit {
     return this.user.get(param).hasError('required')
       ? 'You must enter a value'
       : this.user.get(param).hasError('pattern')
-      ? 'Please insert only letters'
-      : this.user.get(param).hasError('minlength')
-      ? `${param} must be greater than 2 characters`
-      : '';
+        ? 'Please insert only letters'
+        : this.user.get(param).hasError('minlength')
+          ? `${param} must be greater than 2 characters`
+          : '';
   }
 
   public setContact() {
     if (
       this.registro.contact1 === undefined &&
-      this.registro.contactType1 === undefined
+      this.registro.contactType1Id === undefined
     ) {
-      this.registro.contactType1 = null;
+      this.registro.contactType1Id = null;
       this.registro.contact1 = null;
     }
 
     if (
       this.registro.contact2 === undefined &&
-      this.registro.contactType2 === undefined
+      this.registro.contactType2Id === undefined
     ) {
-      this.registro.contactType2 = null;
+      this.registro.contactType2Id = null;
       this.registro.contact2 = null;
     }
   }
@@ -196,36 +216,6 @@ export class EditComponent implements OnInit {
       return true;
     }
     return false;
-  }
-
-  delete(person): void {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'You won\'t be able to revert this!',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then(result => {
-      if (result.value) {
-        this.peopleService.deletePerson(person).subscribe(resp => {
-          this.people = this.people.filter(item => item.id !== person.id);
-        });
-        this.dialogRef.close();
-        Swal.fire({
-          title: 'Deleted!',
-          text: 'This person has been deleted.',
-          type: 'success',
-          toast: true,
-          position: 'top-end',
-          width: 300,
-          backdrop: false,
-          showConfirmButton: false,
-          timer: 1750
-        });
-      }
-    });
   }
 
   onSubmit(): void {
@@ -249,33 +239,29 @@ export class EditComponent implements OnInit {
       this.registro.contactType2Id = this.contactType2IdSelected;
       this.registro.documentTypeId = this.documentTypeIdSelected;
 
-      this.peopleService.editPerson(this.registro).subscribe(
-        res => {
-          this.dialogRef.close();
-          Swal.fire({
-            type: 'success',
-            title: 'Done',
-            text: ' Person was update satisfactory',
-            toast: true,
-            position: 'top-end',
-            width: 300,
-            backdrop: false,
-            showConfirmButton: false,
-            timer: 1750
-          });
-          this.succesfullsubmit = true;
-          this.dialogRef.close();
-        },
-        error => {
-          if (error.status === 400) {
-            this.errors = [];
+      this.peopleService.modifyPerson(this.personId, this.registro).subscribe(
+        response => {
+          if (response.ok) {
+            this.dialogRef.close();
+            Swal.fire({
+              type: 'success',
+              title: 'Done',
+              text: ' Person was update satisfactory',
+              toast: true,
+              position: 'top-end',
+              width: 300,
+              backdrop: false,
+              showConfirmButton: false,
+              timer: 1750
+            });
+            this.succesfullsubmit = true;
+            this.dialogRef.close();
+          } else {
             Swal.fire({
               type: 'error',
               title: 'Register Denied',
-              text: error.error.message
+              text: response.message
             });
-          } else if (error.status === 500) {
-            this.errors = error.data;
           }
         }
       );

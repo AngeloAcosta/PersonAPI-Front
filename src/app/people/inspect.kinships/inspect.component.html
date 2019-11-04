@@ -4,10 +4,7 @@
       Kinships Details
     </h4>
 
-    <button
-      mat-icon-button
-      mat-dialog-close
-      aria-label="Example icon-button with a heart icon">
+    <button mat-icon-button mat-dialog-close aria-label="Example icon-button with a heart icon">
       <mat-icon>close</mat-icon>
     </button>
   </div>
@@ -17,29 +14,20 @@
       <p>
         <label for=""> <strong> Person Name: </strong></label>
         <label>
-          &nbsp;&nbsp; {{ data.name }} {{ data.lastName }}
+          &nbsp;&nbsp; {{ person.name }} {{ person.lastName }}
         </label>
       </p>
       <p>
 
         <label> <strong> Person Document: </strong></label>
-        <label> &nbsp;&nbsp; {{ data.documentType }} {{ data.document }} </label>
+        <label> &nbsp;&nbsp; {{ person.documentType }} {{ person.document }} </label>
       </p>
     </mat-dialog-content>
 
-    <mat-paginator
-      [pageSizeOptions]="[5, 10, 20, 25]"
-      showFirstLastButtons
-    ></mat-paginator>
-    <mat-table
-      [dataSource]="tableData"
-      class="mat-elevation-z8"
-    >
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 25]" showFirstLastButtons></mat-paginator>
+    <mat-table [dataSource]="tableData" class="mat-elevation-z8">
       <ng-container matColumnDef="1">
-        <mat-header-cell class="KinshipTable"
-          id="titular"
-          *matHeaderCellDef
-          >Relative Name
+        <mat-header-cell class="KinshipTable" id="titular" *matHeaderCellDef>Relative Name
         </mat-header-cell>
         <mat-cell class="colum-name" *matCellDef="let element">
           {{ element.relativeName }} {{ element.relativeLastName }}
@@ -47,10 +35,7 @@
       </ng-container>
 
       <ng-container matColumnDef="2" class="colum-country">
-        <mat-header-cell class="KinshipTable"
-          class="colum-country"
-          *matHeaderCellDef
-        >
+        <mat-header-cell class="KinshipTable" class="colum-country" *matHeaderCellDef>
           Kinship Type
         </mat-header-cell>
         <mat-cell class="colum-country" *matCellDef="let element">
@@ -61,9 +46,7 @@
         <mat-header-cell class="KinshipTable" *matHeaderCellDef> Action </mat-header-cell>
         <mat-cell *matCellDef="let element">
           <mat-icon matTooltip="Edit Kinship" class="icon">edit</mat-icon>
-          <mat-icon matTooltip="Delete Kinship" class="icon delete"
-            >delete_forever</mat-icon
-          >
+          <mat-icon matTooltip="Delete Kinship" class="icon delete">delete_forever</mat-icon>
         </mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

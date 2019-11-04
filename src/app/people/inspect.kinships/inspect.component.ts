@@ -1,12 +1,12 @@
-import { KinshipModel } from './../../models/kinship.model';
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { PeopleService } from './../shared/services/people.service';
 import {
   MatDialog,
   MatTableDataSource,
   MatPaginator
 } from '@angular/material';
+import { PeopleService } from 'src/app/services/people.service';
+import { SimplePerson, SimpleKinship } from 'src/app/services/services.models';
 
 @Component({
   selector: 'app-inspect',
@@ -15,28 +15,29 @@ import {
 })
 export class InspectKinshipsComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  tableData: MatTableDataSource<KinshipModel>;
+  tableData: MatTableDataSource<SimpleKinship>;
   displayedColumns: string[] = ['1', '2', 'buttons'];
-  orderBy: number;
-  orderType: number;
-  person;
+  person: SimplePerson;
 
   constructor(
     private peopleService: PeopleService,
     public dialogRef: MatDialogRef<InspectKinshipsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data,
+    @Inject(MAT_DIALOG_DATA) public personId: number,
     public dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit() {
-    this.peopleService.getPersonKinships(this.data).subscribe(kinships => {
-      this.person = kinships;
-      this.loadKinshipTable(this.person);
+    this.person = new SimplePerson();
+    this.peopleService.inspectPerson(this.personId).subscribe(response => {
+      if (response.ok) {
+        this.person = response.data;
+      }
     });
-  }
-
-  loadKinshipTable(param) {
-    this.tableData = new MatTableDataSource(param);
-    this.tableData.paginator = this.paginator;
+    this.peopleService.inspectPersonKinships(this.personId).subscribe(response => {
+      if (response.ok) {
+        this.tableData = new MatTableDataSource(response.data);
+        this.tableData.paginator = this.paginator;
+      }
+    });
   }
 }

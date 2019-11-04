@@ -1,15 +1,11 @@
 import { CreateComponent } from './../create/create.component';
 import { EditComponent } from './../edit/edit.component';
-import { PeopleService } from './../shared/services/people.service';
-import { Component, OnInit, Inject , ViewChild, AfterViewInit} from '@angular/core';
-import { MatDialog, MatPaginator, MatTableDataSource, MatSort, MatDialogRef } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatTableDataSource, MatSort, MatSnackBar, MatPaginator } from '@angular/material';
 import { InspectComponent } from '../inspect/inspect.component';
-import { OverlayContainer } from '@angular/cdk/overlay';
-import {merge,  of as observableOf} from 'rxjs';
-import {startWith, switchMap} from 'rxjs/operators';
 import Swal from 'sweetalert2';
-import { Person } from 'src/app/models/person.model';
-import { variableNum } from 'src/app/shared/constants';
+import { PeopleService } from 'src/app/services/people.service';
+import { SimplePerson } from 'src/app/services/services.models';
 
 @Component({
   selector: 'app-list',
@@ -17,135 +13,104 @@ import { variableNum } from 'src/app/shared/constants';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
-  tableData: MatTableDataSource<Person>;
-  people: Array<Person>;
-  person: object;
-  temporalData;
-  displayedColumns: string[] = ['1', '2', '3', '4', 'buttons'];
-  orderBy: number;
-  orderType: number;
+  private readonly MAX_LISTED_PEOPLE = 420;
 
-  constructor(private peopleService: PeopleService,
-              public dialog: MatDialog,
-              overlayContainer: OverlayContainer) {
-              overlayContainer.getContainerElement().classList.add('mat-light-theme');
-              }
+  columnsToDisplay: string[];
+  isLoading: boolean;
+  peopleDataSource: MatTableDataSource<SimplePerson>;
 
-  ngOnInit() {
-    this.getInitialData();
-  }
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  getInitialData() {
-    this.peopleService.getPeople().subscribe(people => {
-      this.people = people;
-      this.temporalData = people;
-      this.loadTable(this.people);
-    });
-  }
+  constructor(
+    private matDialog: MatDialog,
+    private matSnackBar: MatSnackBar,
+    private peopleService: PeopleService
+  ) { }
 
-  orderTable() {
-    merge(this.sort.sortChange)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-
-          this.orderBy = Number(this.sort.active);
-          if (this.sort.direction === 'asc') {
-            this.orderType = 1;
-          } else { this.orderType = 2; }
-          return this.peopleService.getPeopleSorted(
-            this.orderBy, this.orderType);
-        })).subscribe(person => this.loadTable(person));
-  }
-
-  onChange(value: string) {
-    if (value !== '') {
-      this.people = this.people.filter(
-        item => {
-          const fullname = `${item.name.toLowerCase()} ${item.lastName.toLowerCase()}`;
-          return fullname.indexOf(value.toLowerCase()) > variableNum.n;
-      });
-      this.loadTable(this.people);
-    } else {
-      this.people = this.temporalData;
-      this.loadTable(this.people);
-    }
-  }
-
-  delete(person): void {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'You won\'t be able to revert this!',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.value) {
-        this.peopleService.deletePerson(person).subscribe(resp => {
-          this.people = this.people.filter(item => item.id !== person.id);
-          this.loadTable(this.people);
-        });
-        Swal.fire({
-          title: 'Deleted!',
-          text: 'This person has been deleted.',
-          type: 'success',
-          toast: true,
-          position: 'top-end',
-          width: 300,
-          backdrop: false,
-          showConfirmButton: false,
-          timer: 1750,
-        }
-        );
+  private deletePerson(personId: number, personName: string, personLastName: string) {
+    this.peopleService.deletePerson(personId).subscribe(response => {
+      if (response.ok) {
+        // If nothing goes wrong, show success message in a snack bar
+        this.matSnackBar.open(`${personName} ${personLastName} was deleted.`);
+        // And refresh the table
+        this.refreshTable();
+      } else {
+        // Else, show the error in a snack bar
+        this.matSnackBar.open(response.message);
       }
     });
-
   }
 
-  openEdit(row): void {
-    this.peopleService.getPerson(row.id).subscribe(person => {
-      this.person = person;
-      this.temporalData = person;
-
-      const dialogRef = this.dialog.open(EditComponent, {
-        width: '530px',
-        height: '520px',
-        panelClass: 'custom-modalbox',
-        data: person
-       });
-      dialogRef.afterClosed().subscribe(() => {
-          this.getInitialData();
-       });
-     });
-
-}
-
-  openCreate(): void {
-    const dialogRef = this.dialog.open(CreateComponent, {
-      width: '555px',
-      height: '520px'
+  private refreshTable(): void {
+    // List people
+    this.peopleService.listPeople(this.MAX_LISTED_PEOPLE).subscribe(response => {
+      if (response.ok) {
+        // If nothing goes wrong, save the people list
+        this.peopleDataSource = new MatTableDataSource(response.data);
+        this.peopleDataSource.sort = this.sort;
+        // Set the loading state
+        this.isLoading = false;
+      } else {
+        // Else, show the error in a snack bar
+        this.matSnackBar.open(response.message);
+      }
     });
   }
 
-loadTable(param) {
-  this.tableData = new MatTableDataSource(param);
-  this.tableData.paginator = this.paginator;
-  this.tableData.sort = this.sort;
-}
+  ngOnInit(): void {
+    // Initialize properties
+    this.columnsToDisplay = ['name', 'document', 'documentType', 'country', 'actions'];
+    this.isLoading = true;
+    // Perform initial refresh of the table
+    this.refreshTable();
+  }
 
-openInfo(row) {
-    this.peopleService.getPerson(row.id).subscribe(person => {
-    this.person = person;
-    this.temporalData = person;
-    const dialogRef = this.dialog.open(InspectComponent, {
-      data: person
-     });
+  filterTableData(query: string): void {
+    // Trim and format the query
+    const filterQuery = query.trim().toLowerCase();
+    // Apply filter to the table
+    this.peopleDataSource.filter = filterQuery;
+  }
 
-   });
-}
+  openCreateDialog(): void {
+    // Open the create component in a dialog
+    const createDialog = this.matDialog.open(CreateComponent);
+    // When the dialog closes, update the table
+    createDialog.beforeClose().subscribe(_ => {
+      this.refreshTable();
+    });
+  }
 
+  openEditDialog(personId: number): void {
+    // Open the edit component in a dialog, injecting the personId
+    const editDialog = this.matDialog.open(EditComponent, { data: personId });
+    // When the dialog closes, update the table
+    editDialog.beforeClose().subscribe(_ => {
+      this.refreshTable();
+    });
+  }
+
+  openInspectDialog(personId: number): void {
+    // Open the inspect component in a dialog, injecting the personId
+    this.matDialog.open(InspectComponent, { data: personId });
+  }
+
+  promptDeletePerson(personId: number, personName: string, personLastName: string): void {
+    // Show a sweet alert to prompt for confirmation
+    Swal
+      .fire({
+        title: `Delete ${personName} ${personLastName}`,
+        text: 'Are you sure you want to delete this person?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Yes',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'No'
+      }).then((result) => {
+        if (result.value) {
+          this.deletePerson(personId, personName, personLastName);
+        }
+      });
+  }
 }
