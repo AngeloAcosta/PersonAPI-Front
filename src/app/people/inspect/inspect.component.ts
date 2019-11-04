@@ -1,68 +1,83 @@
-import { InspectKinshipsComponent } from '../inspect.kinships/inspect.component';
-import { Person } from './../create/create.models';
 import { Component, OnInit, Inject } from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef, MatDialog} from '@angular/material/dialog';
-import { PeopleService } from './../shared/services/people.service';
+import { SimplePerson } from 'src/app/services/services.models';
+import { PeopleService } from 'src/app/services/people.service';
+import { MatSnackBar, MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { EditComponent } from '../edit/edit.component';
 import Swal from 'sweetalert2';
+import { InspectKinshipsComponent } from '../inspect.kinships/inspect.component';
 
 @Component({
-    selector: 'app-inspect',
-    templateUrl: './inspect.component.html',
-    styleUrls: ['./inspect.component.scss']
+  selector: 'app-inspect',
+  templateUrl: './inspect.component.html',
+  styleUrls: ['./inspect.component.scss']
 })
 
 export class InspectComponent implements OnInit {
-  constructor(private peopleService: PeopleService,
-              public dialogRef: MatDialogRef<InspectComponent>,
-              @Inject(MAT_DIALOG_DATA) public data,
-              public dialog: MatDialog) { }
-    people: Array<Person>;
-    person: object;
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public personId: number,
+    private matDialog: MatDialog,
+    private matDialogRef: MatDialogRef<InspectComponent>,
+    private matSnackBar: MatSnackBar,
+    private peopleService: PeopleService) { }
+  isLoading: boolean;
+  person: SimplePerson;
 
-  ngOnInit() {
-  }
-  delete(person): void {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'You won\'t be able to revert this!',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.value) {
-        this.peopleService.deletePerson(person).subscribe(resp => {
-          this.people = this.people.filter(item => item.id !== person.id);
-        });
-        this.dialogRef.close();
-        Swal.fire({
-          title: 'Deleted!',
-          text: 'This person has been deleted.',
-          type: 'success',
-          toast: true,
-          position: 'top-end',
-          width: 300,
-          backdrop: false,
-          showConfirmButton: false,
-          timer: 1750,
-        }
-        );
+  private deletePerson(personId: number, personName: string, personLastName: string) {
+    this.peopleService.deletePerson(personId).subscribe(response => {
+      if (response.ok) {
+        // If nothing goes wrong, show success message in a snack bar
+        this.matSnackBar.open(`${personName} ${personLastName} was deleted.`);
+        // And close this dialog
+        this.matDialogRef.close();
+      } else {
+        // Else, show the error in a snack bar
+        this.matSnackBar.open(response.message);
       }
     });
+  }
 
-  }
-  openEdit(person): void {
-    const dialogRef = this.dialog.open(EditComponent, {
-      width: '585px',
-      height: '520px',
-    data: person
+  ngOnInit(): void {
+    // Initialize properties
+    this.isLoading = true;
+    // Get the person
+    this.peopleService.inspectPerson(this.personId).subscribe(response => {
+      if (response.ok) {
+        // If nothing goes wrong, save the person
+        this.person = response.data;
+        this.isLoading = false;
+      } else {
+        // Else, show the error in a snack bar
+        this.matSnackBar.open(response.message);
+      }
     });
   }
-  openKinship(data): void {
-    const dialogRef = this.dialog.open(InspectKinshipsComponent, {
-      data: data.person
-    });
+
+  openEditDialog(personId: number): void {
+    // Open the edit component in a dialog, injecting the personId
+    this.matDialog.open(EditComponent, { data: personId });
+  }
+
+  openInspectKinshipsDialog(personId: number): void {
+    // Open the inspect kinships component in a dialog, injecting the personId
+    this.matDialog.open(InspectKinshipsComponent, { data: personId });
+  }
+
+  promptDeletePerson(personId: number, personName: string, personLastName: string): void {
+    // Show a sweet alert to prompt for confirmation
+    Swal
+      .fire({
+        title: `Delete ${personName} ${personLastName}`,
+        text: 'Are you sure you want to delete this person?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Yes',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'No'
+      }).then((result) => {
+        if (result.value) {
+          this.deletePerson(personId, personName, personLastName);
+        }
+      });
   }
 }

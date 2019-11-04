@@ -1,64 +1,64 @@
-<section class="mat-typography container p-2">
-  <div class="row justify-content-between title-back">
-    <h4 class="mat-display-2 title" mat-dialog-title>
-      Person Details
-    </h4>
-
-    <button mat-icon-button mat-dialog-close aria-label="Example icon-button with a heart icon">
-      <mat-icon>x</mat-icon>
-    </button>
+<section class="container">
+  <!-- Loading -->
+  <div class="row" *ngIf="isLoading">
+    <div class="col">
+      <div class="d-flex justify-content-center pb-3 pt-3">
+        <mat-spinner></mat-spinner>
+      </div>
+    </div>
   </div>
-
-  <main>
-    <mat-dialog-content class="">
-      <p>
-        <label class="attributes">Nombre: </label><label for="name">{{ data.person.name }}</label>
-      </p>
-      <p>
-        <label class="attributes">Last Name: </label><label for="name">{{ data.person.lastName }}</label>
-      </p>
-      <p>
-        <label class="attributes">Date of birth: </label><label for="birth">{{ data.person.birthdate }}</label>
-      </p>
-      <p class="justify-content-between">
-        <span>
-          <label class="attributes">Document ID: </label><label for="id">{{ data.person.document }}</label>
-        </span>
-        <span class="elem2">
-          <label class="attributes">Type: </label><label for="type">{{ data.person.documentType }}</label>
-        </span>
-      </p>
-      <p>
-        <label class="attributes">Gender: </label><label for="gender">{{ data.person.gender }}</label>
-      </p>
-      <p>
-        <label class="attributes">Country: </label><label for="country">{{ data.person.country }}</label>
-      </p>
-      <p>
-        <label class="attributes">Contact</label>
-      </p>
-
-      <p>
-        <label class="space attributes2">{{ data.person.contactType1 }}:</label>
-        <label class="space">{{ data.person.contact1 }}</label>
-      </p>
-      <p>
-        <label class="space attributes2">{{ data.person.contactType2 }}:</label>
-        <label class="space">{{ data.person.contact2 }}</label>
-      </p>
-    </mat-dialog-content>
-  </main>
-  <footer>
-    <mat-dialog-actions class="cont1">
-      <button mat-raised-button mat-dialog-close (click)="openKinship(data)" [color]="'list-it'">
-        List Kinships
+  <!-- Title -->
+  <div class="row" *ngIf="!isLoading">
+    <div class="col">
+      <h2 class="text-center">Info</h2>
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
       </button>
-      <button mat-raised-button mat-dialog-close (click)="openEdit(data)" [color]="'edit-it'">
-        Edit
-      </button>
-      <button mat-raised-button mat-dialog-close color="warn" (click)="delete(data)" class="but3">
-        Delete
-      </button>
-    </mat-dialog-actions>
-  </footer>
+    </div>
+  </div>
+  <!-- Info -->
+  <div class="row" *ngIf="!isLoading">
+    <div class="col">
+      <div class="d-sm-flex d-block align-items-center">
+        <div><strong>Name</strong></div>
+        <div class="flex-fill text-sm-right text-left pl-sm-5 pl-0">{{person.name}}</div>
+      </div>
+      <div class="d-sm-flex d-block align-items-center mt-2-sm mt-1">
+        <div><strong>Last name</strong></div>
+        <div class="flex-fill text-sm-right text-left pl-sm-5 pl-0">{{person.lastName}}</div>
+      </div>
+      <div class="d-sm-flex d-block align-items-center mt-2-sm mt-1">
+        <div><strong>Birthdate</strong></div>
+        <div class="flex-fill text-sm-right text-left pl-sm-5 pl-0">{{person.birthdate}}</div>
+      </div>
+      <div class="d-sm-flex d-block align-items-center mt-2-sm mt-1">
+        <div><strong>Document ({{person.documentType}})</strong></div>
+        <div class="flex-fill text-sm-right text-left pl-sm-5 pl-0">{{person.document}}</div>
+      </div>
+      <div class="d-sm-flex d-block align-items-center mt-2-sm mt-1">
+        <div><strong>Gender</strong></div>
+        <div class="flex-fill text-sm-right text-left pl-sm-5 pl-0">{{person.gender}}</div>
+      </div>
+      <div class="d-sm-flex d-block align-items-center mt-2-sm mt-1">
+        <div><strong>Country</strong></div>
+        <div class="flex-fill text-sm-right text-left pl-sm-5 pl-0">{{person.country}}</div>
+      </div>
+      <div class="d-sm-flex d-block align-items-center mt-2-sm mt-1" *ngIf="person.contactType1Id">
+        <div><strong>Contact 1 ({{person.contactType1}})</strong></div>
+        <div class="flex-fill text-sm-right text-left pl-sm-5 pl-0">{{person.contact1}}</div>
+      </div>
+      <div class="d-sm-flex d-block align-items-center mt-2-sm mt-1" *ngIf="person.contactType2Id">
+        <div><strong>Contact 2 ({{person.contactType2}})</strong></div>
+        <div class="flex-fill text-sm-right text-left pl-sm-5 pl-0">{{person.contact2}}</div>
+      </div>
+    </div>
+  </div>
+  <!-- Actions -->
+  <div class="row" *ngIf="!isLoading">
+    <div class="col">
+      <button mat-raised-button class="mt-3 mr-sm-3 mr-1" color="primary" (click)="openInspectKinshipsDialog(person.id)">Show kinships</button>
+      <button mat-raised-button class="mt-sm-3 mt-1 mr-sm-3 mr-1" (click)="openEditDialog(person.id)">Edit</button>
+      <button mat-raised-button class="mt-sm-3 mt-1 mr-sm-3 mr-1" color="accent" (click)="promptDeletePerson(person.id, person.name, person.lastName)">Delete</button>
+    </div>
+  </div>
 </section>

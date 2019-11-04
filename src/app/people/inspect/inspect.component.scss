@@ -1,46 +1,5 @@
-*{
-  font-family: 'Raleway', sans-serif;
-}
-.title{
- justify-content: space-between;
- margin: 5px 15px 25px;
-
-}
-.title-back{
-
-  border-radius: 5px;
-  margin:5px;
-}
-.cont1 {
-  display: grid;
-  grid-auto-columns: repeat(3, 1fr);
-  grid-template-columns: 33% 34% 33%;
-}
-
-.attributes {
-  font-weight: bold;
-  font-size: 16px;
-  margin-right: 25px;
-}
-
-.attributes2{
-  font-weight: bold;
-}
-
-.elem2 {
-  margin-left: 25px;
-}
-
-.mat-list-it {
-  background-color: #1ca93c;
-  color: #fff;
-}
-
-.mat-edit-it {
-  background-color: rgb(42, 92, 230);
-  color: #fff;
-}
-
-.space {
-  margin-left: 10px;
+[mat-dialog-close] {
+  position: absolute;
+  right: 0;
+  top: 0;
 }

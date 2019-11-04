@@ -1,0 +1,9 @@
+<section class="container">
+  <div *ngIf="isLoading">
+    <h5>Loading...</h5>
+  </div>
+  <div *ngIf="!isLoading">
+    <h3>{{person.name}} {{person.lastName}}'s family tree</h3>
+  </div>
+  <angular-org-chart [data]="orgData"></angular-org-chart>
+</section>

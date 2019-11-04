@@ -91,7 +91,7 @@
                 *ngFor="let documentId of documents"
                 [value]="documentId.id"
               >
-                {{ documentId.type }}
+                {{ documentId.name }}
               </mat-option>
             </mat-select>
 
@@ -139,7 +139,7 @@
             <mat-select formControlName="genderId"
             [(ngModel)] = "registro.genderId" required>
               <mat-option *ngFor="let gend of genderIds" [value]="gend.id">
-                {{ gend.type }}
+                {{ gend.name }}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="this.user.get('genderId').hasError('required')"
@@ -180,7 +180,7 @@
 
                 [value]="contactId.id"
               >
-                {{ contactId.type }}
+                {{ contactId.name }}
               </mat-option>
             </mat-select>
 
@@ -230,7 +230,7 @@
                 *ngFor="let contactId of contacts"
                 [value]="contactId.id"
               >
-                {{ contactId.type }}
+                {{ contactId.name }}
               </mat-option>
             </mat-select>
 

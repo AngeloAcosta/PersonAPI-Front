@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
-import { PeopleService } from './../shared/services/people.service';
-import { Person } from './create.models';
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 
@@ -15,7 +13,9 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import Swal from 'sweetalert2';
-import { Country, Gender, Contact, Document } from '../../shared/constants';
+import { PeopleService } from 'src/app/services/people.service';
+import { CreatePerson } from 'src/app/services/services.models';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-create',
@@ -26,6 +26,7 @@ import { Country, Gender, Contact, Document } from '../../shared/constants';
 export class CreateComponent implements OnInit {
   constructor(
     private peopleService: PeopleService,
+    private commonService: CommonService,
     public dialogRef: MatDialogRef<CreateComponent>
   ) { }
   showEmail = true;
@@ -35,7 +36,7 @@ export class CreateComponent implements OnInit {
   showDni = true;
   showPass = false;
   required = false;
-  registro: Person;
+  registro: CreatePerson;
   dateFormat: DatePipe;
   errors: string[] = [];
   success: string;
@@ -44,13 +45,35 @@ export class CreateComponent implements OnInit {
   minDate = new Date(1900, 0, 1);
 
   maxDate = new Date();
-  countries = [...Country];
-  genderIds = [...Gender];
-  documents = [...Document];
-  contacts = [...Contact];
+  countries = [];
+  genderIds = [];
+  documents = [];
+  contacts = [];
 
   ngOnInit() {
-    this.registro = new Person();
+    // Initialize common data
+    this.commonService.listContactTypes().subscribe(response => {
+      if (response.ok) {
+        this.contacts = response.data;
+      }
+    });
+    this.commonService.listCountries().subscribe(response => {
+      if (response.ok) {
+        this.countries = response.data;
+      }
+    });
+    this.commonService.listDocumentTypes().subscribe(response => {
+      if (response.ok) {
+        this.documents = response.data;
+      }
+    });
+    this.commonService.listGenders().subscribe(response => {
+      if (response.ok) {
+        this.genderIds = response.data;
+      }
+    });
+    // Initialize form data
+    this.registro = new CreatePerson();
     this.user = new FormGroup({
       name: new FormControl('', [
         Validators.required,
@@ -176,31 +199,27 @@ export class CreateComponent implements OnInit {
       });
 
     } else {
-      this.peopleService.addPerson(this.registro).subscribe(
-        res => {
-          this.dialogRef.close();
-          Swal.fire({
-            title: 'Done',
-            text: ' Person was registered satisfactory',
-            type: 'success',
-            toast: true,
-            position: 'top-end',
-            width: 300,
-            backdrop: false,
-            showConfirmButton: false,
-            timer: 1750
-          });
-        },
-        error => {
-          if (error.status === 500) {
-            this.errors = [];
+      this.peopleService.createPerson(this.registro).subscribe(
+        response => {
+          if (response.ok) {
+            this.dialogRef.close();
+            Swal.fire({
+              title: 'Done',
+              text: ' Person was registered satisfactory',
+              type: 'success',
+              toast: true,
+              position: 'top-end',
+              width: 300,
+              backdrop: false,
+              showConfirmButton: false,
+              timer: 1750
+            });
+          } else {
             Swal.fire({
               type: 'error',
               title: 'Register Denied',
-              text: ' This document ID is empty or alredy exits '
+              text: response.message
             });
-          } else if (error.status === 500) {
-            this.errors = error.data;
           }
         }
       );

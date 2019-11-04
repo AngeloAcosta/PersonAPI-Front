@@ -76,7 +76,7 @@
           <form [formGroup]="createKinshipForm" (ngSubmit)="onSubmit()">
             <mat-form-field>
               <mat-select placeholder="Kinship" formControlName="kinshipType">
-                <mat-option *ngFor="let relation of relations" [value]="relation.value">{{ relation.type }}</mat-option>
+                <mat-option *ngFor="let relation of relations" [value]="relation.id">{{ relation.name }}</mat-option>
               </mat-select>
             </mat-form-field>
             <button mat-raised-button color="primary" type="submit" class="mx-4">Submit</button>
