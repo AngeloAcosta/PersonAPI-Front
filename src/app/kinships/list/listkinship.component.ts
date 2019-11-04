@@ -164,4 +164,7 @@ export class ListComponent implements OnInit {
     this.tableData.paginator = this.paginator;
     this.tableData.sort = this.sort;
   }
+
+  openInfo(row) {
+  }
 }
