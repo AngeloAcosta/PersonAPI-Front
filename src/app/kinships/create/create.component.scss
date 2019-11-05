@@ -31,6 +31,12 @@
   }
 }
 
+p.msg {
+  color: #5cb85c;
+  text-align: center;
+  font-weight: bold;
+}
+
 .btn-sub {
   text-align: center;
 }
@@ -47,9 +53,6 @@
   position: absolute;
   right: 0%;
   top: -10px;
-}
-.container-position{
-  position: relative;
 }
 @media (max-width: 770px) {
   .close-icons {

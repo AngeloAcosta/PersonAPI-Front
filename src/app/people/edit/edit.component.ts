@@ -84,13 +84,16 @@ export class EditComponent implements OnInit {
     this.registro = new SimplePerson();
     this.peopleService.inspectPerson(this.personId).subscribe(response => {
       if (response.ok) {
-        this.registro = response.data;
-        this.person = response.data;
         this.countryIdSelected = response.data.countryId;
         this.contactType1IdSelected = response.data.contactType1Id;
         this.contactType2IdSelected = response.data.contactType2Id;
         this.documentTypeIdSelected = response.data.documentTypeId;
         this.genderIdSelected = response.data.genderId;
+        this.showInputSecondContact(this.contactType2IdSelected);
+        this.showInputContact(this.contactType1IdSelected);
+        this.showInputDocument(this.documentTypeIdSelected);
+        this.registro = response.data;
+        this.person = response.data;
       }
     });
     this.user = new FormGroup({
@@ -128,9 +131,7 @@ export class EditComponent implements OnInit {
       phone2: new FormControl('', [Validators.pattern('[0-9]{7,9}')]),
       contactType2Id: new FormControl()
     });
-    this.showInputSecondContact(this.contactType2IdSelected);
-    this.showInputContact(this.contactType1IdSelected);
-    this.showInputDocument(this.documentTypeIdSelected);
+
   }
 
   changeInputContact(event) {

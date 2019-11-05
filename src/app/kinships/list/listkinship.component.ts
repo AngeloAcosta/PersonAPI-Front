@@ -126,7 +126,7 @@ export class ListComponent implements OnInit {
     });
   }
 
-  clearSearch(value){
+  clearSearch(value) {
     this.value = '';
     this.loadTable();
   }

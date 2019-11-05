@@ -1,6 +1,6 @@
 <section fxLayout="row wrap" fxLayoutAlign="center center" class="hide-scroll">
   <mat-card fxFlex="500px" fxFlex.xs="100%" class="viewport">
-    <mat-card-title>Create a new User</mat-card-title>
+    <mat-card-title>Create New Person</mat-card-title>
     <form [formGroup]="user" (ngSubmit)="onSubmit()">
       <mat-card-content>
 
@@ -8,20 +8,20 @@
 
 
 
-          <mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
             <input
               matInput
               #input
               maxlength="40"
               matInput
-              placeholder="Name"
               pattern="[a-zA-Z\s]*"
               minlength="3"
               formControlName="name"
               [(ngModel)] = "registro.name"
               required
             />
-
+            <mat-icon matSuffix>person</mat-icon>
             <mat-error *ngIf="this.user.get('name').hasError">{{
               getErrorMessage('name')
             }}</mat-error>
@@ -30,7 +30,8 @@
 
         </div>
 
-        <mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
           <div [formGroup]="user">
             <input
               matInput
@@ -38,32 +39,30 @@
               maxlength="80"
               pattern="[a-zA-ZñÑ'áéíóúÁÉÍÓÚ\s]*"
               matInput
-              placeholder="Last name"
               formControlName="lastName"
               [(ngModel)] = "registro.lastName"
               minlength="3"
               required
             />
           </div>
-
+          <mat-icon matSuffix>people_alt</mat-icon>
           <mat-error *ngIf="this.user.get('lastName').hasError">{{
               getErrorMessage('lastName')
           }}</mat-error>
         </mat-form-field>
         <br />
 
-        <mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Date of Birth</mat-label>
           <input
             matInput
             formControlName="birthdate"
             [min]="minDate"
             [max]="maxDate"
             [matDatepicker]="dp3"
-            placeholder="Date of birthdate"
             [(ngModel)] = "registro.birthdate"
             required
           />
-
           <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
           <mat-datepicker #dp3 disabled="false"></mat-datepicker>
           <mat-error
@@ -79,7 +78,7 @@
 
         <br />
         <div [formGroup]="user">
-          <mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>Document</mat-label>
             <mat-select
               formControlName="documentTypeId"
@@ -94,47 +93,46 @@
                 {{ documentId.name }}
               </mat-option>
             </mat-select>
-
             <mat-error>Select one option</mat-error>
           </mat-form-field>
-          <mat-form-field *ngIf="showDni">
+          <mat-form-field *ngIf="showDni" appearance="outline">
+            <mat-label>Document ID</mat-label>
             <input
               matInput
               type="text"
-              placeholder="DocumentID"
               formControlName="document"
               minlength="8"
               maxlength="8"
               [(ngModel)] = "registro.document"
               ng-required="user.documentTypeId==1"
             />
-
+            <mat-icon matSuffix>account_box</mat-icon>
             <mat-error *ngIf="this.user.get('document').hasError">
               {{getEmptyError('document')}}
               You must enter 8 numbers
             </mat-error>
           </mat-form-field>
-          <mat-form-field *ngIf="showPass" >
+          <mat-form-field *ngIf="showPass" appearance="outline">
+            <mat-label>Passport or Inmmigration Card</mat-label>
               <input
                 matInput
                 type="text"
-                placeholder="Passport or Inmmigration Card"
                 formControlName="document2"
                 minlength="8"
                 maxlength="12"
                 [(ngModel)] = "registro.document"
                 ng-required="user.documentTypeId==2"
               />
-              <mat-error >
+              <mat-icon matSuffix>assignment_ind</mat-icon>
+              <mat-error>
                 Please enter a valid Document
               </mat-error>
             </mat-form-field>
-
         </div>
 
         <br />
         <div [formGroup]="user">
-          <mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>Gender</mat-label>
             <mat-select formControlName="genderId"
             [(ngModel)] = "registro.genderId" required>
@@ -149,7 +147,7 @@
         </div>
         <br />
         <div [formGroup]="user">
-          <mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>Country</mat-label>
             <mat-select formControlName="countryId"
             [(ngModel)] = "registro.countryId" required>
@@ -168,7 +166,7 @@
         <br />
 
         <div [formGroup]="user">
-          <mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>Contact</mat-label>
             <mat-select
               formControlName="contactType1Id"
@@ -186,40 +184,40 @@
 
             <mat-error>Select one option</mat-error>
           </mat-form-field>
-          <mat-form-field *ngIf="showEmail">
+          <mat-form-field *ngIf="showEmail" appearance="outline">
+            <mat-label>Email</mat-label>
             <input
               matInput
               type="text"
-              placeholder="Email"
               formControlName="email"
               [(ngModel)] = "registro.contact1"
               ng-required="user.contactType1Id==2"
 
             />
+            <mat-icon matSuffix>mail_outline</mat-icon>
             <mat-error >
               Please enter a valid email address
             </mat-error>
           </mat-form-field>
-          <mat-form-field *ngIf="showPhone">
+          <mat-form-field *ngIf="showPhone" appearance="outline">
+            <mat-label>Cellphone</mat-label>
             <input
               matInput
               type="text"
-              placeholder="Cellphone"
               maxlength="9"
               formControlName="phone"
               pattern="[0-9]{7,9}"
               [(ngModel)] = "registro.contact1"
               ng-required="user.contactType1Id==1"
-
-
             />
+            <mat-icon matSuffix>phone</mat-icon>
           </mat-form-field>
 
         </div>
 
         <br />
         <div [formGroup]="user">
-          <mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>Contact</mat-label>
             <mat-select
               formControlName="contactType2Id"
@@ -236,25 +234,25 @@
 
             <mat-error>Select one option</mat-error>
           </mat-form-field>
-          <mat-form-field *ngIf="showEmail2">
+          <mat-form-field *ngIf="showEmail2" appearance="outline">
+            <mat-label>Email</mat-label>
             <input
               matInput
               type="text"
-              placeholder="Email"
               formControlName="email2"
               [(ngModel)] = "registro.contact2"
               ng-required="user.contactType2Id==2"
-
             />
-            <mat-error >
+            <mat-icon matSuffix>mail_outline</mat-icon>
+            <mat-error>
               Please enter a valid email address
             </mat-error>
           </mat-form-field>
-          <mat-form-field *ngIf="showPhone2">
+          <mat-form-field *ngIf="showPhone2" appearance="outline">
+            <mat-label>Cellphone</mat-label>
             <input
               matInput
               type="text"
-              placeholder="Cellphone"
               formControlName="phone2"
               maxlength="9"
               pattern="[0-9]{7,9}"
@@ -262,6 +260,7 @@
               ng-required="user.contactType2Id==1"
 
             />
+            <mat-icon matSuffix>phone</mat-icon>
           </mat-form-field>
         </div>
 
