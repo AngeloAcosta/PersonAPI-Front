@@ -19,6 +19,7 @@ export class ListComponent implements OnInit {
   isLoading: boolean;
   peopleDataSource: MatTableDataSource<SimplePerson>;
 
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
@@ -47,6 +48,7 @@ export class ListComponent implements OnInit {
       if (response.ok) {
         // If nothing goes wrong, save the people list
         this.peopleDataSource = new MatTableDataSource(response.data);
+        this.peopleDataSource.paginator = this.paginator;
         this.peopleDataSource.sort = this.sort;
         // Set the loading state
         this.isLoading = false;
@@ -76,7 +78,7 @@ export class ListComponent implements OnInit {
     // Open the create component in a dialog
     const createDialog = this.matDialog.open(CreateComponent);
     // When the dialog closes, update the table
-    createDialog.beforeClose().subscribe(_ => {
+    createDialog.beforeClosed().subscribe(_ => {
       this.refreshTable();
     });
   }
@@ -85,7 +87,7 @@ export class ListComponent implements OnInit {
     // Open the edit component in a dialog, injecting the personId
     const editDialog = this.matDialog.open(EditComponent, { data: personId });
     // When the dialog closes, update the table
-    editDialog.beforeClose().subscribe(_ => {
+    editDialog.beforeClosed().subscribe(_ => {
       this.refreshTable();
     });
   }

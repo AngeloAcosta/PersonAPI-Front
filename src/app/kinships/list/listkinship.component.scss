@@ -10,19 +10,23 @@ table {
   display: block;
 }
 
-.icon {
-  background: #8ad1f3;
-  color: white;
+.action-icon{
+  background: white;
   margin: 2px;
   border-radius: 5px;
+
+  &.edit{
+    color: #039BE5!important;
+  }
+
+  &.delete {
+    color: #fb7a7a!important;
+  }
 }
 
-.delete {
-  background: #fb7a7a;
-}
 
 mat-form-field {
-  width: 75%;
+  width: 100%;
   left: 0px;
 }
 
@@ -49,6 +53,12 @@ mat-cell {
   justify-content: center;
 }
 
+.titles{
+  font-size: 18px;
+  color: cornflowerblue;
+}
+
+
 @media screen and (min-width: 300px) and (max-width: 770px) {
   .buttons {
     margin-left: 5%;
@@ -60,4 +70,22 @@ mat-cell {
   .headerTable {
     flex-direction: column;
   }
+
+  i.material-icons {
+    font-size: 16px;
+    vertical-align: middle;
+    position: relative;
+    object-fit: contain;
+    display: flex;
+  }
+
+  .clear-search{
+    width: 200px;
+  }
+
+  .search-btn{
+    font-size: 18px;
+    transform:translateY(3px);
+  }
+
 }

@@ -1,3 +1,4 @@
+import { MatDialog } from '@angular/material';
 import { TestKinship } from './../../services/services.models';
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -14,6 +15,7 @@ import { KinshipsService } from 'src/app/services/kinships.service';
   styleUrls: ['./create.component.scss']
 })
 export class CreateComponent implements OnInit {
+  kinshipname: string;
   firstPerson: SimplePerson;
   secondPerson: SimplePerson;
   listPeople: SimplePerson[];
@@ -30,14 +32,15 @@ export class CreateComponent implements OnInit {
     kinshipType: new FormControl()
   });
   onCreate = new EventEmitter();
-
+  peopleLimit = 400;
   relations = [];
 
   constructor(
     private peopleService: PeopleService,
-    private kinshipsService: KinshipsService) {
+    private kinshipsService: KinshipsService,
+    public dialog: MatDialog) {
     this.firstFilteredPeople = this.firstSearchInputControl.valueChanges.pipe(
-      map(key => key ? this._filterPeople(key) : this.listPeople !== undefined ? this.listPeople.slice() : [])
+      map(key => key ? this._filterPeople(key) : this.listPeople !== undefined? this.listPeople.slice() : [] )
     );
 
     this.secondFilteredPeople = this.secondSearchInputControl.valueChanges.pipe(
@@ -63,7 +66,7 @@ export class CreateComponent implements OnInit {
         this.relations = response.data;
       }
     });
-    this.peopleService.listPeople().subscribe(response => {
+    this.peopleService.listPeople(this.peopleLimit).subscribe(response => {
       if (response.ok) {
         this.listPeople = response.data;
       }
@@ -76,7 +79,13 @@ export class CreateComponent implements OnInit {
       this.firstPerson = res;
     }
   }
+  close() {
+    this.dialog.closeAll();
+  }
 
+  SetInfoKinship(value: string) {
+    this.kinshipname = value;
+  }
   SetInfoSecondPerson(value: number) {
     const res = this.listPeople.find(item => item.id === value);
     if (res) {
@@ -101,11 +110,12 @@ export class CreateComponent implements OnInit {
         kinship.relativeId = relativeId;
         kinship.kinshipType = kinshipType;
         this.peopleService.createKinshipTest(personId, kinship).subscribe(response => {
+          console.log(response);
           if (response.ok) {
             const swalModal = Swal.mixin({
               customClass: {
-                confirmButton: 'btn btn-success px-2',
-                cancelButton: 'btn btn-danger px-2'
+                confirmButton: 'btn btn-success px-2 mr-3',
+                cancelButton: 'btn btn-secondary px-2'
               },
               buttonsStyling: false
             });
@@ -121,18 +131,34 @@ export class CreateComponent implements OnInit {
               if (result.value) {
                 this.peopleService.createKinship(personId, kinship).subscribe(response => {
                   if (response.ok) {
-                    swalModal.fire('Success!', 'New kinship has been added', 'success');
-                    this.firstPerson = new SimplePerson();
-                    this.secondPerson = new SimplePerson();
-                    this.createKinshipForm.reset();
                     this.onCreate.emit();
+                    Swal.fire({
+                      title: 'Done',
+                      text: ' Person was registered satisfactory',
+                      type: 'success',
+                      toast: true,
+                      position: 'top-end',
+                      width: 300,
+                      backdrop: false,
+                      showConfirmButton: false,
+                      timer: 1750
+                    });
                   } else {
                     swalModal.fire('Error', response.message, 'error');
                   }
                 });
-              } else if (result.dismiss === Swal.DismissReason.cancel) {
-                swalModal.fire('Cancelled', 'No change was made', 'error');
               }
+            });
+          } else {
+            Swal.fire({
+              text: response.message,
+              type: 'error',
+              backdrop: false,
+              toast: true,
+              position: 'top-end',
+              width: 300,
+              showConfirmButton: false,
+              timer: 1550
             });
           }
         });

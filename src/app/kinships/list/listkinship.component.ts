@@ -31,6 +31,9 @@ export class ListComponent implements OnInit {
   displayedColumns: string[] = ['personName', 'kinshipType', 'relativeName', 'buttons'];
   orderBy: number;
   orderType: number;
+  relations: [];
+  value = '';
+  isLoading: boolean;
 
   constructor(
     private kinshipsService: KinshipsService,
@@ -43,6 +46,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     this.loadTable();
+    this.isLoading = true;
   }
 
   onChange(query: string) {
@@ -56,16 +60,17 @@ export class ListComponent implements OnInit {
       text: 'You won\'t be able to revert this!',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonColor: 'btn btn-success',
+      cancelButtonColor: 'btn btn-secondary',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
     }).then(result => {
       if (result.value) {
         this.peopleService.deleteKinship(personId, relativeId).subscribe(resp => {
           this.loadTable();
+          this.openSuccessDeleteMessage();
         });
       }
-      this.openSuccessDeleteMessage();
     });
   }
 
@@ -100,8 +105,6 @@ export class ListComponent implements OnInit {
 
   openCreate(): void {
     const dialogRef = this.dialog.open(CreateComponent, {
-      width: '80%',
-      height: '450px',
       panelClass: 'create-modalbox'
     });
     dialogRef.componentInstance.onCreate.subscribe(() => {
@@ -119,9 +122,12 @@ export class ListComponent implements OnInit {
       this.tableData = new MatTableDataSource(response.data);
       this.tableData.paginator = this.paginator;
       this.tableData.sort = this.sort;
+      this.isLoading = false;
     });
   }
 
-  openInfo(row) {
+  clearSearch(value){
+    this.value = '';
+    this.loadTable();
   }
 }
