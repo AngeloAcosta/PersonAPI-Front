@@ -24,6 +24,7 @@
   <div class="row" [hidden]="isLoading">
     <div class="col">
       <div style="overflow-x: auto;">
+        <mat-paginator [pageSizeOptions]="[10, 15, 20, 25]" showFirstLastButtons></mat-paginator>
         <mat-table [dataSource]="peopleDataSource" matSort matSortDisableClear style="min-width: 750px;">
           <!-- Name column -->
           <ng-container matColumnDef="name">
