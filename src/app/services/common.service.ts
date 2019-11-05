@@ -21,9 +21,7 @@ export class CommonService {
     // If data could be retrieved, return it
     if (storageValue) {
       return of(storageValue);
-    }
-    // Else, send a request
-    else {
+    } else {
       const request = this.serviceProxy.sendGetRequest<SimpleContactType[]>(this.contactTypesEndpointUrl);
       // If the response was successful, save it in the storage
       request.subscribe(response => {
@@ -43,9 +41,7 @@ export class CommonService {
     // If data could be retrieved, return it
     if (storageValue) {
       return of(storageValue);
-    }
-    // Else, send a request
-    else {
+    } else {
       const request = this.serviceProxy.sendGetRequest<SimpleCountry[]>(this.countriesEndpointUrl);
       // If the response was successful, save it in the storage
       request.subscribe(response => {
@@ -65,9 +61,7 @@ export class CommonService {
     // If data could be retrieved, return it
     if (storageValue) {
       return of(storageValue);
-    }
-    // Else, send a request
-    else {
+    } else {
       const request = this.serviceProxy.sendGetRequest<SimpleDocumentType[]>(this.documentTypesEndpointUrl);
       // If the response was successful, save it in the storage
       request.subscribe(response => {
@@ -87,9 +81,7 @@ export class CommonService {
     // If data could be retrieved, return it
     if (storageValue) {
       return of(storageValue);
-    }
-    // Else, send a request
-    else {
+    } else {
       const request = this.serviceProxy.sendGetRequest<SimpleGender[]>(this.gendersEndpointUrl);
       // If the response was successful, save it in the storage
       request.subscribe(response => {

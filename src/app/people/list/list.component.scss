@@ -1,10 +1,35 @@
 .action-icon {
-  background: #8ad1f3;
-  color: white;
+  background: white;
+
   margin: 2px;
   border-radius: 5px;
 
-  &.action-delete {
-    background: #fb7a7a;
+  &.delete {
+    color: #fb7a7a;
   }
+  &.info{
+    color:#75A2D9!important;
+  }
+  &.edit{
+    color: #039BE5!important;
+  }
+}
+.search{
+  font-size: 18px;
+  transform: translateY(3px);
+}
+.title-table{
+  font-size: 18px;
+  color:cornflowerblue;
+  justify-content: center;
+}
+matt-cell,
+matt-header-cell,
+ng-container{
+  display: flex !important;
+  align-content: center;
+  justify-content: center;
+}
+.table{
+  justify-content: center;
 }
