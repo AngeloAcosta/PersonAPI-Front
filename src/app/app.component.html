@@ -1,40 +1,26 @@
-<div style="height: 80vh;">
-  <mat-toolbar id="animate-area">
-    <mat-toolbar-row class="container p-4">
-      <button
-        mat-icon-button
-        (click)="sidenav.toggle()"
-        fxShow="true"
-        fxHide.gt-sm
-      >
-        <mat-icon class="menu">menu</mat-icon>
-      </button>
-      <a class="nav-link" [routerLink]="['/']" mat-button>Welcome</a>
-      <span class="menu-spacer"></span>
-      <div fxShow="true" fxHide.lt-md>
-        <a class="nav-link" [routerLink]="['/list']" mat-button>People</a>
-        <a class="nav-link" [routerLink]="['/kinships/list']" mat-button
-          >Kinship</a
-        >
-        <a class="nav-link" href="#" mat-button>Logout</a>
-      </div>
-    </mat-toolbar-row>
-  </mat-toolbar>
+<mat-toolbar >
+  <mat-toolbar-row class="container">
+    <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
+      <mat-icon class="menu">menu</mat-icon>
+    </button>
+    <a class="nav-link" [routerLink]="['/']" mat-button><span class="logo">Persona</span><span class="logo pi">π</span></a>
+    <span class="menu-spacer"></span>
+    <div fxShow="true" fxHide.lt-md>
+      <a class="nav-link logo" [routerLink]="['/people/list']" mat-button>People</a>
+      <a class="nav-link logo" [routerLink]="['/kinships/list']" mat-button>Kinship</a>
 
-  <mat-sidenav-container fxFlexFill>
-    <mat-sidenav #sidenav>
-      <mat-nav-list>
-        <a class="side-menu-link" [routerLink]="['/list']" mat-list-item
-          >People</a
-        >
-        <a class="side-menu-link" [routerLink]="['/kinships/list']" mat-list-item
-          >Kinship</a
-        >
-        <a class="side-menu-link" href="#" mat-list-item>Logout</a>
-      </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content fxFlexFill>
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-</div>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav>
+    <mat-nav-list>
+      <a class="side-menu-link" [routerLink]="['/people/list']" mat-list-item>People</a>
+      <a class="side-menu-link" [routerLink]="['/kinships/list']" mat-list-item>Kinship</a>
+
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content class="pb-5">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

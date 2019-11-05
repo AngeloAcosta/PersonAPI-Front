@@ -1,5 +1,4 @@
 import { EditComponent } from '../edit/edit.component';
-import { KinshipsService } from '../shared/service/kinships.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import {
   MatDialog,
@@ -11,10 +10,11 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { startWith, switchMap } from 'rxjs/operators';
 import { merge } from 'rxjs';
 import { CreateComponent } from '../create/create.component';
-import { Kinship, KinshipModel } from 'src/app/models/kinship.model';
-import { kinshipOptions, variableNum } from 'src/app/shared/constants';
 import { CompileMetadataResolver } from '@angular/compiler';
 import Swal from 'sweetalert2';
+import { SimpleKinship } from 'src/app/services/services.models';
+import { KinshipsService } from 'src/app/services/kinships.service';
+import { PeopleService } from 'src/app/services/people.service';
 
 @Component({
   selector: 'app-list',
@@ -24,17 +24,20 @@ import Swal from 'sweetalert2';
 export class ListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
-  tableData: MatTableDataSource<Kinship[]>;
-  kinships: KinshipModel[];
-  temporalData: KinshipModel[];
-  sortedData: KinshipModel[];
-  displayedColumns: string[] = ['1', '2', '3', 'buttons'];
+  tableData: MatTableDataSource<SimpleKinship>;
+  kinships: SimpleKinship[];
+  temporalData: SimpleKinship[];
+  sortedData: SimpleKinship[];
+  displayedColumns: string[] = ['personName', 'kinshipType', 'relativeName', 'buttons'];
   orderBy: number;
   orderType: number;
-  relations: { type: string; value: string }[] = kinshipOptions;
+  relations: [];
+  value = '';
+  isLoading: boolean;
 
   constructor(
     private kinshipsService: KinshipsService,
+    private peopleService: PeopleService,
     public dialog: MatDialog,
     overlayContainer: OverlayContainer
   ) {
@@ -42,80 +45,35 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getInitialData();
+    this.loadTable();
+    this.isLoading = true;
   }
 
-  getInitialData() {
-    this.kinshipsService.getKinships().subscribe(kinships => {
-      this.kinships = kinships;
-      this.temporalData = kinships;
-      this.loadTable(this.kinships);
-    });
+  onChange(query: string) {
+    const filterQuery = query.trim().toLowerCase();
+    this.tableData.filter = filterQuery;
   }
 
-  getKinshipType(type: string) {
-    const response = this.relations.find(relation => relation.value === type);
-    return response.type;
-  }
-
-  orderTable() {
-    const tempData = this.kinships.slice();
-    if (!this.sort.active || this.sort.direction === '') {
-      this.sortedData = tempData;
-      return;
-    }
-    this.sortedData = tempData.sort((a, b) => {
-      const isAsc = this.sort.direction === 'asc';
-      switch (this.sort.active) {
-        case '1':
-          return this.compareValues(a.personName, b.personName, isAsc);
-        case '2':
-          return this.compareValues(a.kinshipType, b.kinshipType, isAsc);
-        case '3':
-          return this.compareValues(a.relativeName, b.relativeName, isAsc);
-        default:
-          return 0;
-      }
-    });
-    this.loadTable(this.sortedData);
-  }
-
-  compareValues(a: number | string, b: number | string, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
-
-  onChange(value: string) {
-    if (value !== '') {
-      this.kinships = this.kinships.filter(item => {
-        const fullname = `${item.personName.toLowerCase()} ${item.personLastName.toLowerCase()}`;
-        return fullname.indexOf(value.toLocaleLowerCase()) > variableNum.n;
-      });
-      this.loadTable(this.kinships);
-    } else {
-      this.kinships = this.temporalData;
-      this.loadTable(this.kinships);
-    }
-  }
-
-  delete(kinship): void {
+  delete(personId: number, relativeId: number): void {
     Swal.fire({
       title: 'Are you sure?',
       text: 'You won\'t be able to revert this!',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonColor: 'btn btn-success',
+      cancelButtonColor: 'btn btn-secondary',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
     }).then(result => {
       if (result.value) {
-        this.kinshipsService.deleteKinship(kinship).subscribe(resp => {
-          this.kinships = this.kinships.filter(item => item !== kinship);
-          this.loadTable(this.kinships);
+        this.peopleService.deleteKinship(personId, relativeId).subscribe(resp => {
+          this.loadTable();
+          this.openSuccessDeleteMessage();
         });
       }
-      this.openSuccessDeleteMessage();
     });
   }
+
   openSuccessDeleteMessage(): void {
     Swal.fire({
       type: 'success',
@@ -141,30 +99,35 @@ export class ListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.getInitialData();
+      this.loadTable();
     });
   }
 
   openCreate(): void {
     const dialogRef = this.dialog.open(CreateComponent, {
-      width: '80%',
-      height: '450px',
       panelClass: 'create-modalbox'
     });
     dialogRef.componentInstance.onCreate.subscribe(() => {
       dialogRef.close();
     });
     dialogRef.afterClosed().subscribe(() => {
-      this.getInitialData();
+      this.loadTable();
     });
   }
 
-  loadTable(param) {
-    this.tableData = new MatTableDataSource(param);
-    this.tableData.paginator = this.paginator;
-    this.tableData.sort = this.sort;
+  loadTable() {
+    this.kinshipsService.listKinships().subscribe(response => {
+      this.kinships = response.data;
+      this.temporalData = response.data;
+      this.tableData = new MatTableDataSource(response.data);
+      this.tableData.paginator = this.paginator;
+      this.tableData.sort = this.sort;
+      this.isLoading = false;
+    });
   }
 
-  openInfo(row) {
+  clearSearch(value) {
+    this.value = '';
+    this.loadTable();
   }
 }

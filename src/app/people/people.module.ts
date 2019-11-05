@@ -1,35 +1,35 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { PeopleRoutingModule } from './people-routing.module';
-import { HomeComponent } from './home/home.component';
 import { CreateComponent } from './create/create.component';
 import { ListComponent } from './list/list.component';
 import { EditComponent } from './edit/edit.component';
-import { PersonComponent } from './shared/components/person/person.component';
-import { MaterialModule, } from '../shared/modules/material.module';
 import { InspectComponent } from './inspect/inspect.component';
 import { InspectKinshipsComponent } from './inspect.kinships/inspect.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpErrorInterceptor } from './shared/services/people.interceptor';
+import { TreeComponent } from './tree/tree.component';
+import { MaterialModule } from '../shared/modules/material.module';
+import { CommonModule } from '@angular/common';
+import { OrgChartModule } from 'angular-org-chart';
 
 @NgModule({
   declarations: [
-    HomeComponent,
-    ListComponent,
-    PersonComponent,
-    InspectComponent,
-    EditComponent,
     CreateComponent,
-    InspectKinshipsComponent
+    EditComponent,
+    InspectComponent,
+    InspectKinshipsComponent,
+    ListComponent,
+    TreeComponent
   ],
-  imports: [CommonModule, PeopleRoutingModule, MaterialModule],
-  entryComponents: [InspectComponent, EditComponent, CreateComponent, InspectKinshipsComponent],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor,
-      multi: true
-    }
+  imports: [
+    CommonModule,
+    MaterialModule,
+    OrgChartModule,
+    PeopleRoutingModule
+  ],
+  entryComponents: [
+    CreateComponent,
+    EditComponent,
+    InspectComponent,
+    InspectKinshipsComponent
   ]
 })
-export class PeopleModule {}
+export class PeopleModule { }

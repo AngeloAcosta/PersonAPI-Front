@@ -25,9 +25,38 @@
   color: #5cb85c;
 }
 
-
 @media (max-width: 770px) {
   #divForm {
     flex-direction: column;
+  }
+}
+
+p.msg {
+  color: #5cb85c;
+  text-align: center;
+  font-weight: bold;
+}
+
+.btn-sub {
+  text-align: center;
+}
+
+.icons {
+  display: inline;
+}
+
+.attribute {
+  font-size: 95%;
+}
+
+.close-icons {
+  position: absolute;
+  right: 0%;
+  top: -10px;
+}
+@media (max-width: 770px) {
+  .close-icons {
+    right: -20px;
+    top: -20px;
   }
 }

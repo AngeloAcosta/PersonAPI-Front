@@ -1,12 +1,13 @@
+import { MatDialog } from '@angular/material';
+import { TestKinship } from './../../services/services.models';
 import { Component, OnInit, EventEmitter } from '@angular/core';
-import { Person } from 'src/app/models/person.model';
-import { PeopleService } from 'src/app/people/shared/services/people.service';
-import { KinshipsService } from 'src/app/kinships/shared/service/kinships.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { kinshipOptions, variableNum } from '../../shared/constants';
 import Swal from 'sweetalert2';
+import { SimplePerson, CreateKinship } from 'src/app/services/services.models';
+import { PeopleService } from 'src/app/services/people.service';
+import { KinshipsService } from 'src/app/services/kinships.service';
 
 @Component({
   selector: 'app-create',
@@ -14,13 +15,14 @@ import Swal from 'sweetalert2';
   styleUrls: ['./create.component.scss']
 })
 export class CreateComponent implements OnInit {
-  firstPerson: Person;
-  secondPerson: Person;
-  listPeople: Person[];
+  kinshipname: string;
+  firstPerson: SimplePerson;
+  secondPerson: SimplePerson;
+  listPeople: SimplePerson[];
   firstSearchInputControl = new FormControl();
   secondSearchInputControl = new FormControl();
-  firstFilteredPeople: Observable<Person[]>;
-  secondFilteredPeople: Observable<Person[]>;
+  firstFilteredPeople: Observable<SimplePerson[]>;
+  secondFilteredPeople: Observable<SimplePerson[]>;
   relationSelected: string;
   errors: string[] = [];
   success: string;
@@ -30,27 +32,44 @@ export class CreateComponent implements OnInit {
     kinshipType: new FormControl()
   });
   onCreate = new EventEmitter();
+  peopleLimit = 400;
+  relations = [];
 
-  relations: {type: string, value: string}[] = kinshipOptions;
-
-  constructor(private peopleService: PeopleService, private kinshipService: KinshipsService) {
+  constructor(
+    private peopleService: PeopleService,
+    private kinshipsService: KinshipsService,
+    public dialog: MatDialog) {
     this.firstFilteredPeople = this.firstSearchInputControl.valueChanges.pipe(
-      map(key => key ? this._filterPeople(key) : this.listPeople !== undefined ? this.listPeople.slice() : [] )
+      map(key => key ? this._filterPeople(key) : this.listPeople !== undefined? this.listPeople.slice() : [] )
     );
 
     this.secondFilteredPeople = this.secondSearchInputControl.valueChanges.pipe(
-      map(key => key ? this._filterPeople(key) : this.listPeople !== undefined ? this.listPeople.slice() : [] )
+      map(key => key ? this._filterPeople(key) : this.listPeople !== undefined ? this.listPeople.slice() : [])
     );
   }
 
-  private _filterPeople(value: string): Person[] {
+  private _buildTestKinshipHtml(test: TestKinship): string {
+    const added = test.added.length ? `Added kinships: ${test.added.join(', ')}` : '';
+    const modified = test.modified.length ? `Modified kinships: ${test.modified.join(', ')}` : '';
+    const deleted = test.deleted.length ? `Deleted kinships: ${test.deleted.join(', ')}` : '';
+    return `${added !== '' ? added + '<br>' : ''}${modified !== '' ? modified + '<br>' : ''}${deleted !== '' ? deleted + '<br>' : ''}`;
+  }
+
+  private _filterPeople(value: string): SimplePerson[] {
     const filterValue = value.toString().toLowerCase();
-    return this.listPeople.filter(item => `${item.name} ${item.lastName}`.toLowerCase().indexOf(filterValue) > variableNum.n);
+    return this.listPeople.filter(item => `${item.name} ${item.lastName}`.toLowerCase().indexOf(filterValue) > -1);
   }
 
   ngOnInit() {
-    this.peopleService.getPeople().subscribe(people => {
-      this.listPeople = people;
+    this.kinshipsService.listKinshipTypes().subscribe(response => {
+      if (response.ok) {
+        this.relations = response.data;
+      }
+    });
+    this.peopleService.listPeople(this.peopleLimit).subscribe(response => {
+      if (response.ok) {
+        this.listPeople = response.data;
+      }
     });
   }
 
@@ -60,7 +79,13 @@ export class CreateComponent implements OnInit {
       this.firstPerson = res;
     }
   }
+  close() {
+    this.dialog.closeAll();
+  }
 
+  SetInfoKinship(value: string) {
+    this.kinshipname = value;
+  }
   SetInfoSecondPerson(value: number) {
     const res = this.listPeople.find(item => item.id === value);
     if (res) {
@@ -77,54 +102,68 @@ export class CreateComponent implements OnInit {
           personId: this.firstPerson.id,
           relativeId: this.secondPerson.id
         });
-        this.kinshipService.tryAddKinship(this.createKinshipForm.value).subscribe(res => {
-          if (res.added.length || res.modified.length || res.deleted.length) {
-            const added = res.added.length ? `Added kinships: ${res.added.join(', ')}` : '' ;
-            const modified = res.modified.length ? `Modified kinships: ${res.modified.join(', ')}` : '' ;
-            const deleted = res.deleted.length ? `Deleted kinships: ${res.deleted.join(', ')}` : '' ;
-            const htmlResponse = `${added !== '' ? added + '<br>' : '' }${modified !== '' ? modified + '<br>' : '' }${deleted !== '' ? deleted + '<br>' : '' }`;
+        // Send request
+        const personId = this.createKinshipForm.get('personId').value;
+        const relativeId = this.createKinshipForm.get('relativeId').value;
+        const kinshipType = this.createKinshipForm.get('kinshipType').value;
+        const kinship = new CreateKinship();
+        kinship.relativeId = relativeId;
+        kinship.kinshipType = kinshipType;
+        this.peopleService.createKinshipTest(personId, kinship).subscribe(response => {
+          console.log(response);
+          if (response.ok) {
             const swalModal = Swal.mixin({
               customClass: {
-                confirmButton: 'btn btn-success px-2',
-                cancelButton: 'btn btn-danger px-2'
+                confirmButton: 'btn btn-success px-2 mr-3',
+                cancelButton: 'btn btn-secondary px-2'
               },
               buttonsStyling: false
             });
             swalModal.fire({
               title: 'Are you sure?',
               text: 'The following changes will happen:',
-              html: htmlResponse,
+              html: this._buildTestKinshipHtml(response.data),
               showCloseButton: true,
               showCancelButton: true,
               cancelButtonText: 'Cancel',
               confirmButtonText: 'Confirm'
             }).then((result) => {
               if (result.value) {
-                this.kinshipService.addKinship(this.createKinshipForm.value).subscribe(() => {
-                  swalModal.fire('Success!', 'New kinship has been added', 'success');
-                  this.firstPerson = new Person();
-                  this.secondPerson = new Person();
-                  this.createKinshipForm.reset();
-                  this.onCreate.emit();
-                }, error => {
-                  if (error.status === 404) {
-                    const resultError = ['An error ocurred with the server, please try again.', 'Bad Request 404'];
-                    swalModal.fire('Error', resultError.join('\n'), 'error');
-                  } else if (error.status === 400) {
-                    const resultError = error.error.data.length ? error.error.data : [error.error.message];
-                    swalModal.fire('Error from Validation', resultError.join('\n'), 'error');
+                this.peopleService.createKinship(personId, kinship).subscribe(response => {
+                  if (response.ok) {
+                    this.onCreate.emit();
+                    Swal.fire({
+                      title: 'Done',
+                      text: ' Person was registered satisfactory',
+                      type: 'success',
+                      toast: true,
+                      position: 'top-end',
+                      width: 300,
+                      backdrop: false,
+                      showConfirmButton: false,
+                      timer: 1750
+                    });
+                  } else {
+                    swalModal.fire('Error', response.message, 'error');
                   }
                 });
-              } else if (result.dismiss === Swal.DismissReason.cancel) {
-                swalModal.fire('Cancelled', 'No change was made', 'error');
               }
             });
+          } else {
+            Swal.fire({
+              text: response.message,
+              type: 'error',
+              backdrop: false,
+              toast: true,
+              position: 'top-end',
+              width: 300,
+              showConfirmButton: false,
+              timer: 1550
+            });
           }
-        }, (error) => {
-          Swal.fire('Error', error.error ? error.error.message : 'Internal Error', 'error');
         });
       } else {
-         Swal.fire('Warning', 'Kinship value is required.', 'warning');
+        Swal.fire('Warning', 'Kinship value is required.', 'warning');
       }
     } else {
       Swal.fire('Warning', 'Person or Relative data are required.', 'warning');
