@@ -105,10 +105,10 @@ export class ListComponent implements OnInit {
         text: 'Are you sure you want to delete this person?',
         type: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'Yes',
-        cancelButtonColor: '#d33',
-        cancelButtonText: 'No'
+        confirmButtonColor: 'btn btn-success',
+        confirmButtonText: 'Yes, delete it',
+        cancelButtonColor: 'btn btn-secondary',
+        cancelButtonText: 'No,keep it'
       }).then((result) => {
         if (result.value) {
           this.deletePerson(personId, personName, personLastName);

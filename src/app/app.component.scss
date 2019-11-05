@@ -9,6 +9,14 @@
   -ms-animation: animatedBackground 15s linear infinite;
   -o-animation: animatedBackground 15s linear infinite;
 }
+.pi{
+  color: #9477BC;
+}
+.logo{
+  font-size: 20px;
+  font-weight: bold;
+}
+
 
 .menu {
   color: #9477bc;
@@ -37,7 +45,7 @@ mat-sidenav-content {
 }
 
 mat-toolbar {
-  background-color: #8ec1da;
+  background-color:#c0dfed ;
 }
 
 @keyframes animatedBackground {
