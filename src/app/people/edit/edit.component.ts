@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 import { PeopleService } from 'src/app/services/people.service';
 import { ModifyPerson, SimplePerson } from 'src/app/services/services.models';
 import { CommonService } from 'src/app/services/common.service';
+import { swalProviderToken } from '@sweetalert2/ngx-sweetalert2/lib/di';
 
 @Component({
   selector: 'app-edit',
@@ -56,7 +57,26 @@ export class EditComponent implements OnInit {
   countryIdSelected: number;
   contactType1IdSelected: number;
   contactType2IdSelected: number;
-
+  private deletePerson(personId: number, personName: string, personLastName: string) {
+    this.peopleService.deletePerson(personId).subscribe(respons => {
+      if (respons.ok) {
+        // If nothing goes wrong, show success message in swal
+        this.openSuccessDeleteMessage();
+      } else {
+        // Else, show the error in a swal
+        Swal.fire({
+          text: respons.message,
+          type: 'error',
+          backdrop: false,
+          toast: true,
+          position: 'top-end',
+          width: 300,
+          showConfirmButton: false,
+          timer: 1550
+        });
+      }
+    });
+  }
   ngOnInit() {
     // Initialize common data
     this.commonService.listContactTypes().subscribe(response => {
@@ -218,7 +238,23 @@ export class EditComponent implements OnInit {
     }
     return false;
   }
+  delete(personId: number, personName: string, personLastName: string): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'btn btn-success',
+      cancelButtonColor: 'btn btn-secondary',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
 
+      if (result.value) {
+        this.deletePerson(personId, personName, personLastName);
+      }
+   });
+  }
   onSubmit(): void {
     this.setContact();
     const errors = [];
@@ -267,5 +303,19 @@ export class EditComponent implements OnInit {
         }
       );
     }
+  }
+
+  openSuccessDeleteMessage(): void {
+    Swal.fire({
+      type: 'success',
+      title: 'Done',
+      text: 'This person was deleted succesfully',
+      toast: true,
+      position: 'top-end',
+      width: 300,
+      backdrop: false,
+      showConfirmButton: false,
+      timer: 1750
+    });
   }
 }

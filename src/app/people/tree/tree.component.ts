@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PersonTree } from 'src/app/services/services.models';
 import { PeopleService } from 'src/app/services/people.service';
 import { MatSnackBar } from '@angular/material';
-import initPanZoom, { PanZoom } from "panzoom";
+import initPanZoom, { PanZoom } from 'panzoom';
 
 @Component({
   selector: ' app-tree',
@@ -37,7 +37,7 @@ export class TreeComponent implements OnInit {
         this.isLoading = false;
         // And initialize the zoom
         this.panZoom = initPanZoom(this.componentElement.nativeElement.children[0]);
-                
+
       } else {
         // Else, show the error in a snack bar
         this.matSnackBar.open(response.message);

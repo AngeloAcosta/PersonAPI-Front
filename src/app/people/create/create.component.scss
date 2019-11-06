@@ -18,3 +18,9 @@ mat-card-content{
 .viewport{
   overflow: auto;
 }
+.close{
+  display: flex!important;
+  justify-content: flex-end!important;
+  text-align: right!important;
+  transform: translateY(-10px);
+}
