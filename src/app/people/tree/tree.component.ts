@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SimplePerson } from 'src/app/services/services.models';
+import { PersonTree } from 'src/app/services/services.models';
 import { PeopleService } from 'src/app/services/people.service';
-import { OrgData } from 'angular-org-chart/src/app/modules/org-chart/orgData';
+import { MatSnackBar } from '@angular/material';
+import initPanZoom, { PanZoom } from "panzoom";
 
 @Component({
   selector: ' app-tree',
@@ -10,73 +11,45 @@ import { OrgData } from 'angular-org-chart/src/app/modules/org-chart/orgData';
   styleUrls: ['./tree.component.scss']
 })
 export class TreeComponent implements OnInit {
-  isLoading: boolean = true;
-  orgData: OrgData = {
-    name: "Iron Man",
-    type: 'CEO',
-    children: [
-      {
-        name: "Captain America",
-        type: 'VP',
-        children: [
-          {
-            name: "Hawkeye",
-            type: 'manager',
-            children: []
-          },
-          {
-            name: "Antman",
-            type: 'Manager',
-            children: []
-          }
-        ]
-      },
-      {
-        name: "Black Widow",
-        type: 'VP',
-        children: [
-          {
-            name: "Hulk",
-            type: 'manager',
-            children: [
-              {
-                name: "Spiderman",
-                type: 'Intern',
-                children: []
-              }
-            ]
-          },
-          {
-            name: "Thor",
-            type: 'Manager',
-            children: [
-              {
-                name: "Loki",
-                type: 'Team Lead',
-                children: []
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  };
-  person: SimplePerson;
+  isLoading: boolean;
+  treeData: PersonTree;
+  panZoom: PanZoom;
+
+  @ViewChild('familyTree', { static: false }) familyTree: ElementRef;
 
   constructor(
+    private componentElement: ElementRef,
+    private matSnackBar: MatSnackBar,
     private peopleService: PeopleService,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    // Initialize properties
+    this.isLoading = true;
     // Get the person id from the route
     const personId = parseInt(this.route.snapshot.paramMap.get('id'));
-    // Get the person and their kinships
-    this.peopleService.inspectPerson(personId).subscribe(response => {
+    // Get the person's kinships tree
+    this.peopleService.inspectPersonKinshipsTree(personId).subscribe(response => {
       if (response.ok) {
-        this.person = response.data;
+        // If nothing goes wrong, save the data
+        this.treeData = response.data;
         this.isLoading = false;
+        // And initialize the zoom
+        this.panZoom = initPanZoom(this.componentElement.nativeElement.children[0]);
+                
+      } else {
+        // Else, show the error in a snack bar
+        this.matSnackBar.open(response.message);
       }
     });
+  }
+
+  decreaseZoom(): void {
+    this.panZoom.zoomTo(0, 0, 0.75);
+  }
+
+  increaseZoom(): void {
+    this.panZoom.zoomTo(0, 0, 1.25);
   }
 }
