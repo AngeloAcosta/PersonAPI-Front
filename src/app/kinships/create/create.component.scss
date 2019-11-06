@@ -31,10 +31,8 @@
   }
 }
 
-p.msg {
-  color: #5cb85c;
-  text-align: center;
-  font-weight: bold;
+.container-position{
+ position: relative;
 }
 
 .btn-sub {
@@ -54,6 +52,15 @@ p.msg {
   right: 0%;
   top: -10px;
 }
+
+.mat-card{
+  width: 212px;
+}
+
+.mat-form-field {
+  width: auto;
+}
+
 @media (max-width: 770px) {
   .close-icons {
     right: -20px;

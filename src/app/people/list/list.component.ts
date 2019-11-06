@@ -16,6 +16,7 @@ export class ListComponent implements OnInit {
   private readonly MAX_LISTED_PEOPLE = 420;
 
   columnsToDisplay: string[];
+  value = '';
   isLoading: boolean;
   peopleDataSource: MatTableDataSource<SimplePerson>;
 
@@ -32,12 +33,32 @@ export class ListComponent implements OnInit {
     this.peopleService.deletePerson(personId).subscribe(response => {
       if (response.ok) {
         // If nothing goes wrong, show success message in a snack bar
-        this.matSnackBar.open(`${personName} ${personLastName} was deleted.`);
+
+        Swal.fire({
+          title: 'Done',
+          text: `${personName} ${personLastName} was deleted.`,
+          type: 'success',
+          toast: true,
+          position: 'top-end',
+          width: 300,
+          backdrop: false,
+          showConfirmButton: false,
+          timer: 1750
+        });
         // And refresh the table
         this.refreshTable();
       } else {
         // Else, show the error in a snack bar
-        this.matSnackBar.open(response.message);
+        Swal.fire({
+          text: response.message,
+          type: 'error',
+          backdrop: false,
+          toast: true,
+          position: 'top-end',
+          width: 300,
+          showConfirmButton: false,
+          timer: 1550
+        });
       }
     });
   }
@@ -54,7 +75,16 @@ export class ListComponent implements OnInit {
         this.isLoading = false;
       } else {
         // Else, show the error in a snack bar
-        this.matSnackBar.open(response.message);
+        Swal.fire({
+          text: response.message,
+          type: 'error',
+          backdrop: false,
+          toast: true,
+          position: 'top-end',
+          width: 300,
+          showConfirmButton: false,
+          timer: 1550
+        });
       }
     });
   }
@@ -73,7 +103,10 @@ export class ListComponent implements OnInit {
     // Apply filter to the table
     this.peopleDataSource.filter = filterQuery;
   }
-
+  clearSearch(value) {
+    this.value = '';
+    this.refreshTable();
+  }
   openCreateDialog(): void {
     // Open the create component in a dialog
     const createDialog = this.matDialog.open(CreateComponent);

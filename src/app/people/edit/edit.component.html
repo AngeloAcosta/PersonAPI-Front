@@ -1,6 +1,10 @@
 <section fxLayout="row wrap" fxLayoutAlign="center center" class="hide-scroll">
   <mat-card fxFlex="500px" fxFlex.xs="100%" class="viewport">
-    <mat-card-title>Edit User</mat-card-title>
+  <div class="close">
+    <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button></div>
+      <mat-card-title>Edit User</mat-card-title>
     <form [formGroup]="user" (ngSubmit)="onSubmit()">
       <mat-card-content>
         <div [formGroup]="user">
@@ -271,9 +275,10 @@
         </div>
       </mat-card-content>
       <mat-card-actions>
-        <button type="submit" [disabled]="user.invalid" class="btn btn-primary">
+        <button (click)="onSubmit()" [disabled]="user.invalid" class="btn btn-primary" type="button">
           Save
         </button>
+    <button mat-raised-button class="mt-sm-3 mt-1 mr-sm-3 mr-1" color="accent" (click)="delete(person.id, person.name, person.lastName)" type="button">Delete</button>
       </mat-card-actions>
     </form>
   </mat-card>

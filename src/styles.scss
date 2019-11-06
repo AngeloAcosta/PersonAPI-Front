@@ -42,10 +42,6 @@ $custom-typography: mat-typography-config(
   }
 }
 
-.edit-modalbox {
-  width: 35% !important;
-}
-
 @media (max-width: 770px) {
   .create-modalbox {
     .mat-dialog-container {

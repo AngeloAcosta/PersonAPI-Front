@@ -40,7 +40,7 @@ export class CreateComponent implements OnInit {
     private kinshipsService: KinshipsService,
     public dialog: MatDialog) {
     this.firstFilteredPeople = this.firstSearchInputControl.valueChanges.pipe(
-      map(key => key ? this._filterPeople(key) : this.listPeople !== undefined? this.listPeople.slice() : [] )
+      map(key => key ? this._filterPeople(key) : this.listPeople !== undefined ? this.listPeople.slice() : [] )
     );
 
     this.secondFilteredPeople = this.secondSearchInputControl.valueChanges.pipe(
@@ -134,7 +134,7 @@ export class CreateComponent implements OnInit {
                     this.onCreate.emit();
                     Swal.fire({
                       title: 'Done',
-                      text: ' Person was registered satisfactory',
+                      text: ' Kinship was registered satisfactory',
                       type: 'success',
                       toast: true,
                       position: 'top-end',
