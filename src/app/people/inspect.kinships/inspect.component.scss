@@ -1,3 +1,20 @@
+.action-icon {
+  background: white;
+
+  margin: 2px;
+  border-radius: 5px;
+
+  &.delete {
+    background: #fff;
+    color: #fb7a7a;
+
+  }
+
+  &.edit{
+    color: #039BE5!important;
+    margin-left: 40px;
+  }
+}
 .mat-edit-it {
   background-color: rgb(42, 92, 230);
   color: #fff;
@@ -6,6 +23,11 @@
 .kinshipTable {
   width: 100%;
   padding: 8px;
+  color: cornflowerblue !important;
+
+}
+.icons{
+  justify-content: center;
 }
 .kinshipTable td {
   border: 1px solid black;
@@ -54,9 +76,12 @@ mat-form-field {
   left: 0px;
 }
 
-mat-header-cell,
+mat-header-cell{
+  color: cornflowerblue;
+}
 mat-cell {
   justify-content: left;
+
 }
 
 .kinshipTitle {

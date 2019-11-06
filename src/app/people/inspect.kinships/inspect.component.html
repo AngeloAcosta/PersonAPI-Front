@@ -20,7 +20,7 @@
       <p>
 
         <label> <strong> Person Document: </strong></label>
-        <label> &nbsp;&nbsp; {{ person.documentType }} {{ person.document }} </label>
+        <label> &nbsp;&nbsp; {{ person.documentType }} : {{ person.document }} </label>
       </p>
     </mat-dialog-content>
 
@@ -43,10 +43,10 @@
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="buttons">
-        <mat-header-cell class="KinshipTable" *matHeaderCellDef> Action </mat-header-cell>
+        <mat-header-cell class="KinshipTable icons" *matHeaderCellDef> Action </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <mat-icon matTooltip="Edit Kinship" class="icon">edit</mat-icon>
-          <mat-icon matTooltip="Delete Kinship" class="icon delete">delete_forever</mat-icon>
+          <mat-icon matTooltip="Edit Kinship" class="action-icon edit icons">edit</mat-icon>
+          <mat-icon matTooltip="Delete Kinship" class="action-icon delete icons">delete_forever</mat-icon>
         </mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

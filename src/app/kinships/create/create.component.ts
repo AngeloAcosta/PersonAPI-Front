@@ -40,7 +40,7 @@ export class CreateComponent implements OnInit {
     private kinshipsService: KinshipsService,
     public dialog: MatDialog) {
     this.firstFilteredPeople = this.firstSearchInputControl.valueChanges.pipe(
-      map(key => key ? this._filterPeople(key) : this.listPeople !== undefined? this.listPeople.slice() : [] )
+      map(key => key ? this._filterPeople(key) : this.listPeople !== undefined ? this.listPeople.slice() : [] )
     );
 
     this.secondFilteredPeople = this.secondSearchInputControl.valueChanges.pipe(
@@ -129,6 +129,7 @@ export class CreateComponent implements OnInit {
               confirmButtonText: 'Confirm'
             }).then((result) => {
               if (result.value) {
+
                 this.peopleService.createKinship(personId, kinship).subscribe(response => {
                   if (response.ok) {
                     this.onCreate.emit();

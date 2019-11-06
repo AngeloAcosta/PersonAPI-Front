@@ -5,6 +5,16 @@ mat-card-title{
   text-align: center;
   color: gray;
 }
+.close{
+  display: flex!important;
+  justify-content: flex-end!important;
+  text-align: right!important;
+  transform: translateY(-10px);
+}
+.mat-accent{
+  color: white;
+  background-color: red!important;
+}
 mat-card{
   width:500px;
   text-align: center;
