@@ -8,7 +8,6 @@ import { InspectKinshipsComponent } from './inspect.kinships/inspect.component';
 import { TreeComponent } from './tree/tree.component';
 import { MaterialModule } from '../shared/modules/material.module';
 import { CommonModule } from '@angular/common';
-import { OrgChartModule } from 'angular-org-chart';
 
 @NgModule({
   declarations: [
@@ -22,7 +21,6 @@ import { OrgChartModule } from 'angular-org-chart';
   imports: [
     CommonModule,
     MaterialModule,
-    OrgChartModule,
     PeopleRoutingModule
   ],
   entryComponents: [

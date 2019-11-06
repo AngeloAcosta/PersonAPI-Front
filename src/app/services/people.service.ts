@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CreatePerson, ModifyPerson, OrderBy, OrderType, ServiceResponse, SimpleKinship, SimplePerson, CreateKinship, ModifyKinship, TestKinship } from './services.models';
+import { CreatePerson, ModifyPerson, OrderBy, OrderType, ServiceResponse, SimpleKinship, SimplePerson, CreateKinship, ModifyKinship, TestKinship, PersonTree } from './services.models';
 import { environment } from './../../environments/environment';
 import { ServiceProxy } from './services.utils';
 
@@ -49,6 +49,11 @@ export class PeopleService {
   inspectPersonKinships(personId: number): Observable<ServiceResponse<SimpleKinship[]>> {
     // Send request
     return this.serviceProxy.sendGetRequest<SimpleKinship[]>(`${this.endpointUrl}/${personId}/kinships`);
+  }
+
+  inspectPersonKinshipsTree(personId: number): Observable<ServiceResponse<PersonTree>> {
+    // Send request
+    return this.serviceProxy.sendGetRequest<PersonTree>(`${this.endpointUrl}/${personId}/kinships/tree`);
   }
 
   listPeople(limit?: number, offset?: number, query?: string, orderBy?: OrderBy, orderType?: OrderType): Observable<ServiceResponse<SimplePerson[]>> {
