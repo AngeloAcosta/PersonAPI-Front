@@ -15,7 +15,7 @@ import { KinshipsService } from 'src/app/services/kinships.service';
 export class EditComponent implements OnInit {
   errors: string[] = [];
   success: string;
-  relationSelected = this.data.kinshipType;
+  relationSelected = this.data.kinshipTypeId;
   editkinship = new FormGroup({
     idPerson: new FormControl(''),
     idRelative: new FormControl(''),
@@ -81,7 +81,17 @@ export class EditComponent implements OnInit {
           }).then((result) => {
             if (result.value) {
               this.peopleService.modifyKinship(personId, relativeId, kinship).subscribe(() => {
-                swalModal.fire('Success!', 'Selected kinship has been modified!', 'success').then(() => {
+                swalModal.fire({
+                  title: 'Success!',
+                  text: 'Selected kinship has been modified!',
+                  type: 'success',
+                  toast: true,
+                  position: 'top-end',
+                  width: 300,
+                  backdrop: false,
+                  showConfirmButton: false,
+                  timer: 1750
+                }).then(() => {
                   this.data = new SimpleKinship();
                   this.editkinship.reset();
                   this.onEdit.emit();
@@ -106,6 +116,41 @@ export class EditComponent implements OnInit {
     } else {
       Swal.fire('Error', 'Kinship information is required!', 'error');
     }
+  }
+
+  delete(personId: number, relativeId: number): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'btn btn-success',
+      cancelButtonColor: 'btn btn-secondary',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then(result => {
+      if (result.value) {
+        this.peopleService.deleteKinship(personId, relativeId).subscribe(resp => {
+          this.openSuccessDeleteMessage();
+          this.editkinship.reset();
+          this.onEdit.emit();
+        });
+      }
+    });
+  }
+
+  openSuccessDeleteMessage(): void {
+    Swal.fire({
+      type: 'success',
+      title: 'Done',
+      text: 'This kinship was deleted succesfully',
+      toast: true,
+      position: 'top-end',
+      width: 300,
+      backdrop: false,
+      showConfirmButton: false,
+      timer: 1750
+    });
   }
 
 }

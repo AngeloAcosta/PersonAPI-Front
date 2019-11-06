@@ -129,13 +129,12 @@ export class CreateComponent implements OnInit {
               confirmButtonText: 'Confirm'
             }).then((result) => {
               if (result.value) {
-
                 this.peopleService.createKinship(personId, kinship).subscribe(response => {
                   if (response.ok) {
                     this.onCreate.emit();
                     Swal.fire({
                       title: 'Done',
-                      text: ' Person was registered satisfactory',
+                      text: ' Kinship was registered satisfactory',
                       type: 'success',
                       toast: true,
                       position: 'top-end',

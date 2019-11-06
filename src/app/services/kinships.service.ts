@@ -14,7 +14,7 @@ export class KinshipsService {
   listKinships(query?: string): Observable<ServiceResponse<SimpleKinship[]>> {
     // Generate request params
     let params = new HttpParams();
-    if (query) params = params.append('query', query.toString());
+    if (query) { params = params.append('query', query.toString()); }
     // Send request
     return this.serviceProxy.sendGetRequest<SimpleKinship[]>(this.endpointUrl, params);
   }

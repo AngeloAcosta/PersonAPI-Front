@@ -1,28 +1,19 @@
 <section class="container container-position">
-  <div fxLayout="row" fxLayoutAlign="center center">
+  <div fxLayout="row wrap" fxLayoutAlign="center center">
     <p class="mat-display-1 mb-4">Create Kinship</p>
    </div>
   <button mat-icon-button mat-dialog-close class="close-icons"><i class="material-icons" >close</i></button>
   <form [formGroup]="createKinshipForm" (ngSubmit)="onSubmit()">
-     <div id="divForm" mat-dialog-content>
+     <div id="divForm">
        <div class="px-2 py-2">
         <mat-card>
           <i class="material-icons icons">face</i
           ><mat-card-subtitle>Relative</mat-card-subtitle>
           <mat-card-content>
             <mat-form-field>
-              <input
-                matInput
-                placeholder="Search Relative"
-                [matAutocomplete]="secondAutocomplete"
-                [formControl]="secondSearchInputControl"
-              />
+              <input matInput placeholder="Search Relative" [matAutocomplete]="secondAutocomplete" [formControl]="secondSearchInputControl"/>
               <mat-autocomplete #secondAutocomplete="matAutocomplete">
-                <mat-option
-                  *ngFor="let person of secondFilteredPeople | async"
-                  [value]="person.name + ' ' + person.lastName"
-                  (click)="SetInfoSecondPerson(person.id)"
-                >
+                <mat-option *ngFor="let person of secondFilteredPeople | async" [value]="person.name + ' ' + person.lastName" (click)="SetInfoSecondPerson(person.id)">
                   <span>{{ person.name + ' ' + person.lastName }}</span> |
                   <small>{{ person.document }}</small>
                 </mat-option>
