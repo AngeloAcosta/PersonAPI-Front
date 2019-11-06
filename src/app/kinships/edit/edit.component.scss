@@ -1,7 +1,6 @@
 #divForm {
   display: flex;
   align-items: center;
-  flex-direction: column;
 
   div {
     flex: 1 1 auto;
@@ -9,8 +8,19 @@
   }
 }
 
-.full-width {
-  width: 70%;
+@media (max-width: 770px) {
+  #divForm {
+    flex-direction: column;
+  }
+}
+
+.container-position{
+  position: relative;
+ }
+
+ .icons {
+  display: inline;
+  text-align: center;
 }
 
 .errorbox {
@@ -23,4 +33,26 @@
   margin: 0 0;
   padding: 0px;
   color: #5cb85c;
+}
+.btn-sub {
+  text-align: center;
+}
+.close-icons {
+  position: absolute;
+  right: 0%;
+  top: -10px;
+}
+.mat-card{
+  width: 212px;
+}
+
+.mat-form-field {
+  width: auto;
+}
+
+@media (max-width: 770px) {
+  .close-icons {
+    right: -20px;
+    top: -20px;
+  }
 }

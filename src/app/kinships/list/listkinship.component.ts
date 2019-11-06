@@ -6,7 +6,7 @@ import {
   MatTableDataSource,
   MatSort
 } from '@angular/material';
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import { startWith, switchMap } from 'rxjs/operators';
 import { merge } from 'rxjs';
 import { CreateComponent } from '../create/create.component';
@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 import { SimpleKinship } from 'src/app/services/services.models';
 import { KinshipsService } from 'src/app/services/kinships.service';
 import { PeopleService } from 'src/app/services/people.service';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
 @Component({
   selector: 'app-list',
@@ -89,8 +90,6 @@ export class ListComponent implements OnInit {
   }
   openEdit(kinship): void {
     const dialogRef = this.dialog.open(EditComponent, {
-      width: '65%',
-      height: '77%',
       panelClass: ['edit-modalbox'],
       data: kinship
     });
