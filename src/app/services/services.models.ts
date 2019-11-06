@@ -46,6 +46,16 @@ export enum OrderType {
   DESC
 }
 
+export class PersonTree {
+  owner: TreeOwner;
+  levels: PersonTreeNode[][];
+}
+
+export class PersonTreeNode {
+  relative: TreeLevelRelative;
+  kinshipType: SimpleKinshipType;
+}
+
 /**
  * Base class for a service response.
  */
@@ -92,6 +102,7 @@ export class SimpleGender {
 
 export class SimpleKinship {
   kinshipType: string;
+  kinshipTypeId: number;
   personId: number;
   personLastName: string;
   personName: string;
@@ -129,4 +140,14 @@ export class TestKinship {
   added: string[];
   deleted: string[];
   modified: string[];
+}
+
+export class TreeLevelRelative {
+  name: string;
+  lastName: string;
+}
+
+export class TreeOwner {
+  name: string;
+  lastName: string;
 }
