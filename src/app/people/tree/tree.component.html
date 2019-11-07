@@ -21,7 +21,7 @@
               <!-- Relative -->
               <mat-card-title *ngIf="node.relative">{{node.relative.name}} {{node.relative.lastName}}</mat-card-title>
               <mat-card-title *ngIf="!node.relative">
-                <button mat-icon-button>
+                <button mat-icon-button (click)="promptAdd(node.kinshipType)">
                   <mat-icon>add</mat-icon>
                 </button>
               </mat-card-title>
