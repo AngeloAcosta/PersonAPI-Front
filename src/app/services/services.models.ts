@@ -102,7 +102,7 @@ export class SimpleGender {
 
 export class SimpleKinship {
   kinshipType: string;
-  kinshipTypeId: number;
+  kinshipTypeId: string;
   personId: number;
   personLastName: string;
   personName: string;
@@ -143,11 +143,13 @@ export class TestKinship {
 }
 
 export class TreeLevelRelative {
+  id: number;
   name: string;
   lastName: string;
 }
 
 export class TreeOwner {
+  id: number;
   name: string;
   lastName: string;
 }

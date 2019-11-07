@@ -21,7 +21,7 @@
               <!-- Relative -->
               <mat-card-title *ngIf="node.relative">{{node.relative.name}} {{node.relative.lastName}}</mat-card-title>
               <mat-card-title *ngIf="!node.relative">
-                <button mat-icon-button>
+                <button mat-icon-button (click)="promptAdd(node.kinshipType)">
                   <mat-icon>add</mat-icon>
                 </button>
               </mat-card-title>
@@ -29,7 +29,12 @@
               <mat-card-subtitle *ngIf="node.kinshipType">{{node.kinshipType.name}}</mat-card-subtitle>
               <mat-card-subtitle *ngIf="!node.kinshipType">Owner</mat-card-subtitle>
             </mat-card-header>
-            <mat-card-content></mat-card-content>
+            <mat-card-content>
+              <!-- Delete button -->
+              <button mat-icon-button *ngIf="node.kinshipType && node.relative" (click)="promptDelete(node.relative, node.kinshipType)" class="node-delete-button">
+                <mat-icon>clear</mat-icon>
+              </button>
+            </mat-card-content>
           </mat-card>
         </div>
       </div>
