@@ -143,11 +143,13 @@ export class TestKinship {
 }
 
 export class TreeLevelRelative {
+  id: number;
   name: string;
   lastName: string;
 }
 
 export class TreeOwner {
+  id: number;
   name: string;
   lastName: string;
 }
