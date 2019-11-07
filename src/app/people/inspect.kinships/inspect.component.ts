@@ -47,7 +47,10 @@ export class InspectKinshipsComponent implements OnInit {
 
 
   editKinship(person) {
-    this.dialog.open(EditKinshipComponent, {data: person});
+    const editKinship = this.dialog.open(EditKinshipComponent, {data: person});
+    editKinship.beforeClosed().subscribe(_ => {
+      this.dialogRef.close();
+    });
   }
 
   deleteKinship(personId: number, relativeId: number): void {

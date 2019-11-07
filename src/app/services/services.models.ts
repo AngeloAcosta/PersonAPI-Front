@@ -102,7 +102,7 @@ export class SimpleGender {
 
 export class SimpleKinship {
   kinshipType: string;
-  kinshipTypeId: number;
+  kinshipTypeId: string;
   personId: number;
   personLastName: string;
   personName: string;

@@ -1,7 +1,7 @@
 import { TestKinship } from './../../services/services.models';
 import { Component, OnInit, Inject, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import Swal from 'sweetalert2';
 import { SimpleKinship, ModifyKinship } from 'src/app/services/services.models';
 import { PeopleService } from 'src/app/services/people.service';
@@ -29,7 +29,8 @@ export class EditComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: SimpleKinship,
     private kinshipsService: KinshipsService,
-    private peopleService: PeopleService
+    private peopleService: PeopleService,
+    public dialogRef: MatDialogRef<EditComponent>
   ) { }
 
   private _buildTestKinshipHtml(test: TestKinship): string {
@@ -58,15 +59,14 @@ export class EditComponent implements OnInit {
       // Send request
       const personId = this.editkinship.get('idPerson').value;
       const relativeId = this.editkinship.get('idRelative').value;
-      const kinshipType = this.editkinship.get('kinship').value;
       const kinship = new ModifyKinship();
-      kinship.kinshipType = kinshipType;
+      kinship.kinshipType = this.relationSelected;
       this.peopleService.modifyKinshipTest(personId, relativeId, kinship).subscribe(response => {
         if (response.ok) {
           const swalModal = Swal.mixin({
             customClass: {
-              confirmButton: 'btn btn-success',
-              cancelButton: 'btn btn-danger'
+              confirmButton: 'btn btn-success px-2 mr-3',
+              cancelButton: 'btn btn-secondary px-2'
             },
             buttonsStyling: false
           });
@@ -91,11 +91,11 @@ export class EditComponent implements OnInit {
                   backdrop: false,
                   showConfirmButton: false,
                   timer: 1750
-                }).then(() => {
-                  this.data = new SimpleKinship();
-                  this.editkinship.reset();
-                  this.onEdit.emit();
                 });
+                this.data = new SimpleKinship();
+                this.editkinship.reset();
+                this.onEdit.emit();
+                this.dialogRef.close();
               }, error => {
                 if (error.status === 404) {
                   const resultError = ['An error ocurred with the server, please try again.', 'Bad Request 404'];
@@ -105,12 +105,20 @@ export class EditComponent implements OnInit {
                   swalModal.fire('Error from Validation', resultError.join('\n'), 'error');
                 }
               });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-              swalModal.fire('Cancelled', 'No change was made', 'error');
             }
           });
         } else {
-
+          console.log(response.message);
+          Swal.fire({
+            text: response.message,
+            type: 'error',
+            backdrop: false,
+            toast: true,
+            position: 'top-end',
+            width: 300,
+            showConfirmButton: false,
+            timer: 1550
+          });
         }
       });
     } else {
