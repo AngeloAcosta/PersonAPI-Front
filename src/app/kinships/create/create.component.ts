@@ -44,15 +44,7 @@ export class CreateComponent implements OnInit {
     private peopleService: PeopleService,
     private kinshipsService: KinshipsService,
     public dialog: MatDialog,
-    public dialogRef: MatDialogRef<CreateComponent>) {
-    this.firstFilteredPeople = this.firstSearchInputControl.valueChanges.pipe(
-      map(key => key ? this._filterPeople(key) : this.listPeople !== undefined ? this.listPeople.slice() : [] )
-    );
-
-    this.secondFilteredPeople = this.secondSearchInputControl.valueChanges.pipe(
-      map(key => key ? this._filterPeople(key) : this.listPeople !== undefined ? this.listPeople.slice() : [])
-    );
-  }
+    public dialogRef: MatDialogRef<CreateComponent>) { }
 
   private _buildTestKinshipHtml(test: TestKinship): string {
     const added = test.added.length ? `Added kinships: ${test.added.join(', ')}` : '';
@@ -75,6 +67,13 @@ export class CreateComponent implements OnInit {
     this.peopleService.listPeople(this.peopleLimit).subscribe(response => {
       if (response.ok) {
         this.listPeople = response.data;
+        this.firstFilteredPeople = this.firstSearchInputControl.valueChanges.pipe(
+          map(key => key ? this._filterPeople(key) : this.listPeople !== undefined ? this.listPeople.slice() : [] )
+        );
+    
+        this.secondFilteredPeople = this.secondSearchInputControl.valueChanges.pipe(
+          map(key => key ? this._filterPeople(key) : this.listPeople !== undefined ? this.listPeople.slice() : [])
+        );
       }
     });
     // Handle injected data
