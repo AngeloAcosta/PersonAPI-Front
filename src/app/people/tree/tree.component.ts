@@ -1,3 +1,4 @@
+import { CreateComponent as PersonCreateComponent } from './../create/create.component';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PersonTree, SimpleKinshipType } from 'src/app/services/services.models';
@@ -44,6 +45,29 @@ export class TreeComponent implements OnInit {
     // Refresh the tree when the dialog is closed
     kinshipCreateDialog.beforeClosed().subscribe(_ => {
       this.refreshTree();
+    });
+  }
+
+  private doPersonAndKinshipCreation(kinshipType: SimpleKinshipType): void {
+    // Open person create component in a dialog
+    const personCreateDialog = this.matDialog.open(PersonCreateComponent);
+    // Analize the dialog closing event
+    personCreateDialog.beforeClosed().subscribe(_ => {
+      // If a new person was created, then we can recover their id from the storage service
+      const newPersonId = this.storageService.getValue<number>(PersonCreateComponent.NEW_PERSON_ID_STORAGE_KEY);
+      // If such id exists...
+      if (newPersonId) {
+        // Erase it
+        this.storageService.deleteValue(PersonCreateComponent.NEW_PERSON_ID_STORAGE_KEY);
+        // Open kinship create component in a dialog
+        const kinshipCreateDialog = this.matDialog.open(KinshipCreateComponent, {
+          data: { ownerId: this.treeData.owner.id, kinshipType, relativeId: newPersonId }
+        });
+        // Refresh the tree when the dialog is closed
+        kinshipCreateDialog.beforeClosed().subscribe(_ => {
+          this.refreshTree();
+        });
+      }
     });
   }
 
@@ -97,6 +121,7 @@ export class TreeComponent implements OnInit {
         if (result.value) {
           this.doKinshipCreation(kinshipType);
         } else if (result.dismiss === Swal.DismissReason.cancel) {
+          this.doPersonAndKinshipCreation(kinshipType);
         }
       });
   }

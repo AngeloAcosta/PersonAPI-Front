@@ -1,3 +1,4 @@
+import { StorageService } from './../../services/storage.service';
 import { Component, OnInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 import { DatePipe } from '@angular/common';
@@ -27,8 +28,12 @@ export class CreateComponent implements OnInit {
   constructor(
     private peopleService: PeopleService,
     private commonService: CommonService,
-    public dialogRef: MatDialogRef<CreateComponent>
+    public dialogRef: MatDialogRef<CreateComponent>,
+    private storageService: StorageService
   ) { }
+
+  public static NEW_PERSON_ID_STORAGE_KEY: string = 'NEW_PERSON_ID';
+
   showEmail = true;
   showPhone = false;
   showEmail2 = true;
@@ -202,6 +207,9 @@ export class CreateComponent implements OnInit {
       this.peopleService.createPerson(this.registro).subscribe(
         response => {
           if (response.ok) {
+            // Save the new person id
+            this.storageService.setValue<number>(CreateComponent.NEW_PERSON_ID_STORAGE_KEY, response.data.id);
+            // Show success swal
             this.dialogRef.close();
             Swal.fire({
               title: 'Done',
