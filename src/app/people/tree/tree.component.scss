@@ -12,6 +12,19 @@ mat-card {
   &.owner-node {
     background-color: #007bffdd;
   }
+
+  .node-delete-button {
+    bottom: 0;
+    display: none;
+    position: absolute;
+    right: calc(50% - 20px);
+  }
+
+  &:hover {
+    .node-delete-button {
+      display: block;
+    }
+  }
 }
 
 .family-tree-level-0 {
@@ -27,7 +40,7 @@ mat-card {
 }
 
 .family-tree-wrapper {
-  background-image: linear-gradient(#ffffff00, #c0dfed), url('./../../../img/tree-background.png');
+  background-image: linear-gradient(#ffffff00, #c0dfed), url("./../../../img/tree-background.png");
   background-repeat: no-repeat;
   background-size: 100%;
   min-width: 1250px;
