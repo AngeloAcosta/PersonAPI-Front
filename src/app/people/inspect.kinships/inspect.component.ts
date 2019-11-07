@@ -66,6 +66,7 @@ export class InspectKinshipsComponent implements OnInit {
         this.peopleService.deleteKinship(personId, relativeId).subscribe(resp => {
           this.openSuccessDeleteMessage();
           this.tableData = new MatTableDataSource();
+          this.dialogRef.close();
         });
       }
     });
