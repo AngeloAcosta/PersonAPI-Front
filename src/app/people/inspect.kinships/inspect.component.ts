@@ -22,7 +22,7 @@ export class InspectKinshipsComponent implements OnInit {
   tableData: MatTableDataSource<SimpleKinship>;
   displayedColumns: string[] = ['1', '2', 'buttons'];
   person: SimplePerson;
-  eKinship = EditKinshipComponent;
+  modifyKinship = EditKinshipComponent;
 
   constructor(
     private peopleService: PeopleService,
@@ -47,7 +47,7 @@ export class InspectKinshipsComponent implements OnInit {
   }
 
 
-  editKinship(person){
+  editKinship(person) {
     this.dialog.open(EditKinshipComponent, {data: person});
   }
 
