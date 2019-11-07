@@ -54,31 +54,12 @@ export class TreeComponent implements OnInit {
     this.peopleService.deleteKinship(this.treeData.owner.id, relativeId).subscribe(response => {
       if (response.ok) {
         // If everything went fine, show success swal
-        Swal.fire({
-          type: 'success',
-          title: 'Done',
-          text: 'This kinship was deleted succesfully',
-          toast: true,
-          position: 'top-end',
-          width: 300,
-          backdrop: false,
-          showConfirmButton: false,
-          timer: 1750
-        });
+        this.showSuccessSwal('This kinship was deleted succesfully');
         // And update the tree
         this.refreshTree();
       } else {
         // Else, show error swal
-        Swal.fire({
-          text: response.message,
-          type: 'error',
-          backdrop: false,
-          toast: true,
-          position: 'top-end',
-          width: 300,
-          showConfirmButton: false,
-          timer: 1750
-        });
+        this.showErrorSwal(response.message);
       }
     });
   }
@@ -106,6 +87,29 @@ export class TreeComponent implements OnInit {
     });
   }
 
+  private doPersonAndKinshipDeletion(relative: TreeLevelRelative, kinshipType: SimpleKinshipType): void {
+    // Delete the kinship
+    this.peopleService.deleteKinship(this.treeData.owner.id, relative.id).subscribe(deleteKinshipResponse => {
+      if (deleteKinshipResponse.ok) {
+        // If it went well, refresh the tree
+        this.refreshTree();
+        // Delete the person
+        this.peopleService.deletePerson(relative.id).subscribe(deletePersonResponse => {
+          if (deletePersonResponse.ok) {
+            // If it also went well, show success swal
+            this.showSuccessSwal('The kinship and the person were deleted succesfully');
+          } else {
+            // Else, show error swal
+            this.showErrorSwal(`Only the kinship could be deleted. ${deletePersonResponse.message}`);
+          }
+        });
+      } else {
+        // Else, show error swal
+        this.showErrorSwal(deleteKinshipResponse.message);
+      }
+    });
+  }
+
   private refreshTree(): void {
     // Get the person's kinships tree
     this.peopleService.inspectPersonKinshipsTree(this.personId).subscribe(response => {
@@ -122,6 +126,33 @@ export class TreeComponent implements OnInit {
         // Else, show the error in a snack bar
         this.matSnackBar.open(response.message);
       }
+    });
+  }
+
+  private showErrorSwal(message: string): void {
+    Swal.fire({
+      text: message,
+      type: 'error',
+      backdrop: false,
+      toast: true,
+      position: 'top-end',
+      width: 300,
+      showConfirmButton: false,
+      timer: 1750
+    });
+  }
+
+  private showSuccessSwal(message: string): void {
+    Swal.fire({
+      type: 'success',
+      title: 'Done',
+      text: message,
+      toast: true,
+      position: 'top-end',
+      width: 300,
+      backdrop: false,
+      showConfirmButton: false,
+      timer: 1750
     });
   }
 
@@ -175,6 +206,7 @@ export class TreeComponent implements OnInit {
         if (result.value) {
           this.doKinshipDeletion(relative.id);
         } else if (result.dismiss === Swal.DismissReason.cancel) {
+          this.doPersonAndKinshipDeletion(relative, kinshipType);
         }
       });
   }
