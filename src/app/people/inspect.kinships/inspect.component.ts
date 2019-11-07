@@ -22,7 +22,6 @@ export class InspectKinshipsComponent implements OnInit {
   tableData: MatTableDataSource<SimpleKinship>;
   displayedColumns: string[] = ['1', '2', 'buttons'];
   person: SimplePerson;
-  modifyKinship = EditKinshipComponent;
 
   constructor(
     private peopleService: PeopleService,
