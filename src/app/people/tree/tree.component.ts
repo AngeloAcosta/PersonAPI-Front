@@ -1,3 +1,4 @@
+import { TreeLevelRelative } from './../../services/services.models';
 import { CreateComponent as PersonCreateComponent } from './../create/create.component';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -45,6 +46,40 @@ export class TreeComponent implements OnInit {
     // Refresh the tree when the dialog is closed
     kinshipCreateDialog.beforeClosed().subscribe(_ => {
       this.refreshTree();
+    });
+  }
+
+  private doKinshipDeletion(relativeId: number): void {
+    // Delete the kinship
+    this.peopleService.deleteKinship(this.treeData.owner.id, relativeId).subscribe(response => {
+      if (response.ok) {
+        // If everything went fine, show success swal
+        Swal.fire({
+          type: 'success',
+          title: 'Done',
+          text: 'This kinship was deleted succesfully',
+          toast: true,
+          position: 'top-end',
+          width: 300,
+          backdrop: false,
+          showConfirmButton: false,
+          timer: 1750
+        });
+        // And update the tree
+        this.refreshTree();
+      } else {
+        // Else, show error swal
+        Swal.fire({
+          text: response.message,
+          type: 'error',
+          backdrop: false,
+          toast: true,
+          position: 'top-end',
+          width: 300,
+          showConfirmButton: false,
+          timer: 1750
+        });
+      }
     });
   }
 
@@ -122,6 +157,24 @@ export class TreeComponent implements OnInit {
           this.doKinshipCreation(kinshipType);
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           this.doPersonAndKinshipCreation(kinshipType);
+        }
+      });
+  }
+
+  promptDelete(relative: TreeLevelRelative, kinshipType: SimpleKinshipType): void {
+    Swal
+      .fire({
+        title: `Delete ${kinshipType.name.toLowerCase()} kinship with ${relative.name} ${relative.lastName}`,
+        text: `Would you like to delete only the ${kinshipType.name.toLowerCase()} kinship?`,
+        confirmButtonText: 'Yes, just the kinship',
+        cancelButtonText: `No, I also want to delete the person`,
+        showCloseButton: true,
+        showCancelButton: true
+      })
+      .then(result => {
+        if (result.value) {
+          this.doKinshipDeletion(relative.id);
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
         }
       });
   }

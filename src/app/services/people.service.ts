@@ -31,11 +31,6 @@ export class PeopleService {
     return this.serviceProxy.sendDeleteRequest<any>(`${this.endpointUrl}/${personId}/kinships/${relativeId}`);
   }
 
-  deleteKinshipTest(personId: number, relativeId: number): Observable<ServiceResponse<TestKinship>> {
-    // Send request
-    return this.serviceProxy.sendDeleteRequest<any>(`${this.endpointUrl}/${personId}/kinships/${relativeId}/test`);
-  }
-
   deletePerson(personId: number): Observable<ServiceResponse<any>> {
     // Send request
     return this.serviceProxy.sendDeleteRequest<any>(`${this.endpointUrl}/${personId}`);
