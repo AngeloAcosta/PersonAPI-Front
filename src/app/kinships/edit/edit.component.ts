@@ -27,7 +27,7 @@ export class EditComponent implements OnInit {
   relations = [];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: SimpleKinship,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private kinshipsService: KinshipsService,
     private peopleService: PeopleService
   ) { }

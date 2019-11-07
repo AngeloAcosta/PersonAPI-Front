@@ -8,6 +8,8 @@ import { InspectKinshipsComponent } from './inspect.kinships/inspect.component';
 import { TreeComponent } from './tree/tree.component';
 import { MaterialModule } from '../shared/modules/material.module';
 import { CommonModule } from '@angular/common';
+import {EditComponent as EditKinshipComponent} from '../kinships/edit/edit.component';
+import { KinshipsModule } from '../kinships/kinships.module';
 
 @NgModule({
   declarations: [
@@ -16,18 +18,20 @@ import { CommonModule } from '@angular/common';
     InspectComponent,
     InspectKinshipsComponent,
     ListComponent,
-    TreeComponent
+    TreeComponent,
   ],
   imports: [
     CommonModule,
     MaterialModule,
-    PeopleRoutingModule
+    PeopleRoutingModule,
+    KinshipsModule
   ],
   entryComponents: [
     CreateComponent,
     EditComponent,
     InspectComponent,
-    InspectKinshipsComponent
+    InspectKinshipsComponent,
+    EditKinshipComponent
   ]
 })
 export class PeopleModule { }

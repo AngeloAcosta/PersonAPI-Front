@@ -17,6 +17,6 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     KinshipsRoutingModule,
     MaterialModule
-  ]
+  ],
 })
 export class KinshipsModule { }

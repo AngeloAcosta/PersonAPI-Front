@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
@@ -7,6 +8,9 @@ import {
 } from '@angular/material';
 import { PeopleService } from 'src/app/services/people.service';
 import { SimplePerson, SimpleKinship } from 'src/app/services/services.models';
+import { EditComponent as EditKinshipComponent} from 'src/app/kinships/edit/edit.component';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-inspect',
@@ -18,6 +22,7 @@ export class InspectKinshipsComponent implements OnInit {
   tableData: MatTableDataSource<SimpleKinship>;
   displayedColumns: string[] = ['1', '2', 'buttons'];
   person: SimplePerson;
+  eKinship = EditKinshipComponent;
 
   constructor(
     private peopleService: PeopleService,
@@ -38,6 +43,45 @@ export class InspectKinshipsComponent implements OnInit {
         this.tableData = new MatTableDataSource(response.data);
         this.tableData.paginator = this.paginator;
       }
+    });
+  }
+
+
+  editKinship(person){
+    this.dialog.open(EditKinshipComponent, {data: person});
+  }
+
+  deleteKinship(personId: number, relativeId: number): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'btn btn-success',
+      cancelButtonColor: 'btn btn-secondary',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then(result => {
+      if (result.value) {
+        this.peopleService.deleteKinship(personId, relativeId).subscribe(resp => {
+          this.openSuccessDeleteMessage();
+          this.tableData = new MatTableDataSource();
+        });
+      }
+    });
+  }
+
+  openSuccessDeleteMessage(): void {
+    Swal.fire({
+      type: 'success',
+      title: 'Done',
+      text: 'This kinship was deleted succesfully',
+      toast: true,
+      position: 'top-end',
+      width: 300,
+      backdrop: false,
+      showConfirmButton: false,
+      timer: 1750
     });
   }
 }
