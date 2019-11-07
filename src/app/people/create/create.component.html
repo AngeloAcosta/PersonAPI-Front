@@ -19,8 +19,9 @@
               #input
               maxlength="40"
               matInput
-              pattern="[a-zA-Z\s]*"
+              pattern="[a-zA-Z^\' ]*"
               minlength="3"
+              maxlength="40"
               formControlName="name"
               [(ngModel)] = "registro.name"
               required
@@ -41,7 +42,7 @@
               matInput
               #input
               maxlength="80"
-              pattern="[a-zA-ZñÑ'áéíóúÁÉÍÓÚ\s]*"
+              pattern="[a-zA-Z^\'ñÑáéíóúÁÉÍÓÚ ]*"
               matInput
               formControlName="lastName"
               [(ngModel)] = "registro.lastName"
@@ -192,16 +193,16 @@
             <mat-label>Email</mat-label>
             <input
               matInput
-              type="text"
+              type="email"
               formControlName="email"
               [(ngModel)] = "registro.contact1"
               ng-required="user.contactType1Id==2"
 
             />
             <mat-icon matSuffix>mail_outline</mat-icon>
-            <mat-error >
-              Please enter a valid email address
-            </mat-error>
+            <mat-error *ngIf="this.user.get('email').hasError">{{
+              getErrorMessage("email")
+            }}</mat-error>
           </mat-form-field>
           <mat-form-field *ngIf="showPhone" appearance="outline">
             <mat-label>Cellphone</mat-label>
@@ -242,15 +243,15 @@
             <mat-label>Email</mat-label>
             <input
               matInput
-              type="text"
+              type="email"
               formControlName="email2"
               [(ngModel)] = "registro.contact2"
               ng-required="user.contactType2Id==2"
             />
             <mat-icon matSuffix>mail_outline</mat-icon>
-            <mat-error>
-              Please enter a valid email address
-            </mat-error>
+            <mat-error *ngIf="this.user.get('email2').hasError">{{
+              getErrorMessage("email2")
+            }}</mat-error>
           </mat-form-field>
           <mat-form-field *ngIf="showPhone2" appearance="outline">
             <mat-label>Cellphone</mat-label>
