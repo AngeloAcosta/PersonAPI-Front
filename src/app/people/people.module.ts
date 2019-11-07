@@ -8,7 +8,8 @@ import { InspectKinshipsComponent } from './inspect.kinships/inspect.component';
 import { TreeComponent } from './tree/tree.component';
 import { MaterialModule } from '../shared/modules/material.module';
 import { CommonModule } from '@angular/common';
-import { CreateComponent as KinshipCreateComponent } from './../kinships/create/create.component'
+import {EditComponent as EditKinshipComponent} from '../kinships/edit/edit.component';
+import { CreateComponent as KinshipCreateComponent } from './../kinships/create/create.component';
 import { KinshipsModule } from '../kinships/kinships.module';
 
 @NgModule({
@@ -18,7 +19,7 @@ import { KinshipsModule } from '../kinships/kinships.module';
     InspectComponent,
     InspectKinshipsComponent,
     ListComponent,
-    TreeComponent
+    TreeComponent,
   ],
   imports: [
     CommonModule,
@@ -31,6 +32,7 @@ import { KinshipsModule } from '../kinships/kinships.module';
     EditComponent,
     InspectComponent,
     InspectKinshipsComponent,
+    EditKinshipComponent,
     KinshipCreateComponent
   ]
 })

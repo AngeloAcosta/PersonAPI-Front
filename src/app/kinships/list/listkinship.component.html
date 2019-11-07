@@ -55,18 +55,14 @@
       matSortDisableClear
       class="mat-elevation-z8"
     >
-      <ng-container matColumnDef="personName">
-        <mat-header-cell
-          id="person"
-          *matHeaderCellDef
-          mat-sort-header
-          class="titles"
-          >Person</mat-header-cell
-        >
-        <mat-cell *matCellDef="let element">
-          {{ element.personName }} {{ element.personLastName }}
-        </mat-cell>
-      </ng-container>
+      <ng-container matColumnDef="relativeName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header class="titles">
+            Relative
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.relativeName }} {{ element.relativeLastName }}
+          </mat-cell>
+        </ng-container>
 
       <ng-container matColumnDef="kinshipType">
         <mat-header-cell
@@ -80,14 +76,19 @@
         <mat-cell *matCellDef="let element"> {{ element.kinshipType }} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="relativeName">
-        <mat-header-cell *matHeaderCellDef mat-sort-header class="titles">
-          Relative
-        </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{ element.relativeName }} {{ element.relativeLastName }}
-        </mat-cell>
-      </ng-container>
+      <ng-container matColumnDef="personName">
+          <mat-header-cell
+            id="person"
+            *matHeaderCellDef
+            mat-sort-header
+            class="titles"
+            >Owner</mat-header-cell
+          >
+          <mat-cell *matCellDef="let element">
+            {{ element.personName }} {{ element.personLastName }}
+          </mat-cell>
+        </ng-container>
+
 
       <ng-container matColumnDef="buttons">
         <mat-header-cell *matHeaderCellDef class="titles">
