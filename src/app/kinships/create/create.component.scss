@@ -1,69 +1,69 @@
-#divForm {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
+.kinships-create-component {
+  position: relative;
 
-  div {
-    flex: 1 1 auto;
+  #divForm {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+
+    div {
+      flex: 1 1 auto;
+      text-align: center;
+    }
+  }
+
+  .full-width {
+    width: 70%;
+  }
+
+  .errorbox {
+    margin: 0 0;
+    padding: 0px;
+    color: #d9534f;
+  }
+
+  .successbox {
+    margin: 0 0;
+    padding: 0px;
+    color: #5cb85c;
+  }
+
+  @media (max-width: 770px) {
+    #divForm {
+      flex-direction: column;
+    }
+  }
+
+  .btn-sub {
     text-align: center;
   }
-}
 
-.full-width {
-  width: 70%;
-}
-
-.errorbox {
-  margin: 0 0;
-  padding: 0px;
-  color: #d9534f;
-}
-
-.successbox {
-  margin: 0 0;
-  padding: 0px;
-  color: #5cb85c;
-}
-
-@media (max-width: 770px) {
-  #divForm {
-    flex-direction: column;
+  .icons {
+    display: inline;
   }
-}
 
-.container-position{
- position: relative;
-}
+  .attribute {
+    font-size: 95%;
+  }
 
-.btn-sub {
-  text-align: center;
-}
-
-.icons {
-  display: inline;
-}
-
-.attribute {
-  font-size: 95%;
-}
-
-.close-icons {
-  position: absolute;
-  right: 0%;
-  top: -10px;
-}
-
-.mat-card{
-  width: 212px;
-}
-
-.mat-form-field {
-  width: auto;
-}
-
-@media (max-width: 770px) {
   .close-icons {
-    right: -20px;
-    top: -20px;
+    position: absolute;
+    right: 0%;
+    top: -10px;
+  }
+
+  .mat-card {
+    width: 212px;
+  }
+
+  .mat-form-field {
+    width: auto;
+  }
+
+  @media (max-width: 770px) {
+    .close-icons {
+      right: -20px;
+      top: -20px;
+    }
   }
 }

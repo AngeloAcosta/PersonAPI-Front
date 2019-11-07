@@ -1,4 +1,4 @@
-<section class="container container-position">
+<section class="container kinships-create-component">
   <div fxLayout="row wrap" fxLayoutAlign="center center">
     <p class="mat-display-1 mb-4">Create Kinship</p>
    </div>
@@ -11,7 +11,7 @@
           ><mat-card-subtitle>Relative</mat-card-subtitle>
           <mat-card-content>
             <mat-form-field>
-              <input matInput placeholder="Search Relative" [matAutocomplete]="secondAutocomplete" [formControl]="secondSearchInputControl"/>
+              <input matInput placeholder="Search Relative" [matAutocomplete]="secondAutocomplete" [formControl]="secondSearchInputControl" [readonly]="secondSearchInputReadonly"/>
               <mat-autocomplete #secondAutocomplete="matAutocomplete">
                 <mat-option *ngFor="let person of secondFilteredPeople | async" [value]="person.name + ' ' + person.lastName" (click)="SetInfoSecondPerson(person.id)">
                   <span>{{ person.name + ' ' + person.lastName }}</span> |
@@ -67,6 +67,7 @@
                 placeholder="Search Owner"
                 [matAutocomplete]="firstAutocomplete"
                 [formControl]="firstSearchInputControl"
+                [readonly]="firstSearchInputReadonly"
               />
               <mat-autocomplete #firstAutocomplete="matAutocomplete">
                 <mat-option

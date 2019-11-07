@@ -120,12 +120,12 @@ export class EditComponent implements OnInit {
       name: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
-        Validators.pattern('[a-zA-Z ]*')
+        Validators.pattern('[a-zA-Z^\' ]*')
       ]),
       lastName: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
-        Validators.pattern('[a-zA-ZñÑáéíóúÁÉÍÓÚ ]*')
+        Validators.pattern('[a-zA-Z^\'ñÑáéíóúÁÉÍÓÚ ]*')
       ]),
       birthdate: new FormControl('', [Validators.required]),
       documentTypeId: new FormControl('', [Validators.required]),
@@ -135,19 +135,9 @@ export class EditComponent implements OnInit {
       countryId: new FormControl('', [Validators.required]),
       contactType1Id: new FormControl(),
 
-      email: new FormControl(null, [
-        Validators.email,
-        Validators.pattern(
-          '[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}'
-        )
-      ]),
+      email: new FormControl(null, [Validators.email]),
       phone: new FormControl(null, [Validators.pattern('[0-9]{7,9}')]),
-      email2: new FormControl(null, [
-        Validators.email,
-        Validators.pattern(
-          '[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}'
-        )
-      ]),
+      email2: new FormControl(null, [Validators.email]),
       phone2: new FormControl('', [Validators.pattern('[0-9]{7,9}')]),
       contactType2Id: new FormControl()
     });
@@ -208,7 +198,7 @@ export class EditComponent implements OnInit {
     return this.user.get(param).hasError('required')
       ? 'You must enter a value'
       : this.user.get(param).hasError('pattern')
-        ? 'Please insert only letters'
+        ? ` Please insert a valid ${param}`
         : this.user.get(param).hasError('minlength')
           ? `${param} must be greater than 2 characters`
           : '';
@@ -297,7 +287,7 @@ export class EditComponent implements OnInit {
             Swal.fire({
               type: 'error',
               title: 'Register Denied',
-              text: response.message
+              html: response.data
             });
           }
         }

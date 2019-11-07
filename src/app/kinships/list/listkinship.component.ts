@@ -29,7 +29,7 @@ export class ListComponent implements OnInit {
   kinships: SimpleKinship[];
   temporalData: SimpleKinship[];
   sortedData: SimpleKinship[];
-  displayedColumns: string[] = ['personName', 'kinshipType', 'relativeName', 'buttons'];
+  displayedColumns: string[] = ['relativeName', 'kinshipType', 'personName', 'buttons'];
   orderBy: number;
   orderType: number;
   relations: [];

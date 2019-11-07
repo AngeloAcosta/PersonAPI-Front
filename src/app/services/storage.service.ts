@@ -6,11 +6,22 @@ export class StorageService {
 
   private storage = {};
 
-  getValue<T>(key: string): T {
-    return this.storage[key];
+  deleteValue(key: string): void {
+    try {
+      return this.storage[key] = undefined;
+    } catch {
+    }
   }
 
-  setValue<T>(key: string, value: T) {
+  getValue<T>(key: string): T {
+    try {
+      return this.storage[key];
+    } catch {
+      return undefined;
+    }
+  }
+
+  setValue<T>(key: string, value: T): void {
     this.storage[key] = value;
   }
 }

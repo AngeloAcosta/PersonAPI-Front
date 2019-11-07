@@ -1,6 +1,6 @@
-import { MatDialog } from '@angular/material';
-import { TestKinship } from './../../services/services.models';
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { TestKinship, SimpleKinshipType } from './../../services/services.models';
+import { Component, OnInit, EventEmitter, Inject, Optional } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
@@ -23,6 +23,8 @@ export class CreateComponent implements OnInit {
   secondSearchInputControl = new FormControl();
   firstFilteredPeople: Observable<SimplePerson[]>;
   secondFilteredPeople: Observable<SimplePerson[]>;
+  firstSearchInputReadonly: boolean = false;
+  secondSearchInputReadonly: boolean = false;
   relationSelected: string;
   errors: string[] = [];
   success: string;
@@ -36,17 +38,13 @@ export class CreateComponent implements OnInit {
   relations = [];
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) 
+    @Optional()
+    public data: { relativeId: number, kinshipType: SimpleKinshipType, ownerId: number },
     private peopleService: PeopleService,
     private kinshipsService: KinshipsService,
-    public dialog: MatDialog) {
-    this.firstFilteredPeople = this.firstSearchInputControl.valueChanges.pipe(
-      map(key => key ? this._filterPeople(key) : this.listPeople !== undefined ? this.listPeople.slice() : [] )
-    );
-
-    this.secondFilteredPeople = this.secondSearchInputControl.valueChanges.pipe(
-      map(key => key ? this._filterPeople(key) : this.listPeople !== undefined ? this.listPeople.slice() : [])
-    );
-  }
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<CreateComponent>) { }
 
   private _buildTestKinshipHtml(test: TestKinship): string {
     const added = test.added.length ? `Added kinships: ${test.added.join(', ')}` : '';
@@ -69,8 +67,40 @@ export class CreateComponent implements OnInit {
     this.peopleService.listPeople(this.peopleLimit).subscribe(response => {
       if (response.ok) {
         this.listPeople = response.data;
+        this.firstFilteredPeople = this.firstSearchInputControl.valueChanges.pipe(
+          map(key => key ? this._filterPeople(key) : this.listPeople !== undefined ? this.listPeople.slice() : [] )
+        );
+    
+        this.secondFilteredPeople = this.secondSearchInputControl.valueChanges.pipe(
+          map(key => key ? this._filterPeople(key) : this.listPeople !== undefined ? this.listPeople.slice() : [])
+        );
       }
     });
+    // Handle injected data
+    if (this.data && this.data.ownerId) {
+      this.firstSearchInputReadonly = true;
+      this.peopleService.inspectPerson(this.data.ownerId).subscribe(response => {
+        if (response.ok) {
+          this.firstSearchInputControl.setValue(`${response.data.name} ${response.data.lastName}`);
+          this.firstPerson = response.data;
+          this.createKinshipForm.patchValue({ 'personId': this.data.ownerId });
+        }
+      });
+    }
+    if (this.data && this.data.relativeId) {
+      this.secondSearchInputReadonly = true;
+      this.peopleService.inspectPerson(this.data.relativeId).subscribe(response => {
+        if (response.ok) {
+          this.secondSearchInputControl.setValue(`${response.data.name} ${response.data.lastName}`);
+          this.secondPerson = response.data;
+          this.createKinshipForm.patchValue({ 'relativeId': this.data.relativeId });
+        }
+      });
+    }
+    if (this.data && this.data.kinshipType) {
+     this.createKinshipForm.patchValue({ 'kinshipType': this.data.kinshipType.id });
+     this.createKinshipForm.get('kinshipType').disable();
+    }
   }
 
   SetInfoFirstPerson(value: number) {
@@ -132,6 +162,7 @@ export class CreateComponent implements OnInit {
                 this.peopleService.createKinship(personId, kinship).subscribe(response => {
                   if (response.ok) {
                     this.onCreate.emit();
+                    this.dialogRef.close();
                     Swal.fire({
                       title: 'Done',
                       text: ' Kinship was registered satisfactory',

@@ -1,3 +1,4 @@
+import { StorageService } from './../../services/storage.service';
 import { Component, OnInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 import { DatePipe } from '@angular/common';
@@ -27,8 +28,12 @@ export class CreateComponent implements OnInit {
   constructor(
     private peopleService: PeopleService,
     private commonService: CommonService,
-    public dialogRef: MatDialogRef<CreateComponent>
+    public dialogRef: MatDialogRef<CreateComponent>,
+    private storageService: StorageService
   ) { }
+
+  public static NEW_PERSON_ID_STORAGE_KEY: string = 'NEW_PERSON_ID';
+
   showEmail = true;
   showPhone = false;
   showEmail2 = true;
@@ -78,12 +83,12 @@ export class CreateComponent implements OnInit {
       name: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
-        Validators.pattern('[a-zA-Z ]*')
+        Validators.pattern('[a-zA-Z^\' ]*')
       ]),
       lastName: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
-        Validators.pattern('[a-zA-ZñÑáéíóúÁÉÍÓÚ ]*')
+        Validators.pattern('[a-zA-Z^\'ñÑáéíóúÁÉÍÓÚ ]*')
       ]),
       birthdate: new FormControl('', [Validators.required]),
       documentTypeId: new FormControl('', [Validators.required]),
@@ -93,19 +98,9 @@ export class CreateComponent implements OnInit {
       countryId: new FormControl('', [Validators.required]),
       contactType1Id: new FormControl(null),
 
-      email: new FormControl(null, [
-        Validators.email,
-        Validators.pattern(
-          '[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}'
-        )
-      ]),
+      email: new FormControl(null, [Validators.email]),
       phone: new FormControl(null, [Validators.pattern('[0-9]{7,9}')]),
-      email2: new FormControl(null, [
-        Validators.email,
-        Validators.pattern(
-          '[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}'
-        )
-      ]),
+      email2: new FormControl(null, [Validators.email]),
       phone2: new FormControl('', [Validators.pattern('[0-9]{7,9}')]),
       contactType2Id: new FormControl(null)
     });
@@ -202,6 +197,9 @@ export class CreateComponent implements OnInit {
       this.peopleService.createPerson(this.registro).subscribe(
         response => {
           if (response.ok) {
+            // Save the new person id
+            this.storageService.setValue<number>(CreateComponent.NEW_PERSON_ID_STORAGE_KEY, response.data.id);
+            // Show success swal
             this.dialogRef.close();
             Swal.fire({
               title: 'Done',
@@ -218,7 +216,7 @@ export class CreateComponent implements OnInit {
             Swal.fire({
               type: 'error',
               title: 'Register Denied',
-              text: response.message
+              html: response.data
             });
           }
         }
